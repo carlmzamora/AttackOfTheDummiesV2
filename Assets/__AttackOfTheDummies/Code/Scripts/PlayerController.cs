@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : HealthEntity
 {
     public float currentMoveSpeed;
+    public Vector3Variable playerPositionVariable;
 
     private PlayerInputActions controls;
     private InputAction moveInput;
@@ -44,10 +45,10 @@ public class PlayerController : HealthEntity
     private void FixedUpdate()
     {
         Vector3 direction = new Vector3(moveDirection.x, 0, moveDirection.y).normalized;
-        rb.velocity = direction * currentMoveSpeed;
+        //rb.velocity = direction * currentMoveSpeed;
+        rb.AddForce(direction * currentMoveSpeed);
 
         Ray mouseRay = Camera.main.ScreenPointToRay(lookDirection);
-        Debug.Log(lookDirection);
 
         Plane groundPlane = new Plane(Vector3.up, new Vector3(0, 0.2f, 0)); //basically, plane orientation and plane world height
 
@@ -56,5 +57,7 @@ public class PlayerController : HealthEntity
             Vector3 pointToLookAt = mouseRay.GetPoint(rayLength); //get point along mouseRay where it intersects with groundPlane
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z)); //rotate, but do not include y to avoid y axis movement
         }
+
+        playerPositionVariable.Value = transform.position;
     }
 }
