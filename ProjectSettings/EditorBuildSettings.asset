@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/__AttackOfTheDummies/Scenes/InGame.unity
+    path: Assets/__AttackOfTheDummies/__Scenes/InGame.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

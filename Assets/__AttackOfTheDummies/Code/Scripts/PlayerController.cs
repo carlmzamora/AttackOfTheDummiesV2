@@ -11,10 +11,13 @@ public class PlayerController : HealthEntity
     private PlayerInputActions controls;
     private InputAction moveInput;
     private InputAction lookInput;
+    private InputAction mouse1Input;
 
     private Vector2 moveDirection;
     private Vector2 lookDirection;
     private Rigidbody rb => GetComponent<Rigidbody>();
+
+    private AbilitiesController abilitiesController => GetComponent<AbilitiesController>();
 
     private void Awake()
     {
@@ -28,18 +31,25 @@ public class PlayerController : HealthEntity
 
         lookInput = controls.Player.Look;
         lookInput.Enable();
+
+        mouse1Input = controls.Player.Fire;
+        mouse1Input.Enable();
     }
 
     private void OnDisable()
     {
         moveInput.Disable();
         lookInput.Disable();
+        mouse1Input.Disable();
     }
 
     private void Update()
     {
         moveDirection = moveInput.ReadValue<Vector2>();
         lookDirection = lookInput.ReadValue<Vector2>();
+
+        if (mouse1Input.WasPressedThisFrame())
+            abilitiesController.PerformMouse1();
     }
 
     private void FixedUpdate()
