@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tomadle/Shooter")]
+[CreateAssetMenu(menuName = "Tomadle/Abilities/Shooter")]
 public class ShootAbility : Ability
 {
+    [Header("Shoot Ability")]
     public Projectile projectilePrefab;
 
     [Header("Physics")]
@@ -13,6 +14,7 @@ public class ShootAbility : Ability
 
     [Header("Damage")]
     public float damage;
+    //modifier on contact
 
     private Transform spawnPoint;
 
