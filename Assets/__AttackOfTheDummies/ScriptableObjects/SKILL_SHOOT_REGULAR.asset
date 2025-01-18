@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a641a256a37e1b458429a6dca8b89cd, type: 3}
   m_Name: SKILL_SHOOT_REGULAR
   m_EditorClassIdentifier: 
-  abilityName: 
+  displayName: 
   cooldown: 0
-  isInstant: 1
+  noAdditionalInput: 1
   level: 0
   projectilePrefab: {fileID: 1595747817566170178, guid: 5888d67239285c84caaf6abb167e2669,
     type: 3}
   projectileSpeed: 1000
   lifetime: 3
+  damage: 10
