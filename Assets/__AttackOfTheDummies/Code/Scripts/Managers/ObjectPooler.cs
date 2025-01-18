@@ -18,6 +18,12 @@ public class ObjectPooler : MonoBehaviour
 
     public void CreatePool(GameObject objectToPool, bool collectionCheck = true, int defaultCapacity = 10, int maxSize = 10000)
     {
+        if (pools.ContainsKey(objectToPool))
+        {
+            Debug.LogWarning($"Object pooler has already catalogued {objectToPool.name}. Will skip.");
+            return;
+        }
+
         ObjectPool<GameObject> newPool = new(
             () =>
             {

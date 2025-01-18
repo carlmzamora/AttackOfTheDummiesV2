@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : HealthEntity
+public class PlayerController : HealthEntity, IProjectileSource
 {
+    [Header("PlayerController")]
     public float currentMoveSpeed;
+    [SerializeField] private Transform projectileSpawnPoint;
+    public Transform ProjectileSpawnPoint => projectileSpawnPoint;
+
+    [Header("Global Links")]
     public Vector3Variable playerPositionVariable;
 
     private PlayerInputActions controls;
@@ -19,8 +24,9 @@ public class PlayerController : HealthEntity
 
     private AbilitiesController abilitiesController => GetComponent<AbilitiesController>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         controls = new();
     }
 

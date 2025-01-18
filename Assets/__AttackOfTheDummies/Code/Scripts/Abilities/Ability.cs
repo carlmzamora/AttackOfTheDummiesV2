@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Ability : ScriptableObject
 {
-    public string abilityName;
+    public string displayName;
+    //public Sprite abilityIcon;
     public float cooldown;
-    [HideInInspector] public bool isInstant = true;
+    [HideInInspector] public bool noAdditionalInput = true;
 
     protected GameObject owner;
     public int level;

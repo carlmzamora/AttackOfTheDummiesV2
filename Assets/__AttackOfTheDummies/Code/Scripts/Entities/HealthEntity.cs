@@ -4,8 +4,25 @@ using UnityEngine;
 
 public class HealthEntity : MonoBehaviour
 {
-    public float CurrentHealth { get; private set; }
-    public float MaxHealth { get; private set; }
+    [Header("Health")]
+    [SerializeField] private float currentHealth = 100;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        private set { currentHealth = value; }
+    }
+
+    [SerializeField] private float maxHealth = 100;
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+        private set { maxHealth = value; }
+    }
+
+    protected virtual void Awake()
+    {
+        currentHealth = maxHealth;
+    }
 
     public void TakeDamage(float damage)
     {
