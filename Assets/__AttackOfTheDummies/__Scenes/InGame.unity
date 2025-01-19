@@ -517,7 +517,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee52a13ecc5c7444fa3e138e6dc93489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slot1: {fileID: 11400000, guid: 3577cd0a84062d34fb7baeb4d18efd6a, type: 2}
+  abilitySlots:
+  - ability: {fileID: 11400000, guid: 0bfa7d81fe6c1c948b15fb5b88776ed4, type: 2}
+    abilityInstance: {fileID: 0}
+    state: 0
+    cooldownProgress: 0
+  worldPosFromMousePos: {x: 0, y: 0}
+  mouse1WasPressed: 0
 --- !u!1 &182340976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee52a13ecc5c7444fa3e138e6dc93489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slot1: {fileID: 11400000, guid: 3577cd0a84062d34fb7baeb4d18efd6a, type: 2}
+  abilitySlots: []
+  worldPosFromMousePos: {x: 0, y: 0}
+  mouse1WasPressed: 0
 --- !u!114 &804790398
 MonoBehaviour:
   m_ObjectHideFlags: 0

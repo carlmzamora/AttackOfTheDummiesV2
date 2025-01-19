@@ -36,8 +36,22 @@ public class RadiusCastAbility : Ability
         }
     }
 
-    public override void UpdateWaitForInput()
+    public override void UpdateWaitForInput(Vector2 worldPos, bool mouse1Pressed)
     {
         //get world position via mouse position
+        if(mouse1Pressed)
+        {
+            Collider[] allAffected = Physics.OverlapSphere(worldPos, radius);
+
+            if (allAffected.Length <= 0) return;
+
+            foreach (Collider collider in allAffected)
+            {
+                if (collider.TryGetComponent(out HealthEntity healthEntity))
+                {
+                    healthEntity.TakeDamage(damage);
+                }
+            }
+        }
     }
 }

@@ -54,8 +54,12 @@ public class PlayerController : HealthEntity, IProjectileSource
         moveDirection = moveInput.ReadValue<Vector2>();
         lookDirection = lookInput.ReadValue<Vector2>();
 
+        if (!abilitiesController) return;
+
         if (mouse1Input.WasPressedThisFrame())
             abilitiesController.PerformMouse1();
+
+        abilitiesController.mouse1WasPressed = mouse1Input.WasPressedThisFrame();
     }
 
     private void FixedUpdate()
@@ -72,6 +76,7 @@ public class PlayerController : HealthEntity, IProjectileSource
         {
             Vector3 pointToLookAt = mouseRay.GetPoint(rayLength); //get point along mouseRay where it intersects with groundPlane
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z)); //rotate, but do not include y to avoid y axis movement
+            abilitiesController.worldPosFromMousePos = pointToLookAt;
         }
 
         playerPositionVariable.Value = transform.position;

@@ -1,21 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class AbilitiesController : MonoBehaviour
 {
-    public Ability slot1;
+    public List<AbilitySlot> abilitySlots;
 
-    private Ability slot1Instance;
+    [HideInInspector] public Vector2 worldPosFromMousePos = Vector2.zero;
+    [HideInInspector] public bool mouse1WasPressed = false;
 
-    public void Start()
+    private void Start()
     {
-        slot1Instance = Instantiate(slot1);
-        slot1Instance.Setup(gameObject);
+        foreach(AbilitySlot slot in abilitySlots)
+        {
+            slot.abilityInstance = Instantiate(slot.ability);
+            slot.abilityInstance.Setup(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        foreach (AbilitySlot slot in abilitySlots)
+        {
+            slot.Update(worldPosFromMousePos, mouse1WasPressed);
+        }
     }
 
     public void PerformMouse1()
     {
-        slot1Instance.Activate();
+        abilitySlots[0].Perform();
     }
 }
