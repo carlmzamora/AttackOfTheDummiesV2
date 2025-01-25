@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 
   cooldown: 0
-  noAdditionalInput: 1
+  instantCast: 1
   level: 0
   projectilePrefab: {fileID: 1595747817566170178, guid: 5888d67239285c84caaf6abb167e2669,
     type: 3}
   projectileSpeed: 1000
   lifetime: 3
   damage: 10
+  modifiersOnContact:
+  - {fileID: 11400000, guid: ad97abc1a972f3647b68dc33b50a20a4, type: 2}

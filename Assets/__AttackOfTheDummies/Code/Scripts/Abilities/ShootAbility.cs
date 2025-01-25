@@ -14,7 +14,7 @@ public class ShootAbility : Ability
 
     [Header("Damage")]
     public float damage;
-    //modifier on contact
+    public Modifier[] modifiersOnContact;
 
     private Transform spawnPoint;
 
@@ -38,6 +38,7 @@ public class ShootAbility : Ability
         projectile.travelSpeed = projectileSpeed;
         projectile.lifetime = lifetime;
         projectile.damage = damage;
+        projectile.modifiersOnContact = modifiersOnContact;
 
         projectile.gameObject.SetActive(true);
     }

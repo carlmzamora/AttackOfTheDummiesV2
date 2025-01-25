@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
     [HideInInspector] public float lifetime;
     [HideInInspector] public float damage;
 
+    [HideInInspector] public Modifier[] modifiersOnContact;
+
     [HideInInspector] public Action releaseSelf;
     private Rigidbody rb => GetComponent<Rigidbody>();
 
@@ -24,6 +26,14 @@ public class Projectile : MonoBehaviour
         if(other.TryGetComponent(out HealthEntity healthEntity))
         {
             healthEntity.TakeDamage(damage);
+        }
+
+        if(other.TryGetComponent(out ModifiersController modController))
+        {
+            foreach(Modifier mod in modifiersOnContact)
+            {
+                modController.ApplyModifier(mod, gameObject);
+            }
         }
 
         CancelInvoke(nameof(ReleaseSelfToObjectPooler));
