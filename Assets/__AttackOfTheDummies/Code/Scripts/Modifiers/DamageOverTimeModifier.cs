@@ -16,10 +16,10 @@ public class DamageOverTimeModifier : Modifier
 
     private HealthEntity healthEntity;
     private float totalDuration;
-    private float startTime;
     private float lastTickTime;
+    private float timeBetweenRefreshAndLastTick;
 
-    public override void Instantiate()
+    public override void Instantiate(bool timedStacks)
     {
         currentTickDamage = tickDamage;
         currentTickCount = tickCount;
@@ -29,6 +29,8 @@ public class DamageOverTimeModifier : Modifier
         healthEntity = affected.GetComponent<HealthEntity>();
 
         affected.StartCoroutine(DurationCoroutine());
+
+        base.AddStack(timedStacks);
     }
 
     private IEnumerator DurationCoroutine()
@@ -39,9 +41,28 @@ public class DamageOverTimeModifier : Modifier
         {
             yield return new WaitForSeconds(currentTickInterval);
 
-            healthEntity.TakeDamage(currentTickDamage);
+            healthEntity.TakeDamage(currentTickDamage * currentStacks);
 
-            //lastTickTime = Time.time;
+            lastTickTime = Time.time;
         }
+
+        Expire();
+    }
+
+    public override void RefreshDuration()
+    {
+        float timeOfRefresh = Time.time; //set current time
+
+        if (lastTickTime > 0)
+        {
+            timeBetweenRefreshAndLastTick = lastTickTime - timeOfRefresh;
+        }
+        else //if this modifier just started and there is no first tick yet
+        {
+            timeBetweenRefreshAndLastTick = startTime - timeOfRefresh;
+        }
+
+        //add the time between the tick and refresh time so that small portion is still included
+        startTime = Time.time + timeBetweenRefreshAndLastTick;
     }
 }

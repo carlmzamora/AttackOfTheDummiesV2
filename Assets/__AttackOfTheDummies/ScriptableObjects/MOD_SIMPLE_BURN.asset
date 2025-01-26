@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifierName: 
   allowOnlyOneInstance: 1
-  maxStacks: 0
+  maxStacks: 5
   refreshOnReapply: 0
   independentStackTimers: 0
   currentStacks: 0
   affected: {fileID: 0}
   source: {fileID: 0}
+  controller: {fileID: 0}
   tickDamage: 5
   tickCount: 5
   tickInterval: 1

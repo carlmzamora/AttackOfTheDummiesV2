@@ -15,7 +15,9 @@ public class Modifier : ScriptableObject
     [HideInInspector] public int currentStacks;
     [HideInInspector] public MonoBehaviour affected;
     [HideInInspector] public MonoBehaviour source;
-    [HideInInspector] private ModifiersController controller;
+    [HideInInspector] public ModifiersController controller;
+
+    protected float startTime;
 
     public virtual void SetAffected(GameObject affected)
     {
@@ -28,8 +30,32 @@ public class Modifier : ScriptableObject
         this.source = source.GetComponent<MonoBehaviour>();
     }
 
-    public virtual void Instantiate()
+    public virtual void Instantiate(bool timedStacks)
     {
+        AddStack(timedStacks);
+    }
 
+    public void AddStack(bool timedStacks)
+    {
+        currentStacks++;
+    }
+
+    public virtual void RemoveStack()
+    {
+        currentStacks--;
+
+        if (currentStacks <= 0)
+            Expire();
+    }
+
+    public virtual void RefreshDuration()
+    {
+        startTime = Time.time;
+    }
+
+    public virtual void Expire()
+    {
+        currentStacks = 0;
+        controller.RemoveModifier(this);
     }
 }
