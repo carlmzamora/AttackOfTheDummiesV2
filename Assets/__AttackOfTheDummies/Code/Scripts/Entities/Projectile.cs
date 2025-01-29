@@ -12,13 +12,13 @@ public class Projectile : MonoBehaviour
 
     [HideInInspector] public Modifier[] modifiersOnContact;
 
-    [HideInInspector] public Action releaseSelf;
+    [HideInInspector] public Action poolerReleaseFunction;
     private Rigidbody rb => GetComponent<Rigidbody>();
 
     public void OnEnable()
     {
         rb.AddForce(transform.forward * travelSpeed);
-        Invoke(nameof(ReleaseSelfToObjectPooler), lifetime);
+        Invoke(nameof(Deactivate), lifetime);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -36,13 +36,13 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        CancelInvoke(nameof(ReleaseSelfToObjectPooler));
-        ReleaseSelfToObjectPooler();
+        CancelInvoke(nameof(Deactivate));
+        Deactivate();
     }
 
-    private void ReleaseSelfToObjectPooler()
+    private void Deactivate()
     {
         rb.velocity = Vector3.zero;
-        releaseSelf();
+        poolerReleaseFunction();
     }
 }

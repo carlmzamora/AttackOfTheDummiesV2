@@ -32,7 +32,7 @@ public class ShootAbility : Ability
     public override void Activate()
     {
         Projectile projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab.gameObject).GetComponent<Projectile>();
-        projectile.releaseSelf = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
+        projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 
         projectile.transform.SetLocalPositionAndRotation(spawnPoint.position + spawnPoint.forward, spawnPoint.rotation);
         projectile.travelSpeed = projectileSpeed;
