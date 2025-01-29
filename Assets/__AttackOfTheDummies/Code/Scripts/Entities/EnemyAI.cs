@@ -1,9 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : HealthEntity, IProjectileSource
 {
     [SerializeField] private Transform projectileSpawnPoint;
     public Transform ProjectileSpawnPoint => projectileSpawnPoint;
+
+    [SerializeField] private Transform destination1;
+    [SerializeField] private Transform destination2;
+    private NavMeshAgent agent;
+    private Transform currentDestination;
+
+    public void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(destination1.position);
+        currentDestination = destination1;
+    }
+
+    public void Update()
+    {
+        if (agent.remainingDistance < 1)
+        {
+            if (currentDestination == destination1)
+            {
+                agent.SetDestination(destination2.position);
+                currentDestination = destination2;
+            }
+            else
+            {
+                agent.SetDestination(destination1.position);
+                currentDestination = destination1;
+            }
+        }
+    }
 }

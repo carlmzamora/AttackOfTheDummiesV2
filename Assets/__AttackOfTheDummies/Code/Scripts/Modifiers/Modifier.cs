@@ -16,6 +16,7 @@ public class Modifier : ScriptableObject
     [HideInInspector] public MonoBehaviour affected;
     [HideInInspector] public MonoBehaviour source;
     [HideInInspector] public ModifiersController controller;
+    [HideInInspector] public float stackDuration;
 
     protected float startTime;
 
@@ -35,17 +36,12 @@ public class Modifier : ScriptableObject
         AddStack(timedStacks);
     }
 
-    public void AddStack(bool timedStacks)
+    public virtual void AddStack(bool timedStacks)
     {
         currentStacks++;
-    }
 
-    public virtual void RemoveStack()
-    {
-        currentStacks--;
-
-        if (currentStacks <= 0)
-            Expire();
+        if (timedStacks)
+            affected.StartCoroutine(TimedStackCoroutine());
     }
 
     public virtual void RefreshDuration()
@@ -57,5 +53,25 @@ public class Modifier : ScriptableObject
     {
         currentStacks = 0;
         controller.RemoveModifier(this);
+    }
+
+    protected virtual IEnumerator TimedStackCoroutine()
+    {
+        if (stackDuration <= 0)
+            Debug.LogError($"Stack duration is invalid!");
+
+        yield return new WaitForSeconds(stackDuration + 0.1f);
+
+        if (currentStacks == 0) yield break;
+
+        currentStacks--;
+    }
+
+    public virtual void RemoveStack()
+    {
+        currentStacks--;
+
+        if (currentStacks <= 0)
+            Expire();
     }
 }
