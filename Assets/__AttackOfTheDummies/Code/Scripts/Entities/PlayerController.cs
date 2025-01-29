@@ -70,7 +70,7 @@ public class PlayerController : HealthEntity, IProjectileSource
 
         Ray mouseRay = Camera.main.ScreenPointToRay(lookDirection);
 
-        Plane groundPlane = new Plane(Vector3.up, new Vector3(0, 0.2f, 0)); //basically, plane orientation and plane world height
+        Plane groundPlane = new Plane(Vector3.up, new Vector3(0, 0, 0)); //basically, plane orientation and plane world height
 
         if (groundPlane.Raycast(mouseRay, out float rayLength))
         {
