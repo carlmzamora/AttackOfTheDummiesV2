@@ -14,7 +14,7 @@ public class ShootAbility : Ability
 
     [Header("Damage")]
     public float damage;
-    public Modifier[] modifiersOnContact;
+    [ModifierList] public List<Modifier> modifiersOnContact;
 
     private Transform spawnPoint;
 
@@ -32,6 +32,8 @@ public class ShootAbility : Ability
     public override void Activate()
     {
         Projectile projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab.gameObject).GetComponent<Projectile>();
+
+        projectile.abilityRoot = this;
         projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 
         projectile.transform.SetLocalPositionAndRotation(spawnPoint.position + spawnPoint.forward, spawnPoint.rotation);

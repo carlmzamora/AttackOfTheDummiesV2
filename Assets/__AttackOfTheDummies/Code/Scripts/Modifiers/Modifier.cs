@@ -15,21 +15,11 @@ public class Modifier : ScriptableObject
     [HideInInspector] public int currentStacks;
     [HideInInspector] public MonoBehaviour affected;
     [HideInInspector] public MonoBehaviour source;
+    [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public ModifiersController controller;
     [HideInInspector] public float stackDuration;
 
     protected float startTime;
-
-    public virtual void SetAffected(GameObject affected)
-    {
-        this.affected = affected.GetComponent<MonoBehaviour>();
-        controller = affected.GetComponent<ModifiersController>();
-    }
-
-    public virtual void SetSource(GameObject source)
-    {
-        this.source = source.GetComponent<MonoBehaviour>();
-    }
 
     public virtual void Instantiate(bool timedStacks)
     {

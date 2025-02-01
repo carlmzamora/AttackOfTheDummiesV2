@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Ability : ScriptableObject
@@ -7,11 +9,13 @@ public class Ability : ScriptableObject
     [Header("General")]
     public string displayName;
     //public Sprite abilityIcon;
-    public float cooldown;
+    [Manipulable] public float cooldown;
     public bool instantCast = true; //consider protected?
 
     protected GameObject owner;
     public int level;
+
+    public Dictionary<string, FloatParameter> floatParameters = new();
 
     //Turn these into ActiveAbility?
     public virtual void Activate() { }
@@ -23,5 +27,54 @@ public class Ability : ScriptableObject
     {
         this.owner = owner;
         this.level = level;
+
+        CacheParameters(GetType(), this, this);
+    }
+
+    private void CacheParameters(Type type, object target, Ability root)
+    {
+        foreach (FieldInfo field in type.GetFields())
+        {
+            if (Attribute.IsDefined(field, typeof(ManipulableAttribute)))
+            {
+                floatParameters.Add(field.Name, new((float)field.GetValue(target)));
+            }
+
+            if(Attribute.IsDefined(field, typeof(ModifierListAttribute)))
+            {
+                if(field.GetValue(this) is List<Modifier> modifierList)
+                {
+                    CacheModifiersManipulableFields(modifierList, root);
+                }
+            }
+        }
+    }
+
+    private void CacheModifiersManipulableFields(List<Modifier> modifierList, Ability abilityRoot)
+    {
+        foreach (Modifier modifier in modifierList)
+        {
+            CacheParameters(modifier.GetType(), modifier, abilityRoot);
+        }
+    }
+}
+
+public class FloatParameter
+{
+    public float value;
+
+    public FloatParameter(float value)
+    {
+        this.value = value;
+    }
+
+    public void SetValue(float value)
+    {
+        this.value = value;
+    }
+
+    public static implicit operator float(FloatParameter parameter)
+    {
+        return parameter.value;
     }
 }

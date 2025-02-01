@@ -10,8 +10,9 @@ public class Projectile : MonoBehaviour
     [HideInInspector] public float lifetime;
     [HideInInspector] public float damage;
 
-    [HideInInspector] public Modifier[] modifiersOnContact;
+    [HideInInspector] public List<Modifier> modifiersOnContact;
 
+    [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public Action poolerReleaseFunction;
     private Rigidbody rb => GetComponent<Rigidbody>();
 
@@ -32,7 +33,7 @@ public class Projectile : MonoBehaviour
         {
             foreach(Modifier mod in modifiersOnContact)
             {
-                modController.ApplyModifier(mod, gameObject);
+                modController.ApplyModifier(mod, gameObject, abilityRoot);
             }
         }
 
