@@ -10,7 +10,8 @@ public class DamageOverTimeModifier : Modifier
     public int tickCount;
     public float tickInterval;
 
-    [HideInInspector, Manipulable] public float bonusTickDamage;
+    [HideInInspector, Manipulable] public float tickDamageAdditive;
+    [HideInInspector, Manipulable] public int tickCountAdditive;
 
     private float currentTickDamage;
     private int currentTickCount;
@@ -23,8 +24,8 @@ public class DamageOverTimeModifier : Modifier
 
     public override void Instantiate(bool timedStacks)
     {
-        currentTickDamage = tickDamage + abilityRoot.floatParameters["bonusTickDamage"];
-        currentTickCount = tickCount;
+        currentTickDamage = tickDamage + abilityRoot.floatParameters[nameof(tickDamageAdditive)];
+        currentTickCount = tickCount + abilityRoot.intParameters[nameof(tickCountAdditive)];
         currentTickInterval = tickInterval;
 
         duration = currentTickInterval * currentTickCount;

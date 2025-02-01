@@ -16,6 +16,7 @@ public class Ability : ScriptableObject
     public int level;
 
     public Dictionary<string, FloatParameter> floatParameters = new();
+    public Dictionary<string, IntParameter> intParameters = new();
 
     //Turn these into ActiveAbility?
     public virtual void Activate() { }
@@ -29,6 +30,7 @@ public class Ability : ScriptableObject
         this.level = level;
 
         CacheParameters(GetType(), this, this);
+        intParameters["tickCountAdditive"].SetValue(3);
     }
 
     private void CacheParameters(Type type, object target, Ability root)
@@ -37,7 +39,14 @@ public class Ability : ScriptableObject
         {
             if (Attribute.IsDefined(field, typeof(ManipulableAttribute)))
             {
-                floatParameters.Add(field.Name, new((float)field.GetValue(target)));
+                if(field.FieldType == typeof(float))
+                {
+                    floatParameters.Add(field.Name, new((float)field.GetValue(target)));
+                }
+                else if(field.FieldType == typeof(int))
+                {
+                    intParameters.Add(field.Name, new((int)field.GetValue(target)));
+                }
             }
 
             if(Attribute.IsDefined(field, typeof(ModifierListAttribute)))
@@ -74,6 +83,26 @@ public class FloatParameter
     }
 
     public static implicit operator float(FloatParameter parameter)
+    {
+        return parameter.value;
+    }
+}
+
+public class IntParameter
+{
+    public int value;
+
+    public IntParameter(int value)
+    {
+        this.value = value;
+    }
+
+    public void SetValue(int value)
+    {
+        this.value = value;
+    }
+
+    public static implicit operator int(IntParameter parameter)
     {
         return parameter.value;
     }
