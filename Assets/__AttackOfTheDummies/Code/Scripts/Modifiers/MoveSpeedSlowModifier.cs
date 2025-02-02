@@ -10,6 +10,12 @@ public class MoveSpeedSlowModifier : Modifier
     public float slowPercent;
     public float duration;
 
+    [HideInInspector, Manipulable] public float slowPercentAdditive;
+    [HideInInspector, Manipulable] public float durationAdditive;
+
+    private float currentSlowPercent;
+    private float currentDuration;
+
     private NavMeshAgent aiAgent;
     private PlayerController playerController;
 
@@ -20,9 +26,14 @@ public class MoveSpeedSlowModifier : Modifier
         aiAgent = affected.GetComponent<NavMeshAgent>();
         playerController = affected.GetComponent<PlayerController>();
 
-        if (aiAgent)
-            slowPerStack = aiAgent.speed * slowPercent * 0.01f;
+        currentSlowPercent = slowPercent + abilityRoot.floatParameters[nameof(slowPercentAdditive)];
+        currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
 
+        if (aiAgent)
+            slowPerStack = aiAgent.speed * currentSlowPercent * 0.01f;
+
+        //we don't check currentDuration but duration,
+        //so that accidental upgrading doesn't render infinite duration into limited duration
         if (duration > 0)
             affected.StartCoroutine(DurationCoroutine());
 
@@ -42,7 +53,7 @@ public class MoveSpeedSlowModifier : Modifier
     private IEnumerator DurationCoroutine()
     {
         startTime = Time.time;
-        while (Time.time - startTime < duration) //if duration lapsed is more than totalDuration
+        while (Time.time - startTime < currentDuration) //if duration lapsed is more than totalDuration
         {
             yield return new WaitForEndOfFrame();
         }
