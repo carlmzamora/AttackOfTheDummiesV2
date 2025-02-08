@@ -15,8 +15,8 @@ public class ModifiersController : MonoBehaviour
         mod.source = source.GetComponent<MonoBehaviour>();
         mod.abilityRoot = abilityRoot;
 
-        Modifier modBase = Instantiate(mod);
-        ApplyModifier(modBase);
+        //Modifier modBase = Instantiate(mod);
+        //ApplyModifier(modBase);
     }
 
     public void ApplyModifier(Modifier modBase)

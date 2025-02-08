@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Modifier : ScriptableObject
+[Serializable]
+public class Modifier
 {
     [Header("General")]
-    public string modifierName;
+    [PreviewInDrawer] public string modifierName;
 
     public bool allowOnlyOneInstance = true;
     public int maxStacks;

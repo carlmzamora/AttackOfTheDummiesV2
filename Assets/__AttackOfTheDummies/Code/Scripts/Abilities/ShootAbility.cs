@@ -14,7 +14,7 @@ public class ShootAbility : Ability
 
     [Header("Damage")]
     public float damage;
-    [ModifierList] public List<Modifier> modifiersOnContact;
+    [ModifierList, SerializeReference] public List<Modifier> modifiersOnContact;
 
     private Transform spawnPoint;
 
