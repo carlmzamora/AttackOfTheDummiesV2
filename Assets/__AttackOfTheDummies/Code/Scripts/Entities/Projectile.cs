@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
 
     [HideInInspector] public List<Modifier> modifiersOnContact;
 
-    [HideInInspector] public Ability abilityRoot;
+    [HideInInspector] public ActiveAbility abilityRoot;
     [HideInInspector] public Action poolerReleaseFunction;
     private Rigidbody rb => GetComponent<Rigidbody>();
 

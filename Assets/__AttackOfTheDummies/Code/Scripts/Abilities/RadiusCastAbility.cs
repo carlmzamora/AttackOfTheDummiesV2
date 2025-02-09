@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tomadle/Abilities/RadiusCast")]
-public class RadiusCastAbility : Ability
+public class RadiusCastAbility : ActiveAbility
 {
     [Header("Radius Cast Ability")]
     public float radius;

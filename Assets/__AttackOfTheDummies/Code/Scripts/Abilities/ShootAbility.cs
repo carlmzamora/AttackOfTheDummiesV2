@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tomadle/Abilities/Shooter")]
-public class ShootAbility : Ability
+public class ShootAbility : ActiveAbility
 {
     [Header("Shoot Ability")]
     public Projectile projectilePrefab;

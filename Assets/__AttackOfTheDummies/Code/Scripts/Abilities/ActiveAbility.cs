@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public class ActiveAbility : ScriptableObject
 {
     [Header("General")]
     public string displayName;
     //public Sprite abilityIcon;
     [Manipulable] public float cooldown;
-    public bool instantCast = true; //consider protected?
+    public bool instantCast = true;
 
     protected GameObject owner;
     public int level;
@@ -37,7 +37,7 @@ public class Ability : ScriptableObject
         //and not just variable manipulation, but behaviour changes as well
     }
 
-    private void CacheParameters(Type type, object target, Ability root)
+    private void CacheParameters(Type type, object target, ActiveAbility root)
     {
         foreach (FieldInfo field in type.GetFields())
         {
@@ -63,7 +63,7 @@ public class Ability : ScriptableObject
         }
     }
 
-    private void CacheModifiersManipulableFields(List<Modifier> modifierList, Ability abilityRoot)
+    private void CacheModifiersManipulableFields(List<Modifier> modifierList, ActiveAbility abilityRoot)
     {
         foreach (Modifier modifier in modifierList)
         {

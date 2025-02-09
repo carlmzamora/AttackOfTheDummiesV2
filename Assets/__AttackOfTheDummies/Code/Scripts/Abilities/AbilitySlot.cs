@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class AbilitySlot
 {
-    public Ability ability;
-    [HideInInspector] public Ability abilityInstance;
+    public ActiveAbility ability;
+    [HideInInspector] public ActiveAbility abilityInstance;
     [HideInInspector] public AbilityState state;
 
     [HideInInspector] public float cooldownProgress;
