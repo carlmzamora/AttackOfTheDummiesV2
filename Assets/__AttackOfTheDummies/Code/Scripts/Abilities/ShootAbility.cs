@@ -35,6 +35,7 @@ public class ShootAbility : ActiveAbility
     {
         Projectile projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab.gameObject).GetComponent<Projectile>();
 
+        projectile.projectileOwner = owner;
         projectile.abilityRoot = this;
         projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 

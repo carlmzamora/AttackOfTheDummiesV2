@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
 
     [HideInInspector] public List<Modifier> modifiersOnContact;
 
+    [HideInInspector] public GameObject projectileOwner;
     [HideInInspector] public ActiveAbility abilityRoot;
     [HideInInspector] public Action poolerReleaseFunction;
     private Rigidbody rb => GetComponent<Rigidbody>();
@@ -33,7 +34,7 @@ public class Projectile : MonoBehaviour
         {
             foreach(Modifier mod in modifiersOnContact)
             {
-                modController.ApplyModifier(mod, gameObject, abilityRoot);
+                modController.ApplyModifier(mod, projectileOwner, abilityRoot);
             }
         }
 

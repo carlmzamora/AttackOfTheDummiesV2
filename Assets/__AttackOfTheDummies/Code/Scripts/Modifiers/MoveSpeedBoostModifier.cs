@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "Tomadle/Modifiers/Slow")]
-public class MoveSpeedSlowModifier : Modifier
+public class MoveSpeedBoostModifier : Modifier
 {
-    [Header("MoveSpeedSlow")]
-    public float slowPercent;
+    [Header("MoveSpeedBoost")]
+    public float boostPercent;
     public float duration;
 
-    [HideInInspector, Manipulable] public float slowPercentAdditive;
+    [HideInInspector, Manipulable] public float boostPercentAdditive;
     [HideInInspector, Manipulable] public float durationAdditive;
 
-    private float currentSlowPercent;
+    private float currentBoostPercent;
     private float currentDuration;
 
     private NavMeshAgent aiAgent;
     private EnemyAI aiEntity;
     private PlayerController playerController;
 
-    private float slowPerStack = 0;
+    private float boostPerStack = 0;
 
     public override void Instantiate(bool timedStacks)
     {
@@ -28,14 +27,14 @@ public class MoveSpeedSlowModifier : Modifier
         aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
-        currentSlowPercent = slowPercent + abilityRoot.floatParameters[nameof(slowPercentAdditive)];
+        currentBoostPercent = boostPercent + abilityRoot.floatParameters[nameof(boostPercentAdditive)];
         currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
 
         if (aiAgent)
-            slowPerStack = aiEntity.baseMoveSpeed * currentSlowPercent * 0.01f;
+            boostPerStack = aiEntity.baseMoveSpeed * currentBoostPercent * 0.01f;
 
         if (playerController)
-            slowPerStack = playerController.baseMoveSpeed * currentSlowPercent * 0.01f;
+            boostPerStack = playerController.baseMoveSpeed * currentBoostPercent * 0.01f;
 
         //we don't check currentDuration but duration,
         //so that accidental upgrading doesn't render infinite duration into limited duration
@@ -47,22 +46,14 @@ public class MoveSpeedSlowModifier : Modifier
 
     public override void AddStack(bool timedStacks)
     {
-        if(aiAgent)
+        if (aiAgent)
         {
-            aiAgent.speed -= slowPerStack;
-            if(aiAgent.speed <= 0)
-            {
-                aiAgent.speed = 0;
-            }
+            aiAgent.speed += boostPerStack;
         }
 
-        if(playerController)
+        if (playerController)
         {
-            playerController.currentMoveSpeed -= slowPerStack;
-            if(playerController.currentMoveSpeed <= 0)
-            {
-                playerController.currentMoveSpeed = 0;
-            }
+            playerController.currentMoveSpeed += boostPerStack;
         }
 
         base.AddStack(timedStacks);
@@ -78,20 +69,12 @@ public class MoveSpeedSlowModifier : Modifier
 
         if (aiAgent)
         {
-            aiAgent.speed += slowPerStack * currentStacks;
-            if(aiAgent.speed > aiEntity.baseMoveSpeed)
-            {
-                aiAgent.speed = aiEntity.baseMoveSpeed;
-            }
+            aiAgent.speed -= boostPerStack * currentStacks;
         }
 
-        if(playerController)
+        if (playerController)
         {
-            playerController.currentMoveSpeed += slowPerStack * currentStacks;
-            if( playerController.currentMoveSpeed > playerController.baseMoveSpeed)
-            {
-                playerController.currentMoveSpeed = playerController.baseMoveSpeed;
-            }
+            playerController.currentMoveSpeed -= boostPerStack * currentStacks;
         }
 
         Expire();

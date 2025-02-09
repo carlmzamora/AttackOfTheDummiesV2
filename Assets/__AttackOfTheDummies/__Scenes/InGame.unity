@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: 3577cd0a84062d34fb7baeb4d18efd6a, type: 2}
+  - ability: {fileID: 11400000, guid: 48bce195ed3f95142b0079b1d55dfdf3, type: 2}
     abilityInstance: {fileID: 0}
     state: 0
     cooldownProgress: 0

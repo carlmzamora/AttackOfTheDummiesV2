@@ -10,7 +10,7 @@ public class ActiveAbility : ScriptableObject
     public string displayName;
     //public Sprite abilityIcon;
     [Manipulable] public float cooldown;
-    public bool instantCast = true;
+    [HideInInspector] public bool instantCast = true;
 
     protected GameObject owner;
     public int level;
@@ -30,7 +30,6 @@ public class ActiveAbility : ScriptableObject
         this.level = level;
 
         CacheParameters(GetType(), this, this);
-        floatParameters["tickDamageAdditive"].AddValue(100);
 
         //TODO:
         //abilities should be upgradable? not like leveling up, but like aghanim scepter upgrades
@@ -110,4 +109,18 @@ public class IntParameter
     {
         return parameter.value;
     }
+}
+
+public enum InstantCastType
+{
+    SELF,
+    RADIUS
+}
+
+public enum TargetedCastType
+{
+    UNIT,
+    POINT,
+    RADIUS
+    //VECTOR
 }
