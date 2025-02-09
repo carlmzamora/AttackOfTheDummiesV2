@@ -30,7 +30,6 @@ public class Ability : ScriptableObject
         this.level = level;
 
         CacheParameters(GetType(), this, this);
-        floatParameters["slowPercentAdditive"].SetValue(100);
 
         //TODO, TOTRY & CONSIDER:
         //what if modifiers are not scriptable objects?

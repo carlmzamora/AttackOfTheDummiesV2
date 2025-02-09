@@ -7,7 +7,7 @@ using UnityEngine;
 public class Modifier
 {
     [Header("General")]
-    [PreviewInDrawer] public string modifierName;
+    public string modifierName;
 
     public bool allowOnlyOneInstance = true;
     public int maxStacks;

@@ -44,6 +44,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
                 yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 DisplayFields(position, property, label, GetBaseFieldsToPreview(property), ref yOffset);
+                yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 List<FieldInfo> derivedFields = GetDerivedFieldsToPreview(property);
                 if(derivedFields.Count > 0)
@@ -82,7 +83,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
             }
 
             //add two lines for the section labels
-            height += EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing * 2;
+            height += (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 3;
         }
 
         return height;
@@ -90,10 +91,10 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
     public List<FieldInfo> GetBaseFieldsToPreview(SerializedProperty property)
     {
-        BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
         List<FieldInfo> baseFields = property.managedReferenceValue.GetType().BaseType.GetFields(flags)
-                .Where(field => Attribute.IsDefined(field, typeof(PreviewInDrawerAttribute)))
+                .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
                 .ToList();
 
         return baseFields;
@@ -101,10 +102,10 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
     public List<FieldInfo> GetDerivedFieldsToPreview(SerializedProperty property)
     {
-        BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
         List<FieldInfo> derivedFields = property.managedReferenceValue.GetType().GetFields(flags)
-                .Where(field => Attribute.IsDefined(field, typeof(PreviewInDrawerAttribute)))
+                .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
                 .ToList();
 
         return derivedFields;
@@ -136,6 +137,14 @@ public class ModifierPropertyDrawer : PropertyDrawer
             {
                 string newValue = EditorGUI.TextField(fieldRect, ObjectNames.NicifyVariableName(field.Name), stringValue);
                 if (stringValue != newValue)
+                {
+                    field.SetValue(property.managedReferenceValue, newValue);
+                }
+            }
+            else if(fieldValue is bool boolValue)
+            {
+                bool newValue = EditorGUI.Toggle(fieldRect, ObjectNames.NicifyVariableName(field.Name), boolValue);
+                if(boolValue != newValue)
                 {
                     field.SetValue(property.managedReferenceValue, newValue);
                 }

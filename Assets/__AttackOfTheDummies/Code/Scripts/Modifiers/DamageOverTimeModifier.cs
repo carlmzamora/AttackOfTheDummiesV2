@@ -6,9 +6,9 @@ using UnityEngine;
 public class DamageOverTimeModifier : Modifier
 {
     [Header("DamageOverTime")]
-    [PreviewInDrawer] public float tickDamage;
-    [PreviewInDrawer] public int tickCount;
-    [PreviewInDrawer] public float tickInterval;
+    public float tickDamage;
+    public int tickCount;
+    public float tickInterval;
 
     [HideInInspector, Manipulable] public float tickDamageAdditive;
     [HideInInspector, Manipulable] public int tickCountAdditive;
