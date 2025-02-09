@@ -32,6 +32,9 @@ public class MoveSpeedSlowModifier : Modifier
         if (aiAgent)
             slowPerStack = aiAgent.speed * currentSlowPercent * 0.01f;
 
+        if (playerController)
+            slowPerStack = playerController.currentMoveSpeed * currentSlowPercent * 0.01f;
+
         //we don't check currentDuration but duration,
         //so that accidental upgrading doesn't render infinite duration into limited duration
         if (duration > 0)
@@ -45,6 +48,11 @@ public class MoveSpeedSlowModifier : Modifier
         if(aiAgent)
         {
             aiAgent.speed -= slowPerStack;
+        }
+
+        if(playerController)
+        {
+            playerController.currentMoveSpeed -= slowPerStack;
         }
 
         base.AddStack(timedStacks);
@@ -61,6 +69,11 @@ public class MoveSpeedSlowModifier : Modifier
         if (aiAgent)
         {
             aiAgent.speed += slowPerStack * currentStacks;
+        }
+
+        if(playerController)
+        {
+            playerController.currentMoveSpeed += slowPerStack * currentStacks;
         }
 
         Expire();

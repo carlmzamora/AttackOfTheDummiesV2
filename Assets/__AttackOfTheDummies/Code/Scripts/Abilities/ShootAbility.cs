@@ -14,6 +14,8 @@ public class ShootAbility : Ability
 
     [Header("Damage")]
     public float damage;
+
+    [Space(10)]
     [ModifierList, SerializeReference] public List<Modifier> modifiersOnContact;
 
     private Transform spawnPoint;
@@ -37,6 +39,8 @@ public class ShootAbility : Ability
         projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 
         projectile.transform.SetLocalPositionAndRotation(spawnPoint.position + spawnPoint.forward, spawnPoint.rotation);
+        projectile.gameObject.layer = LayerMask.NameToLayer(owner.gameObject.layer == LayerMask.NameToLayer("Enemy") ? "EnemyProjectiles" : "PlayerProjectiles");
+
         projectile.travelSpeed = projectileSpeed;
         projectile.lifetime = lifetime;
         projectile.damage = damage;

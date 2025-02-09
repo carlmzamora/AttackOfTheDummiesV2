@@ -17,6 +17,8 @@ public class ModifiersController : MonoBehaviour
 
         //Modifier modBase = Instantiate(mod);
         //ApplyModifier(modBase);
+
+        ApplyModifier(mod);
     }
 
     public void ApplyModifier(Modifier modBase)

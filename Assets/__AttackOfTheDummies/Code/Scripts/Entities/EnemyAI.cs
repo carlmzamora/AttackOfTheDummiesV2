@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : HealthEntity, IProjectileSource
+public class EnemyAI : HealthEntity//, IProjectileSource
 {
     [SerializeField] private Transform projectileSpawnPoint;
     public Transform ProjectileSpawnPoint => projectileSpawnPoint;
@@ -22,7 +22,7 @@ public class EnemyAI : HealthEntity, IProjectileSource
 
     public void Update()
     {
-        if (agent.remainingDistance < 1)
+        if (agent.remainingDistance < 1 && destination1 && destination2)
         {
             if (currentDestination == destination1)
             {

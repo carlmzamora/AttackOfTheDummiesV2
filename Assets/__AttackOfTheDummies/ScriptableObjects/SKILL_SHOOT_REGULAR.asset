@@ -23,6 +23,7 @@ MonoBehaviour:
   damage: 0
   modifiersOnContact:
   - rid: 1952632801964326912
+  - rid: 1952632801964326914
   references:
     version: 2
     RefIds:
@@ -41,7 +42,25 @@ MonoBehaviour:
         controller: {fileID: 0}
         stackDuration: 0
         tickDamage: 56
-        tickCount: 0
-        tickInterval: 0
+        tickCount: 5
+        tickInterval: 1
         tickDamageAdditive: 0
         tickCountAdditive: 0
+    - rid: 1952632801964326914
+      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        allowOnlyOneInstance: 1
+        maxStacks: 5
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        slowPercent: 20
+        duration: 5
+        slowPercentAdditive: 0
+        durationAdditive: 0

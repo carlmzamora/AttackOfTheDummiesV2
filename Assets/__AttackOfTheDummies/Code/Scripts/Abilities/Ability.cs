@@ -31,10 +31,6 @@ public class Ability : ScriptableObject
 
         CacheParameters(GetType(), this, this);
 
-        //TODO, TOTRY & CONSIDER:
-        //what if modifiers are not scriptable objects?
-        //what if they're regular classes you add in the inspector along the modifiers field of the ability?
-
         //TODO:
         //abilities should be upgradable? not like leveling up, but like aghanim scepter upgrades
         //and not just variable manipulation, but behaviour changes as well
