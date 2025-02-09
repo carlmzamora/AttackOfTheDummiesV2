@@ -467,6 +467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  baseMoveSpeed: 3000
   currentMoveSpeed: 3000
   projectileSpawnPoint: {fileID: 783875293}
   playerPositionVariable: {fileID: 11400000, guid: cee8eaa1f69b66943b3b536274e7b56c,
@@ -1674,6 +1675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  baseMoveSpeed: 8
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 443936686}
   destination2: {fileID: 1231537741}
@@ -2760,6 +2762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  baseMoveSpeed: 0
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 0}
   destination2: {fileID: 0}

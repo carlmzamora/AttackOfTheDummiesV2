@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : HealthEntity, IProjectileSource
 {
     [Header("PlayerController")]
-    public float currentMoveSpeed;
+    public float baseMoveSpeed;
+    [ReadOnly] public float currentMoveSpeed;
+
     [SerializeField] private Transform projectileSpawnPoint;
     public Transform ProjectileSpawnPoint => projectileSpawnPoint;
 
@@ -28,6 +30,8 @@ public class PlayerController : HealthEntity, IProjectileSource
     {
         base.Awake();
         controls = new();
+
+        currentMoveSpeed = baseMoveSpeed;
     }
 
     private void OnEnable()

@@ -30,10 +30,10 @@ public class MoveSpeedSlowModifier : Modifier
         currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
 
         if (aiAgent)
-            slowPerStack = aiAgent.speed * currentSlowPercent * 0.01f;
+            slowPerStack = aiAgent.GetComponent<EnemyAI>().baseMoveSpeed * currentSlowPercent * 0.01f;
 
         if (playerController)
-            slowPerStack = playerController.currentMoveSpeed * currentSlowPercent * 0.01f;
+            slowPerStack = playerController.baseMoveSpeed * currentSlowPercent * 0.01f;
 
         //we don't check currentDuration but duration,
         //so that accidental upgrading doesn't render infinite duration into limited duration

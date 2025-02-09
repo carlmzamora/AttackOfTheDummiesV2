@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyAI : HealthEntity//, IProjectileSource
 {
+    [Header("EnemyAI")]
+    public float baseMoveSpeed;
+
     [SerializeField] private Transform projectileSpawnPoint;
     public Transform ProjectileSpawnPoint => projectileSpawnPoint;
 
@@ -16,8 +19,14 @@ public class EnemyAI : HealthEntity//, IProjectileSource
     public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(destination1.position);
-        currentDestination = destination1;
+
+        agent.speed = baseMoveSpeed;
+
+        if(destination1)
+        {
+            agent.SetDestination(destination1.position);
+            currentDestination = destination1;
+        }
     }
 
     public void Update()
