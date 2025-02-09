@@ -27,6 +27,10 @@ public class DamageOverTimeModifier : Modifier
         currentTickDamage = tickDamage + abilityRoot.floatParameters[nameof(tickDamageAdditive)];
         currentTickCount = tickCount + abilityRoot.intParameters[nameof(tickCountAdditive)];
         currentTickInterval = tickInterval;
+        if(currentTickInterval <= 0)
+        {
+            currentTickInterval = 0.1f; //minimum
+        }
 
         duration = currentTickInterval * currentTickCount;
         stackDuration = duration;

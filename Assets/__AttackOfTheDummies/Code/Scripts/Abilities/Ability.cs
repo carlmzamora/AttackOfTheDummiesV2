@@ -19,7 +19,7 @@ public class Ability : ScriptableObject
     public Dictionary<string, IntParameter> intParameters = new();
 
     //Turn these into ActiveAbility?
-    public virtual void Activate() { }
+    public virtual void InstantCast() { }
     public virtual void ShowWaitingForInputDisplay() { }
     public virtual void UpdateWaitForInput(Vector2 worldPos, bool mouse1Pressed) { }
     public virtual void EndWaitForInput() { }
@@ -30,6 +30,7 @@ public class Ability : ScriptableObject
         this.level = level;
 
         CacheParameters(GetType(), this, this);
+        floatParameters["tickDamageAdditive"].AddValue(100);
 
         //TODO:
         //abilities should be upgradable? not like leveling up, but like aghanim scepter upgrades
@@ -52,7 +53,7 @@ public class Ability : ScriptableObject
                 }
             }
 
-            if(Attribute.IsDefined(field, typeof(ModifierListAttribute)))
+            if(field.FieldType == typeof(List<Modifier>))
             {
                 if(field.GetValue(this) is List<Modifier> modifierList)
                 {
@@ -80,9 +81,9 @@ public class FloatParameter
         this.value = value;
     }
 
-    public void SetValue(float value)
+    public void AddValue(float value)
     {
-        this.value = value;
+        this.value += value;
     }
 
     public static implicit operator float(FloatParameter parameter)
@@ -100,9 +101,9 @@ public class IntParameter
         this.value = value;
     }
 
-    public void SetValue(int value)
+    public void AddValue(int value)
     {
-        this.value = value;
+        this.value += value;
     }
 
     public static implicit operator int(IntParameter parameter)

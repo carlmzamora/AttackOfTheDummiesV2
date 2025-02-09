@@ -21,7 +21,7 @@ public class RadiusCastAbility : Ability
         base.Setup(owner, level);
     }
 
-    public override void Activate()
+    public override void InstantCast()
     {
         Collider[] allAffected = Physics.OverlapSphere(owner.transform.position + (owner.transform.forward * castDistance), radius);
 

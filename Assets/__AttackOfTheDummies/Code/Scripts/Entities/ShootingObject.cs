@@ -17,6 +17,6 @@ public class ShootingObject : MonoBehaviour, IProjectileSource
 
     private void Shoot()
     {
-        shootAbility.Activate();
+        shootAbility.InstantCast();
     }
 }

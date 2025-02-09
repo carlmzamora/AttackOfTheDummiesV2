@@ -17,6 +17,7 @@ public class MoveSpeedSlowModifier : Modifier
     private float currentDuration;
 
     private NavMeshAgent aiAgent;
+    private EnemyAI aiEntity;
     private PlayerController playerController;
 
     private float slowPerStack = 0;
@@ -24,13 +25,14 @@ public class MoveSpeedSlowModifier : Modifier
     public override void Instantiate(bool timedStacks)
     {
         aiAgent = affected.GetComponent<NavMeshAgent>();
+        aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
         currentSlowPercent = slowPercent + abilityRoot.floatParameters[nameof(slowPercentAdditive)];
         currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
 
         if (aiAgent)
-            slowPerStack = aiAgent.GetComponent<EnemyAI>().baseMoveSpeed * currentSlowPercent * 0.01f;
+            slowPerStack = aiEntity.baseMoveSpeed * currentSlowPercent * 0.01f;
 
         if (playerController)
             slowPerStack = playerController.baseMoveSpeed * currentSlowPercent * 0.01f;
@@ -48,11 +50,19 @@ public class MoveSpeedSlowModifier : Modifier
         if(aiAgent)
         {
             aiAgent.speed -= slowPerStack;
+            if(aiAgent.speed <= 0)
+            {
+                aiAgent.speed = 0;
+            }
         }
 
         if(playerController)
         {
             playerController.currentMoveSpeed -= slowPerStack;
+            if(playerController.currentMoveSpeed <= 0)
+            {
+                playerController.currentMoveSpeed = 0;
+            }
         }
 
         base.AddStack(timedStacks);
@@ -69,11 +79,19 @@ public class MoveSpeedSlowModifier : Modifier
         if (aiAgent)
         {
             aiAgent.speed += slowPerStack * currentStacks;
+            if(aiAgent.speed > aiEntity.baseMoveSpeed)
+            {
+                aiAgent.speed = aiEntity.baseMoveSpeed;
+            }
         }
 
         if(playerController)
         {
             playerController.currentMoveSpeed += slowPerStack * currentStacks;
+            if( playerController.currentMoveSpeed > playerController.baseMoveSpeed)
+            {
+                playerController.currentMoveSpeed = playerController.baseMoveSpeed;
+            }
         }
 
         Expire();

@@ -25,7 +25,7 @@ public class AbilitySlot
             case AbilityState.READY:
                 if (abilityInstance.instantCast)
                 {
-                    abilityInstance.Activate();
+                    abilityInstance.InstantCast();
                     state = AbilityState.COOLDOWN;
                     cooldownProgress = abilityInstance.cooldown;
                 }

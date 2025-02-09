@@ -16,7 +16,7 @@ public class ShootAbility : Ability
     public float damage;
 
     [Space(10)]
-    [ModifierList, SerializeReference] public List<Modifier> modifiersOnContact;
+    [SerializeReference] public List<Modifier> modifiersOnContact;
 
     private Transform spawnPoint;
 
@@ -31,7 +31,7 @@ public class ShootAbility : Ability
         }
     }
 
-    public override void Activate()
+    public override void InstantCast()
     {
         Projectile projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab.gameObject).GetComponent<Projectile>();
 
