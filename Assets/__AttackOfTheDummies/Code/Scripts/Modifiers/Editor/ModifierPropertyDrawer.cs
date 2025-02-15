@@ -37,22 +37,12 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
             if (isExpanded)
             {
-                // Draw "General" section
-                Rect labelRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-                EditorGUI.LabelField(labelRect, "General", EditorStyles.boldLabel);
-                yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
                 DisplayFields(position, property, GetBaseFieldsToPreview(property), ref yOffset);
-                yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
                 // Draw derived class properties
                 List<FieldInfo> derivedFields = GetDerivedFieldsToPreview(property);
                 if (derivedFields.Count > 0)
                 {
-                    labelRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.LabelField(labelRect, property.managedReferenceValue.GetType().Name + " Properties", EditorStyles.boldLabel);
-                    yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
                     DisplayFields(position, property, derivedFields, ref yOffset);
                 }
             }
@@ -85,9 +75,6 @@ public class ModifierPropertyDrawer : PropertyDrawer
                     height += EditorGUI.GetPropertyHeight(fieldProperty, true) + EditorGUIUtility.standardVerticalSpacing;
                 }
             }
-
-            // Add height for section labels
-            height += (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 2;
         }
 
         height += 10f;
