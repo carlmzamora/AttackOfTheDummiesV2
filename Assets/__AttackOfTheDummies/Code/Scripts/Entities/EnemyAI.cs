@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class EnemyAI : HealthEntity//, IProjectileSource
 {
     [Header("EnemyAI")]
+    public FactionMask faction;
     public float baseMoveSpeed;
 
     [SerializeField] private Transform projectileSpawnPoint;

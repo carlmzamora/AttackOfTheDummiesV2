@@ -16,12 +16,10 @@ MonoBehaviour:
   cooldown: 0
   instantCast: 1
   level: 0
-  radius: 0
+  radius: 10
   selfDamage: 0
   radiusDamage: 0
-  selfModifiersOnCast:
-  - rid: 1952632947070205953
-  - rid: 1952632947070205954
+  selfModifiersOnCast: []
   modifiersAppliedInRadiusOnCast:
   - rid: 1952632947070205952
   references:
@@ -32,7 +30,7 @@ MonoBehaviour:
       data:
         modifierName: 
         effectLayer:
-          mask: 0
+          mask: 4
         allowOnlyOneInstance: 1
         maxStacks: 0
         refreshOnReapply: 0
@@ -43,48 +41,7 @@ MonoBehaviour:
         abilityRoot: {fileID: 0}
         controller: {fileID: 0}
         stackDuration: 0
-        boostPercent: 0
-        duration: 0
-        boostPercentAdditive: 0
-        durationAdditive: 0
-    - rid: 1952632947070205953
-      type: {class: DamageOverTimeModifier, ns: , asm: Assembly-CSharp}
-      data:
-        modifierName: 
-        effectLayer:
-          mask: 0
-        allowOnlyOneInstance: 1
-        maxStacks: 0
-        refreshOnReapply: 0
-        independentStackTimers: 0
-        currentStacks: 0
-        affected: {fileID: 0}
-        source: {fileID: 0}
-        abilityRoot: {fileID: 0}
-        controller: {fileID: 0}
-        stackDuration: 0
-        tickDamage: 0
-        tickCount: 0
-        tickInterval: 0
-        tickDamageAdditive: 0
-        tickCountAdditive: 0
-    - rid: 1952632947070205954
-      type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
-      data:
-        modifierName: 
-        effectLayer:
-          mask: 0
-        allowOnlyOneInstance: 1
-        maxStacks: 0
-        refreshOnReapply: 0
-        independentStackTimers: 0
-        currentStacks: 0
-        affected: {fileID: 0}
-        source: {fileID: 0}
-        abilityRoot: {fileID: 0}
-        controller: {fileID: 0}
-        stackDuration: 0
-        boostPercent: 0
-        duration: 0
+        boostPercent: 100
+        duration: 3
         boostPercentAdditive: 0
         durationAdditive: 0

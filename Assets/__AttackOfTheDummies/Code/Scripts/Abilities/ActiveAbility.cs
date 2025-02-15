@@ -44,11 +44,11 @@ public class ActiveAbility : ScriptableObject
             {
                 if(field.FieldType == typeof(float))
                 {
-                    floatParameters.Add(field.Name, new((float)field.GetValue(target)));
+                    floatParameters.Add($"{root.name}_{type}_{field.Name}", new((float)field.GetValue(target)));
                 }
                 else if(field.FieldType == typeof(int))
                 {
-                    intParameters.Add(field.Name, new((int)field.GetValue(target)));
+                    intParameters.Add($"{root.name}_{type}_{field.Name}", new((int)field.GetValue(target)));
                 }
             }
 

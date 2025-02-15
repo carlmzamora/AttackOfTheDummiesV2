@@ -10,7 +10,7 @@ public class MoveSpeedSlowModifier : Modifier
     public float duration;
 
     [HideInInspector, Manipulable] public float slowPercentAdditive;
-    [HideInInspector, Manipulable] public float durationAdditive;
+    [HideInInspector, Manipulable] public float slowDurationAdditive;
 
     private float currentSlowPercent;
     private float currentDuration;
@@ -27,8 +27,8 @@ public class MoveSpeedSlowModifier : Modifier
         aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
-        currentSlowPercent = slowPercent + abilityRoot.floatParameters[nameof(slowPercentAdditive)];
-        currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
+        currentSlowPercent = slowPercent + abilityRoot.floatParameters[$"{abilityRoot.name}_{GetType()}_{nameof(slowPercentAdditive)}"];
+        currentDuration = duration + abilityRoot.floatParameters[$"{abilityRoot.name}_{GetType()}_{nameof(slowDurationAdditive)}"];
 
         if (aiAgent)
             slowPerStack = aiEntity.baseMoveSpeed * currentSlowPercent * 0.01f;

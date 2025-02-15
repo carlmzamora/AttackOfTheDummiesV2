@@ -10,7 +10,7 @@ public class MoveSpeedBoostModifier : Modifier
     public float duration;
 
     [HideInInspector, Manipulable] public float boostPercentAdditive;
-    [HideInInspector, Manipulable] public float durationAdditive;
+    [HideInInspector, Manipulable] public float boostDurationAdditive;
 
     private float currentBoostPercent;
     private float currentDuration;
@@ -27,8 +27,8 @@ public class MoveSpeedBoostModifier : Modifier
         aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
-        currentBoostPercent = boostPercent + abilityRoot.floatParameters[nameof(boostPercentAdditive)];
-        currentDuration = duration + abilityRoot.floatParameters[nameof(durationAdditive)];
+        currentBoostPercent = boostPercent + abilityRoot.floatParameters[$"{abilityRoot.name}_{GetType()}_{nameof(boostPercentAdditive)}"];
+        currentDuration = duration + abilityRoot.floatParameters[$"{abilityRoot.name}_{GetType()}_{nameof(boostDurationAdditive)}"];
 
         if (aiAgent)
             boostPerStack = aiEntity.baseMoveSpeed * currentBoostPercent * 0.01f;

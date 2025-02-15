@@ -12,6 +12,7 @@ public class RadiusAroundSelfAbility : ActiveAbility
 
     [Space(10)]
     [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
+    [Space(10)]
     [SerializeReference] public List<Modifier> modifiersAppliedInRadiusOnCast;
 
     public override void Setup(GameObject owner, int level = -1)
@@ -32,6 +33,18 @@ public class RadiusAroundSelfAbility : ActiveAbility
             foreach (Modifier mod in selfModifiersOnCast)
             {
                 modController.ApplyModifier(mod, owner.gameObject, this);
+            }
+        }
+
+        Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player")); //means do not include player
+        for(int i = 0; i < collidersInRadius.Length; i++)
+        {
+            if (collidersInRadius[i].TryGetComponent(out ModifiersController otherModController))
+            {
+                for(int j = 0; j < modifiersAppliedInRadiusOnCast.Count; j++)
+                {
+                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner.gameObject, this);
+                }
             }
         }
     }
