@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "Tomadle/Modifiers/Slow")]
 public class MoveSpeedSlowModifier : Modifier
 {
     [Header("MoveSpeedSlow")]
@@ -88,10 +87,6 @@ public class MoveSpeedSlowModifier : Modifier
         if(playerController)
         {
             playerController.currentMoveSpeed += slowPerStack * currentStacks;
-            if( playerController.currentMoveSpeed > playerController.baseMoveSpeed)
-            {
-                playerController.currentMoveSpeed = playerController.baseMoveSpeed;
-            }
         }
 
         Expire();
