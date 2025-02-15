@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(Modifier), true)]
 public class ModifierPropertyDrawer : PropertyDrawer
@@ -15,9 +13,10 @@ public class ModifierPropertyDrawer : PropertyDrawer
         EditorGUI.BeginProperty(position, label, property);
 
         Rect dropdownRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-        if(property.managedReferenceValue == null)
+
+        if (property.managedReferenceValue == null)
         {
-            if(GUI.Button(dropdownRect, "Select Modifier"))
+            if (GUI.Button(dropdownRect, "Select Modifier"))
             {
                 ShowModifierSelectionMenu(property);
             }
@@ -36,25 +35,25 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
             float yOffset = dropdownRect.yMax + EditorGUIUtility.standardVerticalSpacing;
 
-            if(isExpanded)
+            if (isExpanded)
             {
+                // Draw "General" section
                 Rect labelRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-
                 EditorGUI.LabelField(labelRect, "General", EditorStyles.boldLabel);
                 yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                DisplayFields(position, property, label, GetBaseFieldsToPreview(property), ref yOffset);
+                DisplayFields(position, property, GetBaseFieldsToPreview(property), ref yOffset);
                 yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
+                // Draw derived class properties
                 List<FieldInfo> derivedFields = GetDerivedFieldsToPreview(property);
-                if(derivedFields.Count > 0)
+                if (derivedFields.Count > 0)
                 {
                     labelRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-
                     EditorGUI.LabelField(labelRect, property.managedReferenceValue.GetType().Name + " Properties", EditorStyles.boldLabel);
                     yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-                    DisplayFields(position, property, label, derivedFields, ref yOffset);
+                    DisplayFields(position, property, derivedFields, ref yOffset);
                 }
             }
         }
@@ -72,96 +71,87 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
         float height = EditorGUIUtility.singleLineHeight;
 
-        if(isExpanded)
+        if (isExpanded)
         {
             List<FieldInfo> fieldsToPreview = GetBaseFieldsToPreview(property);
             fieldsToPreview.AddRange(GetDerivedFieldsToPreview(property));
 
+            // Add height dynamically based on property size
             foreach (FieldInfo field in fieldsToPreview)
             {
-                height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                SerializedProperty fieldProperty = property.FindPropertyRelative(field.Name);
+                if (fieldProperty != null)
+                {
+                    height += EditorGUI.GetPropertyHeight(fieldProperty, true) + EditorGUIUtility.standardVerticalSpacing;
+                }
             }
 
-            //add two lines for the section labels
-            height += (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 3;
+            // Add height for section labels
+            height += (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 2;
         }
+
+        height += 10f;
 
         return height;
     }
 
-    public List<FieldInfo> GetBaseFieldsToPreview(SerializedProperty property)
+    private List<FieldInfo> GetBaseFieldsToPreview(SerializedProperty property)
     {
         BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
-        List<FieldInfo> baseFields = property.managedReferenceValue.GetType().BaseType.GetFields(flags)
-                .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
-                .ToList();
-
-        return baseFields;
+        return property.managedReferenceValue.GetType().BaseType.GetFields(flags)
+            .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
+            .ToList();
     }
 
-    public List<FieldInfo> GetDerivedFieldsToPreview(SerializedProperty property)
+    private List<FieldInfo> GetDerivedFieldsToPreview(SerializedProperty property)
     {
         BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
-        List<FieldInfo> derivedFields = property.managedReferenceValue.GetType().GetFields(flags)
-                .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
-                .ToList();
-
-        return derivedFields;
+        return property.managedReferenceValue.GetType().GetFields(flags)
+            .Where(field => !Attribute.IsDefined(field, typeof(HideInInspector)))
+            .ToList();
     }
 
-    public void DisplayFields(Rect position, SerializedProperty property, GUIContent label, List<FieldInfo> fields, ref float yOffset)
+    private void DisplayFields(Rect position, SerializedProperty property, List<FieldInfo> fields, ref float yOffset)
     {
+        //bool shouldShowFactionMask = property.propertyPath.Contains("modifiersAppliedInRadiusOnCast");
+
         foreach (FieldInfo field in fields)
         {
-            object fieldValue = field.GetValue(property.managedReferenceValue);
-            Rect fieldRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-            if (fieldValue is float floatValue)
+            if (field.FieldType == typeof(FactionMask) && DoesParentListHideFactionMask(property))
             {
-                float newValue = EditorGUI.FloatField(fieldRect, ObjectNames.NicifyVariableName(field.Name), floatValue);
-                if (!Mathf.Approximately(floatValue, newValue))
-                {
-                    field.SetValue(property.managedReferenceValue, newValue);
-                }
+                continue; // Skip drawing FactionMask if not in modifiersAppliedInRadiusOnCast
             }
-            else if (fieldValue is int intValue)
+
+            SerializedProperty fieldProperty = property.FindPropertyRelative(field.Name);
+            if (fieldProperty != null)
             {
-                int newValue = EditorGUI.IntField(fieldRect, ObjectNames.NicifyVariableName(field.Name), intValue);
-                if (intValue != newValue)
-                {
-                    field.SetValue(property.managedReferenceValue, newValue);
-                }
+                // Extract tooltip from TooltipAttribute
+                TooltipAttribute tooltip = field.GetCustomAttribute<TooltipAttribute>();
+                string tooltipText = tooltip != null ? tooltip.tooltip : "";
+
+                // Create label with tooltip
+                GUIContent fieldLabel = new GUIContent(ObjectNames.NicifyVariableName(field.Name), tooltipText);
+
+                Rect fieldRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
+                EditorGUI.PropertyField(fieldRect, fieldProperty, fieldLabel, true);
+
+                // Add standard spacing after each field
+                yOffset += EditorGUI.GetPropertyHeight(fieldProperty, true) + EditorGUIUtility.standardVerticalSpacing;
             }
-            else if (fieldValue is string stringValue)
-            {
-                string newValue = EditorGUI.TextField(fieldRect, ObjectNames.NicifyVariableName(field.Name), stringValue);
-                if (stringValue != newValue)
-                {
-                    field.SetValue(property.managedReferenceValue, newValue);
-                }
-            }
-            else if(fieldValue is bool boolValue)
-            {
-                bool newValue = EditorGUI.Toggle(fieldRect, ObjectNames.NicifyVariableName(field.Name), boolValue);
-                if(boolValue != newValue)
-                {
-                    field.SetValue(property.managedReferenceValue, newValue);
-                }
-            }
-            yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
     }
 
     private void ShowModifierSelectionMenu(SerializedProperty property)
     {
         List<Type> modifierTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(Modifier)))
-                .ToList();
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(Modifier)))
+            .ToList();
 
         GenericMenu menu = new GenericMenu();
-        foreach(Type type in modifierTypes)
+        foreach (Type type in modifierTypes)
         {
             menu.AddItem(new GUIContent(type.Name), false, () => AssignModifier(property, type));
         }
@@ -174,5 +164,28 @@ public class ModifierPropertyDrawer : PropertyDrawer
         property.serializedObject.Update();
         property.managedReferenceValue = instance;
         property.serializedObject.ApplyModifiedProperties();
+    }
+
+    private bool DoesParentListHideFactionMask(SerializedProperty property)
+    {
+        FieldInfo field = GetParentField(property);
+        return field != null && field.IsDefined(typeof(HideFactionMaskAttribute), false);
+    }
+
+    private FieldInfo GetParentField(SerializedProperty property)
+    {
+        Type parentType = property.serializedObject.targetObject.GetType();
+        FieldInfo[] fields = parentType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+        foreach (FieldInfo field in fields)
+        {
+            if (field.FieldType == typeof(List<Modifier>))
+            {
+                SerializedProperty listProperty = property.serializedObject.FindProperty(field.Name);
+                if (listProperty != null && property.propertyPath.Contains(listProperty.propertyPath))
+                    return field;
+            }
+        }
+        return null;
     }
 }

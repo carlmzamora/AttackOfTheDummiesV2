@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tomadle/Abilities/SelfTarget_Instant")]
-public class SelfTargetInstantAbility : ActiveAbility
+[CreateAssetMenu(menuName = "Tomadle/Abilities/Active/SelfTarget_Instant")]
+public class SelfTargetAbility : ActiveAbility
 {
-    [Header("Damage")]
-    public float damage;
+    [Header("SelfTargetAbility")]
+    public float selfDamage;
 
     [Space(10)]
-    [SerializeReference] public List<Modifier> selfModifiersOnCast;
+    [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
 
     public override void Setup(GameObject owner, int level = -1)
     {
@@ -21,7 +21,7 @@ public class SelfTargetInstantAbility : ActiveAbility
     {
         if (owner.TryGetComponent(out HealthEntity healthEntity))
         {
-            healthEntity.TakeDamage(damage);
+            healthEntity.TakeDamage(selfDamage);
         }
 
         if (owner.TryGetComponent(out ModifiersController modController))
