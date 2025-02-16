@@ -69,4 +69,14 @@ public class Modifier
         if (currentStacks <= 0)
             Expire();
     }
+
+    public FloatParameter GetFloatParameter(string parameterName)
+    {
+        return abilityRoot.GetFloatParameter(parameterName, GetType());
+    }
+
+    public IntParameter GetIntParameter(string parameterName)
+    {
+        return abilityRoot.GetIntParameter(parameterName, GetType());
+    }
 }

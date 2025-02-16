@@ -69,6 +69,16 @@ public class ActiveAbility : ScriptableObject
             CacheParameters(modifier.GetType(), modifier, abilityRoot);
         }
     }
+
+    public FloatParameter GetFloatParameter(string parameterName, Type parentType)
+    {
+        return floatParameters[$"{name}_{parentType}_{parameterName}"];
+    }
+
+    public IntParameter GetIntParameter(string parameterName, Type parentType)
+    {
+        return intParameters[$"{name}_{parentType}_{parameterName}"];
+    }
 }
 
 public class FloatParameter
