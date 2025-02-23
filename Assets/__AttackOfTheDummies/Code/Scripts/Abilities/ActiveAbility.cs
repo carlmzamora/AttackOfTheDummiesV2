@@ -4,9 +4,21 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Tomadle/ActiveAbility")]
 public class ActiveAbility : Ability
 {
     [HideInInspector] public bool instantCast = true;
+
+    [SerializeReference]
+    private IAbilityModule abilityModule;
+
+    public void Initialize()
+    {
+        if (abilityModule != null)
+        {
+            abilityModule.rootAbility = this;
+        }
+    }
 
     //Turn these into ActiveAbility?
     public virtual void InstantCast() { }

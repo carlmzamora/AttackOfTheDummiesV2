@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Ability : ScriptableObject
 {
-    [Header("General")]
     public string displayName;
     //public Sprite abilityIcon;
     [Manipulable] public float cooldown;
