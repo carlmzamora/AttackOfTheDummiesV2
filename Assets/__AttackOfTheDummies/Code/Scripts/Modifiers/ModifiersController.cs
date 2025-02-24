@@ -8,7 +8,7 @@ public class ModifiersController : MonoBehaviour
     //try: key should be ModSignature?
     public Dictionary<Type, List<Modifier>> activeModifiers = new();
 
-    public void ApplyModifier(Modifier mod, GameObject source, ActiveAbility abilityRoot)
+    public void ApplyModifier(Modifier mod, GameObject source, Ability abilityRoot)
     {
         //if effectLayer of mod does not match any faction of entity
         if ((mod.effectLayer & GetComponent<EnemyAI>().faction) == 0) return;

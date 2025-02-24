@@ -2,20 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelfTargetAbility : IInstantCastAbility
+public class SelfTargetModule : AbilityModule, IInstantCastModule
 {
-    public ActiveAbility rootAbility { get; set; }
-
     public float selfDamage;
 
     [Space(10)]
     [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
-
-
-    public void Setup(GameObject owner, int level = -1)
-    {
-        
-    }
 
     public void InstantCast(GameObject caster)
     {

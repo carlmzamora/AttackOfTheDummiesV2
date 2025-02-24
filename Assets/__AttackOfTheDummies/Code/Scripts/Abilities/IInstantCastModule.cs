@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IInstantCastAbility : IAbilityModule
+public interface IInstantCastModule : IAbilityModule
 {
     void InstantCast(GameObject caster);
 }

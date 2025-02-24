@@ -1,4 +1,4 @@
-public interface IRequireInputAbility : IAbilityModule
+public interface IRequireInputModule : IAbilityModule
 {
     void ShowWaitingForInputDisplay();
     void UpdateWaitForInput();

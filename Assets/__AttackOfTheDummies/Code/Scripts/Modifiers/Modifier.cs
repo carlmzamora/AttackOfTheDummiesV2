@@ -20,7 +20,7 @@ public class Modifier
     [HideInInspector] public int currentStacks;
     [HideInInspector] public MonoBehaviour affected;
     [HideInInspector] public MonoBehaviour source;
-    [HideInInspector] public ActiveAbility abilityRoot;
+    [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public ModifiersController controller;
     [HideInInspector] public float stackDuration;
 
