@@ -9,18 +9,18 @@ public class SelfTargetModule : AbilityModule, IInstantCastModule
     [Space(10)]
     [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
 
-    public void InstantCast(GameObject caster)
+    public void InstantCast()
     {
-        if (caster.TryGetComponent(out HealthEntity healthEntity))
+        if (owner.TryGetComponent(out HealthEntity healthEntity))
         {
             healthEntity.TakeDamage(selfDamage);
         }
 
-        if (caster.TryGetComponent(out ModifiersController modController))
+        if (owner.TryGetComponent(out ModifiersController modController))
         {
             foreach (Modifier mod in selfModifiersOnCast)
             {
-                modController.ApplyModifier(mod, caster.gameObject, rootAbility);
+                modController.ApplyModifier(mod, owner.gameObject, rootAbility);
             }
         }
     }

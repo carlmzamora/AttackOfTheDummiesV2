@@ -27,7 +27,7 @@ public class AbilitiesController : MonoBehaviour
         }
     }
 
-    public void PerformMouse1()
+    public void PerformMouse01()
     {
         abilitySlots[0].Perform();
     }

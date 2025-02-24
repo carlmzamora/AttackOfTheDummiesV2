@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tomadle/Abilities/Shooter")]
-public class ShootAbility : ActiveAbility
+public class ShootAbility : AbilityModule, IInstantCastModule
 {
     [Header("Shoot Ability")]
     public Projectile projectilePrefab;
@@ -20,9 +19,10 @@ public class ShootAbility : ActiveAbility
 
     private Transform spawnPoint;
 
-    public override void Setup(GameObject owner, int level = -1)
+    public override void Setup(GameObject owner)
     {
-        base.Setup(owner, level);
+        base.Setup(owner);
+
         ObjectPooler.Instance.CreatePool(projectilePrefab.gameObject);
 
         if(owner.TryGetComponent(out IProjectileSource projectileSource))
@@ -31,12 +31,12 @@ public class ShootAbility : ActiveAbility
         }
     }
 
-    public override void InstantCast()
+    public void InstantCast()
     {
         Projectile projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab.gameObject).GetComponent<Projectile>();
 
         projectile.projectileOwner = owner;
-        projectile.abilityRoot = this;
+        projectile.abilityRoot = rootAbility;
         projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 
         projectile.transform.SetLocalPositionAndRotation(spawnPoint.position + spawnPoint.forward, spawnPoint.rotation);

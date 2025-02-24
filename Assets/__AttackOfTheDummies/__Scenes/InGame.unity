@@ -467,8 +467,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
-  currentMoveSpeed: 3000
   baseMoveSpeed: 3000
+  currentMoveSpeed: 3000
   projectileSpawnPoint: {fileID: 783875293}
   playerPositionVariable: {fileID: 11400000, guid: cee8eaa1f69b66943b3b536274e7b56c,
     type: 2}
@@ -554,7 +554,7 @@ MonoBehaviour:
   abilitySlots:
   - ability: {fileID: 11400000, guid: bea37929c2750f54c9912870cd168a67, type: 2}
     abilityInstance: {fileID: 0}
-    state: 0
+    slotState: 0
     cooldownProgress: 0
   worldPosFromMousePos: {x: 0, y: 0}
   mouse1WasPressed: 0
@@ -3390,9 +3390,10 @@ GameObject:
   - component: {fileID: 1667546335}
   - component: {fileID: 1667546334}
   - component: {fileID: 1667546333}
+  - component: {fileID: 1667546330}
   - component: {fileID: 1667546332}
   - component: {fileID: 1667546331}
-  - component: {fileID: 1667546330}
+  - component: {fileID: 1667546336}
   - component: {fileID: 1667546329}
   m_Layer: 8
   m_Name: Enemy (1)
@@ -3413,7 +3414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d07ae8da14525c41b173ef626b5a8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootAbility: {fileID: 11400000, guid: 3577cd0a84062d34fb7baeb4d18efd6a, type: 2}
   projectileSpawnPoint: {fileID: 1694953160}
 --- !u!195 &1667546330
 NavMeshAgent:
@@ -3536,6 +3536,25 @@ Transform:
   - {fileID: 2111675224}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -152.954, z: 0}
+--- !u!114 &1667546336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667546328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee52a13ecc5c7444fa3e138e6dc93489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilitySlots:
+  - ability: {fileID: 11400000, guid: 7f65a6547733cba4e9dcec15544893b0, type: 2}
+    abilityInstance: {fileID: 0}
+    slotState: 0
+    cooldownProgress: 0
+  worldPosFromMousePos: {x: 0, y: 0}
+  mouse1WasPressed: 0
 --- !u!1 &1678628879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3853,7 +3872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1740935266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3866,7 +3885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d07ae8da14525c41b173ef626b5a8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootAbility: {fileID: 11400000, guid: 08a0b9d4669e2ef4eb5f3ec3790d9de8, type: 2}
   projectileSpawnPoint: {fileID: 1706573972}
 --- !u!195 &1740935267
 NavMeshAgent:

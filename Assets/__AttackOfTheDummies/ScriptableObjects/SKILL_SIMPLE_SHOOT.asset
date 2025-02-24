@@ -10,16 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
-  m_Name: New Active Ability
+  m_Name: SKILL_SIMPLE_SHOOT
   m_EditorClassIdentifier: 
   displayName: 
   cooldown: 0
-  level: 0
+  level: -1
   instantCast: 1
   abilityModule:
-    rid: -2
+    rid: 1952633155599204352
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 1952633155599204352
+      type: {class: ShootAbility, ns: , asm: Assembly-CSharp}
+      data:
+        projectilePrefab: {fileID: 1595747817566170178, guid: 5888d67239285c84caaf6abb167e2669,
+          type: 3}
+        projectileSpeed: 100
+        lifetime: 3
+        damage: 10
+        modifiersOnContact: []

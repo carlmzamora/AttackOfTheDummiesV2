@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class AbilitySlot
 {
-    public ActiveAbility ability;
-    [HideInInspector] public ActiveAbility abilityInstance;
-    [HideInInspector] public AbilityState state;
+    public Ability ability;
+    [HideInInspector] public Ability abilityInstance;
+    [HideInInspector] public AbilityState slotState;
 
     [HideInInspector] public float cooldownProgress;
 
@@ -20,49 +20,54 @@ public class AbilitySlot
             return;
         }
 
-        switch (state)
+        if(abilityInstance is ActiveAbility activeAbilityInstance)
         {
-            case AbilityState.READY:
-                if (abilityInstance.instantCast)
-                {
-                    abilityInstance.InstantCast();
-                    state = AbilityState.COOLDOWN;
-                    cooldownProgress = abilityInstance.cooldown;
-                }
-                else //has targeting
-                {
-                    abilityInstance.ShowWaitingForInputDisplay();
+            switch (slotState)
+            {
+                case AbilityState.READY:
 
-                    state = AbilityState.WAITING_FOR_INPUT;
-                }
-                break;
+                    if (activeAbilityInstance.abilityModule is IInstantCastModule)
+                    {
+                        activeAbilityInstance.Activate();
+                        slotState = AbilityState.COOLDOWN;
+                        cooldownProgress = abilityInstance.cooldown;
+                    }
+                    else if(activeAbilityInstance.abilityModule is IRequireInputModule)
+                    {
+                        slotState = AbilityState.WAITING_FOR_INPUT;
+                    }
+                    break;
+            }
         }
     }
 
     public void Update(Vector2 worldPos, bool mouse1Pressed)
     {
-        switch (state)
+        if (abilityInstance is ActiveAbility activeAbilityInstance)
         {
-            case AbilityState.WAITING_FOR_INPUT:
-                abilityInstance.UpdateWaitForInput(worldPos, mouse1Pressed);
-                if (mouse1Pressed)
-                {
-                    abilityInstance.EndWaitForInput();
-                    state = AbilityState.COOLDOWN;
-                    //add definitions for types of targeting here?
-                }
-                break;
+            switch (slotState)
+            {
+                case AbilityState.WAITING_FOR_INPUT:
+                    activeAbilityInstance.UpdateInputHandling(worldPos);
+                    if (mouse1Pressed)
+                    {
+                        activeAbilityInstance.ConfirmInput(worldPos);
+                        slotState = AbilityState.COOLDOWN;
+                        //add definitions for types of targeting here?
+                    }
+                    break;
 
-            case AbilityState.COOLDOWN:
-                if (cooldownProgress > 0)
-                {
-                    cooldownProgress -= Time.deltaTime;
-                }
-                else
-                {
-                    state = AbilityState.READY;
-                }
-                break;
+                case AbilityState.COOLDOWN:
+                    if (cooldownProgress > 0)
+                    {
+                        cooldownProgress -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        slotState = AbilityState.READY;
+                    }
+                    break;
+            }
         }
     }
 }

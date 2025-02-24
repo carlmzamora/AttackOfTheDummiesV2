@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingObject : MonoBehaviour, IProjectileSource
+public class ObjectWithAbility : MonoBehaviour, IProjectileSource
 {
-    [SerializeField] private ShootAbility shootAbility;
     [SerializeField] private Transform projectileSpawnPoint;
 
     public Transform ProjectileSpawnPoint => projectileSpawnPoint;
 
+    private AbilitiesController abilitiesController => GetComponent<AbilitiesController>();
+
     public void Start()
     {
-        shootAbility.Setup(gameObject);
         InvokeRepeating(nameof(Shoot), 1, 1);
     }
 
     private void Shoot()
     {
-        shootAbility.InstantCast();
+        abilitiesController.PerformMouse01();
     }
 }

@@ -46,9 +46,17 @@ public class Ability : ScriptableObject
 
             if (field.FieldType == typeof(List<Modifier>))
             {
-                if (field.GetValue(this) is List<Modifier> modifierList)
+                if (field.GetValue(target) is List<Modifier> modifierList)
                 {
                     CacheModifiersManipulableFields(modifierList, root);
+                }
+            }
+
+            if(field.FieldType == typeof(IAbilityModule))
+            {
+                if(field.GetValue(target) is IAbilityModule abilityModule)
+                {
+                    CacheParameters(abilityModule.GetType(), abilityModule, root);
                 }
             }
         }

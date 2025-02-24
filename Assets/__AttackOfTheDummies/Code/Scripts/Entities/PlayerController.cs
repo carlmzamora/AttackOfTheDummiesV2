@@ -61,7 +61,7 @@ public class PlayerController : HealthEntity, IProjectileSource
         if (!abilitiesController) return;
 
         if (mouse1Input.WasPressedThisFrame())
-            abilitiesController.PerformMouse1();
+            abilitiesController.PerformMouse01();
 
         abilitiesController.mouse1WasPressed = mouse1Input.WasPressedThisFrame();
     }

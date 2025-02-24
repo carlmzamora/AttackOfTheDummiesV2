@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tomadle/Abilities/Active/RadiusAroundSelf_Instant")]
-public class RadiusAroundSelfAbility : ActiveAbility
+public class RadiusAroundSelfAbility : AbilityModule, IInstantCastModule
 {
-    [Header("RadiusAroundSelfAbility")]
     public float radius;
     public float selfDamage;
     public float radiusDamage;
@@ -15,13 +13,7 @@ public class RadiusAroundSelfAbility : ActiveAbility
     [Space(10)]
     [SerializeReference] public List<Modifier> modifiersAppliedInRadiusOnCast;
 
-    public override void Setup(GameObject owner, int level = -1)
-    {
-        base.Setup(owner, level);
-        instantCast = true;
-    }
-
-    public override void InstantCast()
+    public void InstantCast()
     {
         if (owner.TryGetComponent(out HealthEntity healthEntity))
         {
@@ -32,7 +24,7 @@ public class RadiusAroundSelfAbility : ActiveAbility
         {
             foreach (Modifier mod in selfModifiersOnCast)
             {
-                modController.ApplyModifier(mod, owner.gameObject, this);
+                modController.ApplyModifier(mod, owner.gameObject, rootAbility);
             }
         }
 
@@ -43,7 +35,7 @@ public class RadiusAroundSelfAbility : ActiveAbility
             {
                 for(int j = 0; j < modifiersAppliedInRadiusOnCast.Count; j++)
                 {
-                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner.gameObject, this);
+                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner.gameObject, rootAbility);
                 }
             }
         }

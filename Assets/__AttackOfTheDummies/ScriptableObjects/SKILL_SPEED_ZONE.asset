@@ -9,23 +9,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5934593e0b4bd1e4e9f0787daaaec0fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
   m_Name: SKILL_SPEED_ZONE
   m_EditorClassIdentifier: 
   displayName: 
   cooldown: 0
-  instantCast: 1
   level: 0
-  radius: 10
-  selfDamage: 0
-  radiusDamage: 0
-  selfModifiersOnCast: []
-  modifiersAppliedInRadiusOnCast:
-  - rid: 1952632947070205952
+  instantCast: 1
+  abilityModule:
+    rid: 1952633155599204353
   references:
     version: 2
     RefIds:
-    - rid: 1952632947070205952
+    - rid: 1952633155599204353
+      type: {class: RadiusAroundSelfAbility, ns: , asm: Assembly-CSharp}
+      data:
+        radius: 10
+        selfDamage: 0
+        radiusDamage: 0
+        selfModifiersOnCast: []
+        modifiersAppliedInRadiusOnCast:
+        - rid: 1952633155599204354
+        - rid: 1952633155599204355
+    - rid: 1952633155599204354
       type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
@@ -42,6 +48,26 @@ MonoBehaviour:
         controller: {fileID: 0}
         stackDuration: 0
         boostPercent: 100
-        duration: 3
+        duration: 5
         boostPercentAdditive: 0
-        durationAdditive: 0
+        boostDurationAdditive: 0
+    - rid: 1952633155599204355
+      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        effectLayer:
+          mask: 2
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        slowPercent: 90
+        duration: 3
+        slowPercentAdditive: 0
+        slowDurationAdditive: 0

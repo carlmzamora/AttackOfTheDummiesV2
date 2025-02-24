@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tomadle/Abilities/RadiusCast")]
-public class RadiusCastAbility : ActiveAbility
+public class RadiusCastAbility : AbilityModule, IRequireInputModule
 {
     [Header("Radius Cast Ability")]
     public float radius;
@@ -16,41 +15,22 @@ public class RadiusCastAbility : ActiveAbility
     //Header("Effects")]
     //cast effect
 
-    public override void Setup(GameObject owner, int level = -1)
+    public void UpdateWaitForInputDisplay(Vector2 worldPos)
     {
-        base.Setup(owner, level);
+
     }
 
-    public override void InstantCast()
+    public void EndWaitForInput(Vector2 worldPos)
     {
-        Collider[] allAffected = Physics.OverlapSphere(owner.transform.position + (owner.transform.forward * castDistance), radius);
+        Collider[] allAffected = Physics.OverlapSphere(worldPos, radius);
 
         if (allAffected.Length <= 0) return;
 
-        foreach(Collider collider in allAffected)
+        foreach (Collider collider in allAffected)
         {
-            if(collider.TryGetComponent(out HealthEntity healthEntity))
+            if (collider.TryGetComponent(out HealthEntity healthEntity))
             {
                 healthEntity.TakeDamage(damage);
-            }
-        }
-    }
-
-    public override void UpdateWaitForInput(Vector2 worldPos, bool mouse1Pressed)
-    {
-        //get world position via mouse position
-        if(mouse1Pressed)
-        {
-            Collider[] allAffected = Physics.OverlapSphere(worldPos, radius);
-
-            if (allAffected.Length <= 0) return;
-
-            foreach (Collider collider in allAffected)
-            {
-                if (collider.TryGetComponent(out HealthEntity healthEntity))
-                {
-                    healthEntity.TakeDamage(damage);
-                }
             }
         }
     }

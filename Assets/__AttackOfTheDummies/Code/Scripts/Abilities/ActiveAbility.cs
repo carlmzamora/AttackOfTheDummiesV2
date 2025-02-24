@@ -10,21 +10,43 @@ public class ActiveAbility : Ability
     [HideInInspector] public bool instantCast = true;
 
     [SerializeReference]
-    private IAbilityModule abilityModule;
+    public IAbilityModule abilityModule;
 
-    public void Initialize()
+    public override void Setup(GameObject owner, int level = -1)
     {
+        base.Setup(owner, level);
+
         if (abilityModule != null)
         {
             abilityModule.rootAbility = this;
+            abilityModule.Setup(owner);
         }
     }
 
     //Turn these into ActiveAbility?
-    public virtual void InstantCast() { }
-    public virtual void ShowWaitingForInputDisplay() { }
-    public virtual void UpdateWaitForInput(Vector2 worldPos, bool mouse1Pressed) { }
-    public virtual void EndWaitForInput() { }
+    public void Activate()
+    {
+        if(abilityModule is IInstantCastModule instantAbility)
+        {
+            instantAbility.InstantCast();
+        }
+    }
+
+    public void UpdateInputHandling(Vector2 worldPos)
+    {
+        if(abilityModule is IRequireInputModule requireInputAbility)
+        {
+            requireInputAbility.UpdateWaitForInputDisplay(worldPos);
+        }
+    }
+
+    public void ConfirmInput(Vector2 worldPos)
+    {
+        if (abilityModule is IRequireInputModule requireInputAbility)
+        {
+            requireInputAbility.EndWaitForInput(worldPos);
+        }
+    }
 }
 
 public enum InstantCastType
