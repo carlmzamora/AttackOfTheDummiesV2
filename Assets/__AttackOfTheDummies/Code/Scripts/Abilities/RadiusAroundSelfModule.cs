@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadiusAroundSelfAbility : AbilityModule, IInstantCastModule
+public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
 {
     public float radius;
-    public float selfDamage;
     public float radiusDamage;
 
     [Space(10)]
@@ -15,11 +14,6 @@ public class RadiusAroundSelfAbility : AbilityModule, IInstantCastModule
 
     public void InstantCast()
     {
-        if (owner.TryGetComponent(out HealthEntity healthEntity))
-        {
-            healthEntity.TakeDamage(selfDamage);
-        }
-
         if (owner.TryGetComponent(out ModifiersController modController))
         {
             foreach (Modifier mod in selfModifiersOnCast)

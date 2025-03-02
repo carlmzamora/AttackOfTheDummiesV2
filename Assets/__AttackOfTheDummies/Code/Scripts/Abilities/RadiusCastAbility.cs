@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RadiusCastAbility : AbilityModule, ITargetedCastModule
 {
-    [Header("Radius Cast Ability")]
     public float radius;
     public float castDistance;
 

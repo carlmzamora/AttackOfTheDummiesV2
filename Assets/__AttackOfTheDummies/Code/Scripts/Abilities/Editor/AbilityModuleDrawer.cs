@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,8 +9,7 @@ public class AbilityModuleDrawer : PropertyDrawer
 {
     private GUIStyle popupStyle;
 
-    private static Type[] moduleTypes;
-    private static string[] moduleNames;
+    private static Dictionary<string, List<Type>> categorizedModules;
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
@@ -93,28 +93,26 @@ public class AbilityModuleDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 
-    private void EnsureModuleCache()
-    {
-        if (moduleTypes == null || moduleNames == null)
-        {
-            moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => typeof(IAbilityModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type != typeof(AbilityModule))
-                .ToArray();
-
-            moduleNames = moduleTypes.Select(t => t.Name).ToArray();
-        }
-    }
-
     private void DrawModuleDropdown(SerializedProperty property, Rect position)
     {
-        int currentIndex = Array.FindIndex(moduleTypes, t => property.managedReferenceValue != null && t == property.managedReferenceValue.GetType());
+        int currentIndex = GetCurrentModuleIndex(property);
 
-        int newIndex = EditorGUI.Popup(position, currentIndex, moduleNames);
-
-        if (newIndex != currentIndex && newIndex >= 0 && newIndex < moduleTypes.Length)
+        if (EditorGUI.DropdownButton(position, new GUIContent(GetCurrentModuleName(property)), FocusType.Passive))
         {
-            SetModule(property, moduleTypes[newIndex]);
+            GenericMenu menu = new GenericMenu();
+
+            foreach (var category in categorizedModules)
+            {
+                foreach (var moduleType in category.Value)
+                {
+                    string menuLabel = $"{category.Key}/{moduleType.Name}";
+                    bool isSelected = property.managedReferenceValue != null && property.managedReferenceValue.GetType() == moduleType;
+
+                    menu.AddItem(new GUIContent(menuLabel), isSelected, () => SetModule(property, moduleType));
+                }
+            }
+
+            menu.ShowAsContext();
         }
     }
 
@@ -154,5 +152,59 @@ public class AbilityModuleDrawer : PropertyDrawer
                 break;
             }
         }
+    }
+
+    private void EnsureModuleCache()
+    {
+        if (categorizedModules == null)
+        {
+            categorizedModules = new Dictionary<string, List<Type>>();
+
+            Type[] allModules = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(IAbilityModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type != typeof(AbilityModule))
+                .ToArray();
+
+            foreach (var module in allModules)
+            {
+                string category = GetCategory(module);
+                if (!categorizedModules.ContainsKey(category))
+                {
+                    categorizedModules[category] = new List<Type>();
+                }
+
+                categorizedModules[category].Add(module);
+            }
+        }
+    }
+
+    private string GetCategory(Type moduleType)
+    {
+        if (typeof(IInstantCastModule).IsAssignableFrom(moduleType)) return "Instant Cast";
+        if (typeof(ITargetedCastModule).IsAssignableFrom(moduleType)) return "Targeted Cast";
+        return "Other";
+    }
+
+    private int GetCurrentModuleIndex(SerializedProperty property)
+    {
+        if (property.managedReferenceValue == null) return -1;
+
+        Type currentType = property.managedReferenceValue.GetType();
+
+        int index = 0;
+        foreach (var category in categorizedModules.Values)
+        {
+            int subIndex = category.IndexOf(currentType);
+            if (subIndex != -1) return index + subIndex;
+
+            index += category.Count;
+        }
+
+        return -1;
+    }
+
+    private string GetCurrentModuleName(SerializedProperty property)
+    {
+        return property.managedReferenceValue != null ? property.managedReferenceValue.GetType().Name : "None";
     }
 }
