@@ -32,7 +32,7 @@ public class AbilitySlot
                         slotState = AbilityState.COOLDOWN;
                         cooldownProgress = abilityInstance.cooldown;
                     }
-                    else if(activeAbilityInstance.abilityModule is IRequireInputModule)
+                    else if(activeAbilityInstance.abilityModule is ITargetedCastModule)
                     {
                         slotState = AbilityState.WAITING_FOR_INPUT;
                     }

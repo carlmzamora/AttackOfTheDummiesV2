@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShootAbility : AbilityModule, IInstantCastModule
 {
-    [Header("Shoot Ability")]
     public Projectile projectilePrefab;
 
     [Header("Physics")]

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadiusCastAbility : AbilityModule, IRequireInputModule
+public class RadiusCastAbility : AbilityModule, ITargetedCastModule
 {
     [Header("Radius Cast Ability")]
     public float radius;

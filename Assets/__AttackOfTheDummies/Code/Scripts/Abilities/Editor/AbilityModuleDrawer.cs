@@ -6,12 +6,17 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(IAbilityModule), true)]
 public class AbilityModuleDrawer : PropertyDrawer
 {
+    private GUIStyle popupStyle;
+
+    private static Type[] moduleTypes;
+    private static string[] moduleNames;
+
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         if (property.managedReferenceValue == null)
             return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 2;
 
-        float height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 6;
+        float height = EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing * 2;
 
         SerializedProperty iterator = property.Copy();
         if (iterator.Next(true))
@@ -29,23 +34,41 @@ public class AbilityModuleDrawer : PropertyDrawer
     {
         EditorGUI.BeginProperty(position, label, property);
 
-        Rect boxRect = new Rect(position.x, position.y, position.width, position.height - EditorGUIUtility.standardVerticalSpacing + 8);
-        EditorGUI.HelpBox(boxRect, "", MessageType.None);
-
-        // Button to switch the module
-        Rect buttonRect = new Rect(position.x + 4f, position.y + 4f, position.width - 8f, EditorGUIUtility.singleLineHeight);
-        if (GUI.Button(buttonRect, property.managedReferenceValue != null ? "Switch Ability Module" : "Select Ability Module"))
+        if (popupStyle == null)
         {
-            ShowModuleSelectionMenu(property);
+            popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"))
+            {
+                imagePosition = ImagePosition.ImageOnly
+            };
         }
 
-        // Add space after the button
-        float moduleY = position.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 4;
+        EnsureModuleCache();
 
-        // Draw the module if it exists
+        // Dropdown for selecting the module
+        Rect labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
+        EditorGUI.LabelField(labelRect, "Ability Module");
+
+        Rect dropdownRect = new Rect(position.x + EditorGUIUtility.labelWidth + 2f, position.y, position.width - EditorGUIUtility.labelWidth - 24f, EditorGUIUtility.singleLineHeight);
+        DrawModuleDropdown(property, dropdownRect);
+
+        // Settings button with three-dot icon
+        Rect settingsButtonRect = new Rect(position.x + position.width - 20f, position.y, 28f, EditorGUIUtility.singleLineHeight);
+        if (GUI.Button(settingsButtonRect, "", popupStyle))
+        {
+            ShowSettingsMenu(property);
+        }
+
         if (property.managedReferenceValue != null)
         {
+            float boxY = position.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+            // Draw the box around module fields
+            Rect boxRect = new Rect(position.x, boxY, position.width, position.height - boxY + position.y);
+            EditorGUI.HelpBox(boxRect, "", MessageType.None);
+
+            float moduleY = boxY + 10f;
             SerializedProperty iterator = property.Copy();
+            EditorGUI.indentLevel++;
 
             if (iterator.Next(true))
             {
@@ -63,26 +86,36 @@ public class AbilityModuleDrawer : PropertyDrawer
 
                 } while (iterator.Next(false));
             }
+
+            EditorGUI.indentLevel--;
         }
 
         EditorGUI.EndProperty();
     }
 
-    private void ShowModuleSelectionMenu(SerializedProperty property)
+    private void EnsureModuleCache()
     {
-        GenericMenu menu = new GenericMenu();
-
-        Type[] moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(IAbilityModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-            .ToArray();
-
-        foreach (Type moduleType in moduleTypes)
+        if (moduleTypes == null || moduleNames == null)
         {
-            menu.AddItem(new GUIContent(moduleType.Name), false, () => SetModule(property, moduleType));
-        }
+            moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(IAbilityModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type != typeof(AbilityModule))
+                .ToArray();
 
-        menu.ShowAsContext();
+            moduleNames = moduleTypes.Select(t => t.Name).ToArray();
+        }
+    }
+
+    private void DrawModuleDropdown(SerializedProperty property, Rect position)
+    {
+        int currentIndex = Array.FindIndex(moduleTypes, t => property.managedReferenceValue != null && t == property.managedReferenceValue.GetType());
+
+        int newIndex = EditorGUI.Popup(position, currentIndex, moduleNames);
+
+        if (newIndex != currentIndex && newIndex >= 0 && newIndex < moduleTypes.Length)
+        {
+            SetModule(property, moduleTypes[newIndex]);
+        }
     }
 
     private void SetModule(SerializedProperty property, Type moduleType)
@@ -95,5 +128,31 @@ public class AbilityModuleDrawer : PropertyDrawer
         property.managedReferenceValue = newModule;
 
         property.serializedObject.ApplyModifiedProperties();
+    }
+
+    private void ShowSettingsMenu(SerializedProperty property)
+    {
+        GenericMenu menu = new GenericMenu();
+
+        menu.AddItem(new GUIContent("Find Script"), false, () => HighlightModuleScript(property.managedReferenceValue.GetType()));
+
+        menu.ShowAsContext();
+    }
+
+    private void HighlightModuleScript(Type moduleType)
+    {
+        string[] guids = AssetDatabase.FindAssets($"t:MonoScript {moduleType.Name}");
+
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+
+            if (script != null && script.GetClass() == moduleType)
+            {
+                EditorGUIUtility.PingObject(script);
+                break;
+            }
+        }
     }
 }

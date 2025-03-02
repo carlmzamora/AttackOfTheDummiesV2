@@ -23,28 +23,27 @@ public class ActiveAbility : Ability
         }
     }
 
-    //Turn these into ActiveAbility?
     public void Activate()
     {
-        if(abilityModule is IInstantCastModule instantAbility)
+        if(abilityModule is IInstantCastModule instantCastAbility)
         {
-            instantAbility.InstantCast();
+            instantCastAbility.InstantCast();
         }
     }
 
     public void UpdateInputHandling(Vector2 worldPos)
     {
-        if(abilityModule is IRequireInputModule requireInputAbility)
+        if(abilityModule is ITargetedCastModule targetedCastAbility)
         {
-            requireInputAbility.UpdateWaitForInputDisplay(worldPos);
+            targetedCastAbility.UpdateWaitForInputDisplay(worldPos);
         }
     }
 
     public void ConfirmInput(Vector2 worldPos)
     {
-        if (abilityModule is IRequireInputModule requireInputAbility)
+        if (abilityModule is ITargetedCastModule targetedCastAbility)
         {
-            requireInputAbility.EndWaitForInput(worldPos);
+            targetedCastAbility.EndWaitForInput(worldPos);
         }
     }
 }
