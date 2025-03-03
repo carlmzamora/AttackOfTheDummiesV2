@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadiusCastAbility : AbilityModule, ITargetedCastModule
+public class RadiusCastModule : AbilityModule, ITargetedCastModule
 {
     public float radius;
-    public float castDistance;
+    public float castRange;
 
     [Header("Damage")]
     public float damage;

@@ -105,7 +105,7 @@ public class AbilityModuleDrawer : PropertyDrawer
             {
                 foreach (var moduleType in category.Value)
                 {
-                    string menuLabel = $"{category.Key}/{moduleType.Name}";
+                    string menuLabel = $"{category.Key}/{moduleType.Name.Replace("Module", "")}";
                     bool isSelected = property.managedReferenceValue != null && property.managedReferenceValue.GetType() == moduleType;
 
                     menu.AddItem(new GUIContent(menuLabel), isSelected, () => SetModule(property, moduleType));
@@ -132,7 +132,7 @@ public class AbilityModuleDrawer : PropertyDrawer
     {
         GenericMenu menu = new GenericMenu();
 
-        menu.AddItem(new GUIContent("Find Script"), false, () => HighlightModuleScript(property.managedReferenceValue.GetType()));
+        menu.AddItem(new GUIContent("Select Script"), false, () => HighlightModuleScript(property.managedReferenceValue.GetType()));
 
         menu.ShowAsContext();
     }
