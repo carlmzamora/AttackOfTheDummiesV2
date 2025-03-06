@@ -123,6 +123,9 @@ public class AbilityModuleDrawer : PropertyDrawer
 
         // Create and assign a new module
         object newModule = Activator.CreateInstance(moduleType);
+
+        /*// Use tracker to restore or create the module
+        object newModule = AbilityModuleTracker.RestoreOrCreate(moduleType);*/
         property.managedReferenceValue = newModule;
 
         property.serializedObject.ApplyModifiedProperties();
