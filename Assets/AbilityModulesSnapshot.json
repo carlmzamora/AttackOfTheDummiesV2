@@ -1,0 +1,14 @@
+{
+    "moduleNames": [
+        "RadiusAroundSelfModule",
+        "RadiusCastModule",
+        "SelfTargetModule",
+        "ShootAtMousePositionModule"
+    ],
+    "moduleGUIDs": [
+        "5934593e0b4bd1e4e9f0787daaaec0fa",
+        "657267cbb5902e2428f638fa7554466b",
+        "8f2888a413a952d4c9aee378509371e3",
+        "6a641a256a37e1b458429a6dca8b89cd"
+    ]
+}

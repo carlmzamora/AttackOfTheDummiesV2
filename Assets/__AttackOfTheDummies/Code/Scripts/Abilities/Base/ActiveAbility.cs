@@ -8,9 +8,10 @@ using UnityEngine;
 public class ActiveAbility : Ability
 {
     [HideInInspector] public bool instantCast = true;
+    [HideInInspector] public bool chosenModuleAlready;
 
-    [SerializeReference]
-    public IAbilityModule abilityModule;
+    [SerializeReference] public IAbilityModule abilityModule;
+
 
     public override void Setup(GameObject owner, int level = -1)
     {

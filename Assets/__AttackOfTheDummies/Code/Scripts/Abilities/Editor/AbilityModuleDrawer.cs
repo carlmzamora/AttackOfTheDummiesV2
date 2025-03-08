@@ -9,7 +9,7 @@ public class AbilityModuleDrawer : PropertyDrawer
 {
     private GUIStyle popupStyle;
 
-    private static Dictionary<string, List<Type>> categorizedModules;
+    private ActiveAbility parentObject;
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
@@ -42,7 +42,17 @@ public class AbilityModuleDrawer : PropertyDrawer
             };
         }
 
-        EnsureModuleCache();
+        parentObject = property.serializedObject.targetObject as ActiveAbility;
+        bool chosenOnceProperty = parentObject.chosenModuleAlready;
+
+        //something is broken
+        if (property.managedReferenceValue == null && chosenOnceProperty)
+        {
+            AbilityModulesTracker.FixManagedReferenceValue(property);
+            property.serializedObject.ApplyModifiedProperties();
+        }
+
+        AbilityModulesTracker.CategorizeModules();
 
         // Dropdown for selecting the module
         Rect labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
@@ -101,7 +111,7 @@ public class AbilityModuleDrawer : PropertyDrawer
         {
             GenericMenu menu = new GenericMenu();
 
-            foreach (var category in categorizedModules)
+            foreach (var category in AbilityModulesTracker.categorizedModules)
             {
                 foreach (var moduleType in category.Value)
                 {
@@ -123,12 +133,18 @@ public class AbilityModuleDrawer : PropertyDrawer
 
         // Create and assign a new module
         object newModule = Activator.CreateInstance(moduleType);
-
-        /*// Use tracker to restore or create the module
-        object newModule = AbilityModuleTracker.RestoreOrCreate(moduleType);*/
         property.managedReferenceValue = newModule;
 
-        property.serializedObject.ApplyModifiedProperties();
+        // Update the chosenModuleAlready field through SerializedProperty
+        SerializedObject serializedObject = property.serializedObject;
+        SerializedProperty chosenModuleProp = serializedObject.FindProperty("chosenModuleAlready");
+        if (chosenModuleProp != null)
+        {
+            chosenModuleProp.boolValue = true;
+        }
+
+        serializedObject.ApplyModifiedProperties();
+        EditorUtility.SetDirty(parentObject);
     }
 
     private void ShowSettingsMenu(SerializedProperty property)
@@ -157,37 +173,6 @@ public class AbilityModuleDrawer : PropertyDrawer
         }
     }
 
-    private void EnsureModuleCache()
-    {
-        if (categorizedModules == null)
-        {
-            categorizedModules = new Dictionary<string, List<Type>>();
-
-            Type[] allModules = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => typeof(IAbilityModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type != typeof(AbilityModule))
-                .ToArray();
-
-            foreach (var module in allModules)
-            {
-                string category = GetCategory(module);
-                if (!categorizedModules.ContainsKey(category))
-                {
-                    categorizedModules[category] = new List<Type>();
-                }
-
-                categorizedModules[category].Add(module);
-            }
-        }
-    }
-
-    private string GetCategory(Type moduleType)
-    {
-        if (typeof(IInstantCastModule).IsAssignableFrom(moduleType)) return "Instant Cast";
-        if (typeof(ITargetedCastModule).IsAssignableFrom(moduleType)) return "Targeted Cast";
-        return "Other";
-    }
-
     private int GetCurrentModuleIndex(SerializedProperty property)
     {
         if (property.managedReferenceValue == null) return -1;
@@ -195,7 +180,7 @@ public class AbilityModuleDrawer : PropertyDrawer
         Type currentType = property.managedReferenceValue.GetType();
 
         int index = 0;
-        foreach (var category in categorizedModules.Values)
+        foreach (var category in AbilityModulesTracker.categorizedModules.Values)
         {
             int subIndex = category.IndexOf(currentType);
             if (subIndex != -1) return index + subIndex;
