@@ -12,6 +12,8 @@ public class ActiveAbility : Ability
     public MonoScript moduleScript;
 
     [SerializeReference] public IAbilityModule abilityModule;
+    [HideInInspector] public bool hasChosenModule = false;
+    [HideInInspector] public string moduleDataJson;
 
     public void InstantiateModule()
     {
@@ -21,6 +23,7 @@ public class ActiveAbility : Ability
         if (moduleType != null && typeof(IAbilityModule).IsAssignableFrom(moduleType))
         {
             abilityModule = (IAbilityModule)Activator.CreateInstance(moduleType);
+            hasChosenModule = true;
             Debug.Log($"Instantiated: {abilityModule}");
         }
     }
