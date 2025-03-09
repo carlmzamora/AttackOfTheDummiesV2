@@ -52,7 +52,8 @@ public class AbilityModuleDrawer : PropertyDrawer
             property.serializedObject.ApplyModifiedProperties();
         }
 
-        AbilityModulesTracker.CategorizeModules();
+        if (AbilityModulesTracker.categorizedModules == null)
+            AbilityModulesTracker.CategorizeModules();
 
         // Dropdown for selecting the module
         Rect labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);

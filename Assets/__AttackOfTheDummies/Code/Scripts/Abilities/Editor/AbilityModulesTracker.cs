@@ -1,6 +1,4 @@
-using log4net.Layout;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,9 +9,6 @@ public static class AbilityModulesTracker
 {
     public static Dictionary<string, List<Type>> categorizedModules;
 
-    private static string[] modulesGUIDsAtLastStableState;
-    public static Type[] modulesAtLastStableState;
-
     private static readonly string snapshotPath = "Assets/AbilityModulesSnapshot.json";
 
     public static void CategorizeModules()
@@ -21,10 +16,8 @@ public static class AbilityModulesTracker
         if (categorizedModules == null)
         {
             categorizedModules = new Dictionary<string, List<Type>>();
-            ModulesSnapshot lastSnapshot = LoadSnapshot();
 
             Type[] allModules = LoadAllAbilityModules();
-            bool snapshotChanged = CompareLastAndCurrentSnapshots(lastSnapshot, allModules);
 
             foreach (var module in allModules)
             {
@@ -36,9 +29,6 @@ public static class AbilityModulesTracker
 
                 categorizedModules[category].Add(module);
             }
-
-            if (snapshotChanged)
-                SaveSnapshot(allModules);
         }
     }
 
@@ -73,26 +63,6 @@ public static class AbilityModulesTracker
 
         File.WriteAllText(snapshotPath, JsonUtility.ToJson(snapshot, true));
         Debug.Log("[AbilityModulesTracker] Module snapshot updated.");
-    }
-
-
-    private static bool CompareLastAndCurrentSnapshots(ModulesSnapshot lastSnapshot, Type[] currentModules)
-    {
-        // Check if modules changed
-        if (lastSnapshot.moduleNames.Count == currentModules.Length &&
-            lastSnapshot.moduleNames.All(name => currentModules.Any(m => m.FullName == name)))
-        {
-            return false; // No change
-        }
-
-        // Detect lost modules and fix them
-        var lostModules = currentModules.Where(m => !lastSnapshot.moduleNames.Contains(m.FullName)).ToArray();
-        if (lostModules.Length > 0)
-        {
-            Debug.LogWarning($"[AbilityModulesTracker] Found {lostModules.Length} new modules after script reload.");
-        }
-
-        return true;
     }
 
     private static List<string> GetModulesGUIDs(Type[] modules)
@@ -143,6 +113,7 @@ public static class AbilityModulesTracker
         property.managedReferenceValue = newModule;
 
         SaveSnapshot(currentModules);
+        CategorizeModules();
         SerializationUtility.ClearAllManagedReferencesWithMissingTypes(property.serializedObject.targetObject);
     }
 
