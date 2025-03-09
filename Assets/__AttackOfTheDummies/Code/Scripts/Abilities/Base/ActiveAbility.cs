@@ -2,16 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tomadle/ActiveAbility")]
 public class ActiveAbility : Ability
 {
     [HideInInspector] public bool instantCast = true;
-    [HideInInspector] public bool chosenModuleAlready;
+    public MonoScript moduleScript;
 
     [SerializeReference] public IAbilityModule abilityModule;
 
+    public void InstantiateModule()
+    {
+        if (moduleScript == null) return;
+
+        Type moduleType = moduleScript.GetClass();
+        if (moduleType != null && typeof(IAbilityModule).IsAssignableFrom(moduleType))
+        {
+            abilityModule = (IAbilityModule)Activator.CreateInstance(moduleType);
+            Debug.Log($"Instantiated: {abilityModule}");
+        }
+    }
 
     public override void Setup(GameObject owner, int level = -1)
     {

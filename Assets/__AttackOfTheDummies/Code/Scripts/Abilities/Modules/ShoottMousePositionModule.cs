@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootAtMousePositionModule : AbilityModule, IInstantCastModule
+public class ShoottMousePositionModule : AbilityModule, IInstantCastModule
 {
     public Projectile projectilePrefab;
 
