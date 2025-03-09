@@ -24,7 +24,6 @@ public class ActiveAbility : Ability
         {
             abilityModule = (IAbilityModule)Activator.CreateInstance(moduleType);
             hasChosenModule = true;
-            Debug.Log($"Instantiated: {abilityModule}");
         }
     }
 

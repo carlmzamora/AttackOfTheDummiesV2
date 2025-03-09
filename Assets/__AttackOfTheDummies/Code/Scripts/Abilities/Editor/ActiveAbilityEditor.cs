@@ -13,11 +13,13 @@ public class ActiveAbilityEditor : Editor
     private List<MonoScript> abilityModuleScripts;
 
     private GUIStyle popupStyle;
+    private Dictionary<string, List<MonoScript>> categorizedModules;
 
     private void OnEnable()
     {
         ability = (ActiveAbility)target;
         abilityModuleScripts = GetAbilityModuleScripts();
+        CategorizeModules();
         ActiveAbilityModuleFixer.ValidateModule(ability);
     }
 
@@ -35,6 +37,7 @@ public class ActiveAbilityEditor : Editor
 
         // Draw base Ability fields
         DrawBaseAbilityFields();
+        EditorGUILayout.Space(10);
 
         // Draw the "Ability Module" label and dropdown
         Rect labelRect = GUILayoutUtility.GetRect(EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
@@ -52,15 +55,23 @@ public class ActiveAbilityEditor : Editor
             ShowSettingsMenu(ability.abilityModule);
         }
 
-        // Display Ability Module fields
         if (ability.abilityModule != null && ability.hasChosenModule)
         {
-            float yOffset = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             SerializedProperty abilityModuleProp = serializedObject.FindProperty("abilityModule");
             List<FieldInfo> moduleFields = GetFieldsToPreview(abilityModuleProp);
 
+            // HelpBox and Module Content as one block
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.Space(10);
+
+            EditorGUI.indentLevel++;
+
             DisplayFields(abilityModuleProp, moduleFields);
+            EditorGUILayout.Space(10);
+            GUILayout.EndVertical();
         }
+
+        EditorGUI.indentLevel++;
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -81,7 +92,7 @@ public class ActiveAbilityEditor : Editor
         }
     }
 
-    #region MODULE SELECTION AND DISPLAY
+    #region MODULE SELECTION
 
     private void DrawModuleDropdown(Rect position)
     {
@@ -92,22 +103,49 @@ public class ActiveAbilityEditor : Editor
         {
             GenericMenu menu = new GenericMenu();
 
-            foreach (var script in abilityModuleScripts)
+            foreach (var category in categorizedModules)
             {
-                bool isSelected = script == ability.moduleScript;
-
-                menu.AddItem(new GUIContent(script.name.Replace("Module", "")), isSelected, () =>
+                foreach (var script in category.Value)
                 {
-                    ability.moduleScript = script;
-                    ability.InstantiateModule();
-                    ActiveAbilityModuleFixer.SaveModuleData(ability);
-                    EditorUtility.SetDirty(ability);
-                });
+                    bool isSelected = script == ability.moduleScript;
+                    menu.AddItem(new GUIContent($"{category.Key}/{script.name.Replace("Module", "")}"), isSelected, () =>
+                    {
+                        ability.moduleScript = script;
+                        ability.InstantiateModule();
+                        ActiveAbilityModuleFixer.SaveModuleData(ability);
+                        EditorUtility.SetDirty(ability);
+                    });
+                }
             }
 
             menu.ShowAsContext();
         }
     }
+
+    private void CategorizeModules()
+    {
+        categorizedModules = new Dictionary<string, List<MonoScript>>();
+
+        foreach (var script in abilityModuleScripts)
+        {
+            string category = GetCategory(script.GetClass());
+
+            if (!categorizedModules.ContainsKey(category))
+            {
+                categorizedModules[category] = new List<MonoScript>();
+            }
+
+            categorizedModules[category].Add(script);
+        }
+    }
+
+    private string GetCategory(Type moduleType)
+    {
+        if (typeof(IInstantCastModule).IsAssignableFrom(moduleType)) return "Instant Cast";
+        if (typeof(ITargetedCastModule).IsAssignableFrom(moduleType)) return "Targeted Cast";
+        return "Other";
+    }
+
 
     // Collects all MonoScripts inheriting from AbilityModule
     private List<MonoScript> GetAbilityModuleScripts()
@@ -118,10 +156,14 @@ public class ActiveAbilityEditor : Editor
             .Where(script =>
             {
                 Type scriptType = script.GetClass();
-                return scriptType != null && typeof(AbilityModule).IsAssignableFrom(scriptType) && !scriptType.IsAbstract;
+                return scriptType != null && typeof(AbilityModule).IsAssignableFrom(scriptType) && !scriptType.IsAbstract && scriptType != typeof(AbilityModule);
             })
             .ToList();
     }
+
+    #endregion
+
+    #region MODULE DISPLAY
 
     private List<FieldInfo> GetFieldsToPreview(SerializedProperty property)
     {
@@ -219,6 +261,12 @@ public class ActiveAbilityModuleFixer : AssetPostprocessor
             {
                 JsonUtility.FromJsonOverwrite(ability.moduleDataJson, ability.abilityModule);
                 EditorUtility.SetDirty(ability);
+
+                // Clear missing references
+                SerializationUtility.ClearAllManagedReferencesWithMissingTypes(ability);
+
+                // Log the fix
+                Debug.Log($"Fixed missing references in ActiveAbility ScriptableObject '{ability.name}'.", ability);
             }
         }
     }
