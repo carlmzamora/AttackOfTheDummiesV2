@@ -10,8 +10,8 @@ public class ModifiersController : MonoBehaviour
 
     public void ApplyModifier(Modifier mod, GameObject source, Ability abilityRoot)
     {
-        //if effectLayer of mod does not match any faction of entity
-        if ((mod.effectLayer & GetComponent<EnemyAI>().faction) == 0) return;
+        //if relevant factions of affectLayer of mod does not match any faction of entity
+        if ((mod.affectLayer.GetRelevantFactions(source) & GetComponent<EnemyAI>().faction) == 0) return;
 
         mod.affected = gameObject.GetComponent<MonoBehaviour>();
         mod.controller = gameObject.GetComponent<ModifiersController>();

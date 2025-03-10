@@ -15,7 +15,7 @@ public class FactionMaskDrawer : PropertyDrawer
             return;
         }
 
-        List<FactionData> factions = database.GetFactions();
+        List<Faction> factions = database.GetFactions();
         if (factions.Count == 0)
         {
             EditorGUI.LabelField(position, label.text, "No factions registered!");

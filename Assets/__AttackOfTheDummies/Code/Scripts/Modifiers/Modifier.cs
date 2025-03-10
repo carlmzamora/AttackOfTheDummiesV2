@@ -10,6 +10,7 @@ public class Modifier
     public string modifierName;
     [Tooltip("What factions does this modifier affect?")]
     public FactionMask effectLayer;
+    public AffectMask affectLayer;
 
     [Header("Application")]
     public bool allowOnlyOneInstance = true;

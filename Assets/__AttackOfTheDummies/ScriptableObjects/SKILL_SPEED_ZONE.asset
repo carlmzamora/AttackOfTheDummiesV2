@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
+  m_Name: SKILL_SPEED_ZONE
+  m_EditorClassIdentifier: 
+  displayName: 
+  cooldown: 0
+  level: 0
+  instantCast: 1
+  moduleScript: {fileID: 11500000, guid: 5934593e0b4bd1e4e9f0787daaaec0fa, type: 3}
+  abilityModule:
+    rid: 1039625838267465776
+  hasChosenModule: 1
+  moduleDataJson: '{"radius":10.0,"radiusDamage":0.0,"selfModifiersOnCast":[],"modifiersAppliedInRadiusOnCast":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","effectLayer":{"mask":2},"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":100.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}},{"rid":1001,"type":{"class":"MoveSpeedBoostModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","effectLayer":{"mask":4},"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"boostPercent":100.0,"duration":5.0,"boostPercentAdditive":0.0,"boostDurationAdditive":0.0}}]}}'
+  references:
+    version: 2
+    RefIds:
+    - rid: 1039625838267465776
+      type: {class: RadiusAroundSelfModule, ns: , asm: Assembly-CSharp}
+      data:
+        radius: 10
+        radiusDamage: 0
+        selfModifiersOnCast: []
+        modifiersAppliedInRadiusOnCast:
+        - rid: 1039625838267465777
+        - rid: 1039625838267465778
+    - rid: 1039625838267465777
+      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        effectLayer:
+          mask: 2
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        slowPercent: 100
+        duration: 3
+        slowPercentAdditive: 0
+        slowDurationAdditive: 0
+    - rid: 1039625838267465778
+      type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        effectLayer:
+          mask: 4
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        boostPercent: 100
+        duration: 5
+        boostPercentAdditive: 0
+        boostDurationAdditive: 0

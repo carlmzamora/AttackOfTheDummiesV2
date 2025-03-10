@@ -7,9 +7,11 @@ public class FactionDatabase : ScriptableObject
 {
     private const int MAX_FACTIONS = 32;
 
-    [SerializeField] private List<FactionData> factions = new List<FactionData>();
+    [SerializeField] private List<Faction> factions = new List<Faction>();
+    [HideInInspector] public List<Faction> GetFactions() => factions.Where(data => data.factionName != "").ToList();
 
-    public List<FactionData> GetFactions() => factions.Where(data => data.factionName != "").ToList();
+    [SerializeField] private string[] affectTypes = { "ALLIES", "ENEMIES" };
+    public string[] GetAffectTypes() => affectTypes;
 
     private void OnValidate()
     {
@@ -22,8 +24,9 @@ public class FactionDatabase : ScriptableObject
 }
 
 [Serializable]
-public class FactionData
+public class Faction
 {
     public string factionName;
     public FactionMask enemyFactions;
+    public FactionMask allyFactions;
 }
