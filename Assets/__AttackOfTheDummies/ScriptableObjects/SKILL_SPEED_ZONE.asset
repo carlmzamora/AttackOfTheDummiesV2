@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 1039625838267465776
   hasChosenModule: 1
-  moduleDataJson: '{"radius":10.0,"radiusDamage":0.0,"selfModifiersOnCast":[],"modifiersAppliedInRadiusOnCast":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","effectLayer":{"mask":2},"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":100.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}},{"rid":1001,"type":{"class":"MoveSpeedBoostModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","effectLayer":{"mask":4},"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"boostPercent":100.0,"duration":5.0,"boostPercentAdditive":0.0,"boostDurationAdditive":0.0}}]}}'
+  moduleDataJson: '{"radius":10.0,"radiusDamage":0.0,"selfModifiersOnCast":[],"modifiersAppliedInRadiusOnCast":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":2,"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":100.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}},{"rid":1001,"type":{"class":"MoveSpeedBoostModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":1,"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"boostPercent":100.0,"duration":5.0,"boostPercentAdditive":0.0,"boostDurationAdditive":0.0}}]}}'
   references:
     version: 2
     RefIds:
@@ -37,8 +37,7 @@ MonoBehaviour:
       type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
-        effectLayer:
-          mask: 2
+        affectRule: 2
         allowOnlyOneInstance: 1
         maxStacks: 0
         refreshOnReapply: 0
@@ -57,8 +56,7 @@ MonoBehaviour:
       type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
-        effectLayer:
-          mask: 4
+        affectRule: 1
         allowOnlyOneInstance: 1
         maxStacks: 0
         refreshOnReapply: 0

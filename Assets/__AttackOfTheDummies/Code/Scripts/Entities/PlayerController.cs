@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : HealthEntity, IProjectileSource
+public class PlayerController : HealthEntity, IFactioned, IProjectileSource
 {
     [Header("PlayerController")]
+    [SerializeField] private Faction faction;
+    public Faction Faction => faction;
+
     public float baseMoveSpeed;
     [ReadOnly] public float currentMoveSpeed;
 

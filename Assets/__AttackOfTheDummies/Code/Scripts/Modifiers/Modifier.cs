@@ -9,8 +9,7 @@ public class Modifier
     [Header("General")]
     public string modifierName;
     [Tooltip("What factions does this modifier affect?")]
-    public FactionMask effectLayer;
-    public AffectMask affectLayer;
+    public AffectRule affectRule;
 
     [Header("Application")]
     public bool allowOnlyOneInstance = true;

@@ -467,6 +467,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  faction:
+    factionIndex: 0
   baseMoveSpeed: 3000
   currentMoveSpeed: 3000
   projectileSpawnPoint: {fileID: 783875293}
@@ -552,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: bea37929c2750f54c9912870cd168a67, type: 2}
+  - ability: {fileID: 11400000, guid: 6b0e72f960e6eb4419e6702380dead03, type: 2}
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
@@ -1063,7 +1065,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 1000
   faction:
-    mask: 4
+    factionIndex: 2
   baseMoveSpeed: 8
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 1231537741}
@@ -2100,7 +2102,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 1000
   faction:
-    mask: 2
+    factionIndex: 1
   baseMoveSpeed: 8
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 443936686}
@@ -2711,6 +2713,51 @@ Transform:
   - {fileID: 796364075}
   - {fileID: 591531204}
   m_Father: {fileID: 1667546335}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1055059603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055059605}
+  - component: {fileID: 1055059604}
+  m_Layer: 0
+  m_Name: __FactionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1055059604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055059603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7447e3e04aa5e449a4cd9d685225bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factionDatabase: {fileID: 11400000, guid: 0eac14973d2126446bb2377bba122e6d, type: 2}
+--- !u!4 &1055059605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055059603}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.67, y: 0, z: 3.37}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067002557
 GameObject:
@@ -3464,7 +3511,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 1000
   faction:
-    mask: 0
+    factionIndex: 1
   baseMoveSpeed: 0
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 0}
@@ -3549,7 +3596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: 7f65a6547733cba4e9dcec15544893b0, type: 2}
+  - ability: {fileID: 11400000, guid: 6b0e72f960e6eb4419e6702380dead03, type: 2}
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
@@ -3935,7 +3982,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 1000
   faction:
-    mask: 0
+    factionIndex: -1
   baseMoveSpeed: 0
   projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 0}
@@ -4396,6 +4443,7 @@ SceneRoots:
   - {fileID: 1645040095}
   - {fileID: 72841858}
   - {fileID: 55967044}
+  - {fileID: 1055059605}
   - {fileID: 832575519}
   - {fileID: 330585546}
   - {fileID: 131875345}

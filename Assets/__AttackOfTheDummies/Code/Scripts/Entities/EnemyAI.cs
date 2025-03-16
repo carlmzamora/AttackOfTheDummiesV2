@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : HealthEntity//, IProjectileSource
+public class EnemyAI : HealthEntity, IFactioned//, IProjectileSource
 {
     [Header("EnemyAI")]
-    public FactionMask faction;
+    [SerializeField] private Faction faction;
+    public Faction Faction => faction;
+
     public float baseMoveSpeed;
 
     [SerializeField] private Transform projectileSpawnPoint;

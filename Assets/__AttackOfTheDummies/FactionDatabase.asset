@@ -16,9 +16,15 @@ MonoBehaviour:
   - factionName: Player
     enemyFactions:
       mask: 2
+    allyFactions:
+      mask: 4
   - factionName: Dummies
     enemyFactions:
       mask: 5
+    allyFactions:
+      mask: 0
   - factionName: NPCs
     enemyFactions:
       mask: 2
+    allyFactions:
+      mask: 0

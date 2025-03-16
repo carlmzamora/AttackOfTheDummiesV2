@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 1039625838267465779
   hasChosenModule: 1
-  moduleDataJson: '{"projectilePrefab":{"instanceID":29870},"projectileSpeed":500.0,"lifetime":2.0,"damage":0.0,"modifiersOnContact":[{"rid":1000}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","effectLayer":{"mask":0},"allowOnlyOneInstance":true,"maxStacks":1,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":50.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}}]}}'
+  moduleDataJson: '{"projectilePrefab":{"instanceID":28662},"projectileSpeed":500.0,"lifetime":2.0,"damage":0.0,"modifiersOnContact":[{"rid":1000}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":2,"allowOnlyOneInstance":true,"maxStacks":1,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":50.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}}]}}'
   references:
     version: 2
     RefIds:
@@ -38,8 +38,7 @@ MonoBehaviour:
       type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
-        effectLayer:
-          mask: 0
+        affectRule: 2
         allowOnlyOneInstance: 1
         maxStacks: 1
         refreshOnReapply: 0
