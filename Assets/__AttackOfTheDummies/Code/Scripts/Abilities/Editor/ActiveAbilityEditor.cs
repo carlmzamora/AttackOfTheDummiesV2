@@ -1,10 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine.UIElements;
 
 [CustomEditor(typeof(ActiveAbility))]
 public class ActiveAbilityEditor : Editor
@@ -265,19 +264,29 @@ public class ActiveAbilityModuleFixer : AssetPostprocessor
     {
         if (ability == null || ability.moduleScript == null || ability.abilityModule != null) return;
 
-        if(ability.abilityModule == null && ability.hasChosenModule)
+        if (ability.abilityModule == null && ability.hasChosenModule)
         {
             ability.InstantiateModule();
 
             if (!string.IsNullOrEmpty(ability.moduleDataJson) && ability.abilityModule != null)
             {
-                JsonUtility.FromJsonOverwrite(ability.moduleDataJson, ability.abilityModule);
+                SerializedModuleData serializedData = JsonUtility.FromJson<SerializedModuleData>(ability.moduleDataJson);
+                JsonUtility.FromJsonOverwrite(serializedData.jsonData, ability.abilityModule);
+
+                // Restore Unity Object references from List
+                foreach (var entry in serializedData.objectReferences)
+                {
+                    string guid = entry.Value;
+                    string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                    if (!string.IsNullOrEmpty(assetPath))
+                    {
+                        UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+                        ability.abilityModule.GetType().GetField(entry.Key).SetValue(ability.abilityModule, obj);
+                    }
+                }
+
                 EditorUtility.SetDirty(ability);
-
-                // Clear missing references
                 SerializationUtility.ClearAllManagedReferencesWithMissingTypes(ability);
-
-                // Log the fix
                 Debug.Log($"Fixed missing references in ActiveAbility ScriptableObject '{ability.name}'.", ability);
             }
         }
@@ -286,6 +295,37 @@ public class ActiveAbilityModuleFixer : AssetPostprocessor
     public static void SaveModuleData(ActiveAbility ability)
     {
         if (ability == null || ability.abilityModule == null) return;
-        ability.moduleDataJson = JsonUtility.ToJson(ability.abilityModule);
+
+        SerializedModuleData serializedData = new SerializedModuleData
+        {
+            jsonData = JsonUtility.ToJson(ability.abilityModule),
+            objectReferences = new List<KeyValuePair<string, string>>() // Use List instead of Dictionary
+        };
+
+        foreach (FieldInfo field in ability.abilityModule.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance))
+        {
+            if (typeof(UnityEngine.Object).IsAssignableFrom(field.FieldType))
+            {
+                UnityEngine.Object obj = field.GetValue(ability.abilityModule) as UnityEngine.Object;
+                if (obj != null)
+                {
+                    string assetPath = AssetDatabase.GetAssetPath(obj);
+                    if (!string.IsNullOrEmpty(assetPath))
+                    {
+                        serializedData.objectReferences.Add(new KeyValuePair<string, string>(field.Name, AssetDatabase.AssetPathToGUID(assetPath)));
+                    }
+                }
+            }
+        }
+
+        ability.moduleDataJson = JsonUtility.ToJson(serializedData);
+        //Debug.Log($"Saved JSON: {ability.moduleDataJson}");
     }
+}
+
+[Serializable]
+public class SerializedModuleData
+{
+    public string jsonData;
+    public List<KeyValuePair<string, string>> objectReferences = new List<KeyValuePair<string, string>>();
 }
