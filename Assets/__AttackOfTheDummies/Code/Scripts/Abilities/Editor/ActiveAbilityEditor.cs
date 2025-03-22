@@ -88,7 +88,19 @@ public class ActiveAbilityEditor : Editor
             if (property.propertyPath == "moduleScript" || property.propertyPath == "abilityModule")
                 continue; // Skip module-related properties (handled separately)
 
-            EditorGUILayout.PropertyField(property, true);
+            if (property.propertyType == SerializedPropertyType.ObjectReference &&
+            property.objectReferenceValue is MonoScript)
+            {
+                // Draw as a disabled field (readonly)
+                using (new EditorGUI.DisabledScope(true))
+                {
+                    EditorGUILayout.PropertyField(property, true);
+                }
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(property, true);
+            }
         }
     }
 
