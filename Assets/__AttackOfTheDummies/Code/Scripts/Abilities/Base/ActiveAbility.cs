@@ -15,24 +15,13 @@ public class ActiveAbility : Ability
     [HideInInspector] public bool hasChosenModule = false;
     [HideInInspector] public string moduleDataJson;
 
-    public void InstantiateModule()
-    {
-        if (moduleScript == null) return;
-
-        Type moduleType = moduleScript.GetClass();
-        if (moduleType != null && typeof(IAbilityModule).IsAssignableFrom(moduleType))
-        {
-            abilityModule = (IAbilityModule)Activator.CreateInstance(moduleType);
-            hasChosenModule = true;
-        }
-    }
-
     public override void Setup(GameObject owner, int level = -1)
     {
         base.Setup(owner, level);
 
         if (abilityModule != null)
         {
+            InGameRefs.Instance.OnDebugModeChanged += abilityModule.ToggleDebugMode;
             abilityModule.rootAbility = this;
             abilityModule.Setup(owner);
         }
@@ -61,18 +50,18 @@ public class ActiveAbility : Ability
             targetedCastAbility.EndWaitForInput(worldPos);
         }
     }
-}
 
-public enum InstantCastType
-{
-    SELF,
-    RADIUS
-}
+    #region EDITOR
+    public void InstantiateModule()
+    {
+        if (moduleScript == null) return;
 
-public enum TargetedCastType
-{
-    UNIT,
-    POINT,
-    RADIUS
-    //VECTOR
+        Type moduleType = moduleScript.GetClass();
+        if (moduleType != null && typeof(IAbilityModule).IsAssignableFrom(moduleType))
+        {
+            abilityModule = (IAbilityModule)Activator.CreateInstance(moduleType);
+            hasChosenModule = true;
+        }
+    }
+    #endregion
 }
