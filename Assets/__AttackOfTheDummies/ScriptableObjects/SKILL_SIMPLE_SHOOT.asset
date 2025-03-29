@@ -18,29 +18,35 @@ MonoBehaviour:
   instantCast: 1
   moduleScript: {fileID: 11500000, guid: 6a641a256a37e1b458429a6dca8b89cd, type: 3}
   abilityModule:
-    rid: 1039625838267465779
+    rid: 1039626293711732754
   hasChosenModule: 1
-  moduleDataJson: '{"projectilePrefab":{"instanceID":28662},"projectileSpeed":500.0,"lifetime":2.0,"damage":0.0,"modifiersOnContact":[{"rid":1000}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":2,"allowOnlyOneInstance":true,"maxStacks":1,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":50.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}}]}}'
+  moduleDataJson: '{"jsonData":"{\"projectilePrefab\":{\"instanceID\":28112},\"projectileSpeed\":1000.0,\"lifetime\":2.0,\"damage\":0.0,\"contactResults\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersOnContact\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifiers\":[{\"rid\":1002}]}},{\"rid\":1001,\"type\":{\"class\":\"DamageOnContact\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"damage\":25.0}},{\"rid\":1002,\"type\":{\"class\":\"DamageOverTimeModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"affectRule\":2,\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"tickDamage\":5.0,\"tickCount\":5,\"tickInterval\":1.0,\"tickDamageAdditive\":0.0,\"tickCountAdditive\":0}}]}}"}'
   references:
     version: 2
     RefIds:
-    - rid: 1039625838267465779
-      type: {class: ShootAtMousePositionModule, ns: , asm: Assembly-CSharp}
+    - rid: 1039626293711732754
+      type: {class: ShootTowardsMouseModule, ns: , asm: Assembly-CSharp}
       data:
         projectilePrefab: {fileID: 1595747817566170178, guid: 5888d67239285c84caaf6abb167e2669,
           type: 3}
-        projectileSpeed: 500
+        projectileSpeed: 1000
         lifetime: 2
         damage: 0
-        modifiersOnContact:
-        - rid: 1039625838267465780
-    - rid: 1039625838267465780
-      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+        contactResults:
+        - rid: 1039626293711732755
+        - rid: 1039626293711732757
+    - rid: 1039626293711732755
+      type: {class: ApplyModifiersOnContact, ns: , asm: Assembly-CSharp}
+      data:
+        modifiers:
+        - rid: 1039626293711732756
+    - rid: 1039626293711732756
+      type: {class: DamageOverTimeModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
         affectRule: 2
         allowOnlyOneInstance: 1
-        maxStacks: 1
+        maxStacks: 0
         refreshOnReapply: 0
         independentStackTimers: 0
         currentStacks: 0
@@ -49,7 +55,12 @@ MonoBehaviour:
         abilityRoot: {fileID: 0}
         controller: {fileID: 0}
         stackDuration: 0
-        slowPercent: 50
-        duration: 3
-        slowPercentAdditive: 0
-        slowDurationAdditive: 0
+        tickDamage: 5
+        tickCount: 5
+        tickInterval: 1
+        tickDamageAdditive: 0
+        tickCountAdditive: 0
+    - rid: 1039626293711732757
+      type: {class: DamageOnContact, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 25

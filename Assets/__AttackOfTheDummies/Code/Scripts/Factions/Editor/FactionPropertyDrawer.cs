@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(Faction))]
 public class FactionPropertyDrawer : PropertyDrawer
@@ -53,4 +55,54 @@ public class FactionPropertyDrawer : PropertyDrawer
 
         EditorGUI.EndProperty();
     }
+
+    /*public override VisualElement CreatePropertyGUI(SerializedProperty property)
+    {
+        var root = new VisualElement();
+
+        // Create a horizontal container
+        var container = new VisualElement();
+        container.style.flexDirection = FlexDirection.Row;
+        container.style.alignItems = Align.Center;
+
+        // Label
+        var label = new Label("Faction");
+        label.style.minWidth = EditorGUIUtility.labelWidth;
+        container.Add(label);
+
+        // Dropdown
+        var dropdown = new DropdownField();
+        container.Add(dropdown);
+
+        SerializedProperty indexProp = property.FindPropertyRelative("factionIndex");
+        FactionDatabase database = AssetDatabase.LoadAssetAtPath<FactionDatabase>("Assets/__AttackOfTheDummies/FactionDatabase.asset");
+
+        if (database == null)
+        {
+            dropdown.choices = new List<string> { "FactionDatabase not found!" };
+            dropdown.SetEnabled(false);
+        }
+        else
+        {
+            var factions = database.GetAllFactionData();
+            List<string> factionNames = factions.Select(f => f.factionName).ToList();
+            factionNames.Insert(0, "None"); // Optional: Add a "None" option
+
+            dropdown.choices = factionNames;
+
+            int currentIndex = indexProp.intValue >= 0 && indexProp.intValue < factions.Count
+                ? indexProp.intValue + 1 // Offset for "None"
+                : 0;
+
+            dropdown.index = currentIndex;
+            dropdown.RegisterValueChangedCallback(evt =>
+            {
+                indexProp.intValue = dropdown.index - 1; // Adjust for "None"
+                property.serializedObject.ApplyModifiedProperties();
+            });
+        }
+
+        root.Add(container);
+        return root;
+    }*/
 }

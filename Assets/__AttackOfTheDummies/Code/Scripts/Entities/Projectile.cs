@@ -15,6 +15,8 @@ public class Projectile : MonoBehaviour, IPoolReleasable
     [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public Action releaseFunction { get; set; }
 
+    [SerializeReference] public List<IContactResult> contactResults = new List<IContactResult>();
+
     private Rigidbody rb => GetComponent<Rigidbody>();
 
     public void OnEnable()
@@ -25,7 +27,7 @@ public class Projectile : MonoBehaviour, IPoolReleasable
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out HealthEntity healthEntity))
+        /*if(other.TryGetComponent(out HealthEntity healthEntity))
         {
             healthEntity.TakeDamage(damage);
         }
@@ -36,6 +38,11 @@ public class Projectile : MonoBehaviour, IPoolReleasable
             {
                 modController.ApplyModifier(mod, projectileOwner, abilityRoot);
             }
+        }*/
+
+        foreach (IContactResult result in contactResults)
+        {
+            result.OnContact(other.gameObject, this);
         }
 
         CancelInvoke(nameof(Deactivate));
