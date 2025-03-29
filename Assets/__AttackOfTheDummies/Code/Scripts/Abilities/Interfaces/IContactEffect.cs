@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IContactResult
+public interface IContactEffect : IAbilityEffect
 {
     public void OnContact(GameObject hitObject, Projectile projectile);
 }

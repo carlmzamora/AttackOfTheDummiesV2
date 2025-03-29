@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ApplyModifiersOnContact : IContactResult
+public class ApplyModifiersOnContact : IContactEffect
 {
     [SerializeReference] public List<Modifier> modifiers = new();
 

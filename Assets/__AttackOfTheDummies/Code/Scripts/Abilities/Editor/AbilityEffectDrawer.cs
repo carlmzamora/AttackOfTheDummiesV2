@@ -1,23 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
-using UnityEditor.Playables;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(IContactResult), true)]
-public class ContactResultDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(IAbilityEffect), true)]
+public class AbilityEffectDrawer : PropertyDrawer
 {
     private static Type[] resultTypes;
     private static string[] resultTypeNames;
-    private static Dictionary<string, bool> foldoutStates = new Dictionary<string, bool>();
 
-    static ContactResultDrawer()
+    static AbilityEffectDrawer()
     {
         resultTypes = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(IContactResult).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+            .Where(type => typeof(IAbilityEffect).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
             .ToArray();
 
         resultTypeNames = resultTypes.Select(type => type.Name).ToArray();
@@ -29,7 +25,7 @@ public class ContactResultDrawer : PropertyDrawer
 
         if (property.managedReferenceValue == null)
         {
-            int selectedIndex = EditorGUI.Popup(position, "Result Type", -1, resultTypeNames);
+            int selectedIndex = EditorGUI.Popup(position, "Effect Type", -1, resultTypeNames);
             if (selectedIndex >= 0)
             {
                 property.managedReferenceValue = Activator.CreateInstance(resultTypes[selectedIndex]);

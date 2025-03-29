@@ -9,12 +9,8 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
     public float projectileSpeed;
     public float lifetime;
 
-    [Header("Damage")]
-    public float damage;
-
     [Space(10)]
-    //[SerializeReference] public List<Modifier> modifiersOnContact;
-    [SerializeReference] public List<IContactResult> contactResults = new();
+    [SerializeReference] public List<IContactEffect> effectsOnContact = new();
 
     private Transform spawnPoint;
 
@@ -42,9 +38,7 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
 
         projectile.travelSpeed = projectileSpeed;
         projectile.lifetime = lifetime;
-        projectile.damage = damage;
-        //projectile.modifiersOnContact = modifiersOnContact;
-        projectile.contactResults = new(contactResults);
+        projectile.effectsOnContact = new(effectsOnContact);
 
         projectile.gameObject.SetActive(true);
     }

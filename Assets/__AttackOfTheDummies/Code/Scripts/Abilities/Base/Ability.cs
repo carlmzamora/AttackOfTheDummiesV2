@@ -60,11 +60,11 @@ public class Ability : ScriptableObject
                 }
             }
 
-            if(field.FieldType == typeof(List<IContactResult>))
+            if(field.FieldType == typeof(List<IAbilityEffect>))
             {
-                if(field.GetValue(target) is List<IContactResult> contactResults)
+                if(field.GetValue(target) is List<IAbilityEffect> abilityEffects)
                 {
-                    CacheResultsManipulableFields(contactResults, root);
+                    CacheResultsManipulableFields(abilityEffects, root);
                 }
             }
         }
@@ -78,11 +78,11 @@ public class Ability : ScriptableObject
         }
     }
 
-    private void CacheResultsManipulableFields(List<IContactResult> resultsList, Ability abilityRoot)
+    private void CacheResultsManipulableFields(List<IAbilityEffect> abilityEffects, Ability abilityRoot)
     {
-        foreach (IContactResult result in resultsList)
+        foreach (IAbilityEffect abilityEffect in abilityEffects)
         {
-            CacheParameters(result.GetType(), result, abilityRoot);
+            CacheParameters(abilityEffect.GetType(), abilityEffect, abilityRoot);
         }
     }
 

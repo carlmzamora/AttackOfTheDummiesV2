@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class DamageOnContact : IContactResult
+public class DamageOnContact : IContactEffect
 {
     public float damage;
 

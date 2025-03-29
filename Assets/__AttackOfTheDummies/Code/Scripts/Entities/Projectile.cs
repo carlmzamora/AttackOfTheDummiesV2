@@ -7,15 +7,12 @@ public class Projectile : MonoBehaviour, IPoolReleasable
 {
     [HideInInspector] public float travelSpeed;
     [HideInInspector] public float lifetime;
-    [HideInInspector] public float damage;
-
-    [HideInInspector] public List<Modifier> modifiersOnContact;
 
     [HideInInspector] public GameObject projectileOwner;
     [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public Action releaseFunction { get; set; }
 
-    [SerializeReference] public List<IContactResult> contactResults = new List<IContactResult>();
+    [SerializeReference] public List<IContactEffect> effectsOnContact = new List<IContactEffect>();
 
     private Rigidbody rb => GetComponent<Rigidbody>();
 
@@ -27,22 +24,10 @@ public class Projectile : MonoBehaviour, IPoolReleasable
 
     public void OnTriggerEnter(Collider other)
     {
-        /*if(other.TryGetComponent(out HealthEntity healthEntity))
-        {
-            healthEntity.TakeDamage(damage);
-        }
 
-        if(other.TryGetComponent(out ModifiersController modController))
+        foreach (IContactEffect effect in effectsOnContact)
         {
-            foreach(Modifier mod in modifiersOnContact)
-            {
-                modController.ApplyModifier(mod, projectileOwner, abilityRoot);
-            }
-        }*/
-
-        foreach (IContactResult result in contactResults)
-        {
-            result.OnContact(other.gameObject, this);
+            effect.OnContact(other.gameObject, this);
         }
 
         CancelInvoke(nameof(Deactivate));
