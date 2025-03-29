@@ -48,7 +48,13 @@ public class ObjectPooler : MonoBehaviour
 
     public GameObject GetPooledObject(GameObject sample)
     {
-        return pools[sample].Get();
+        GameObject pooledObject = pools[sample].Get();
+        if(pooledObject.TryGetComponent(out IPoolReleasable releasable))
+        {
+            releasable.releaseFunction = () => ReleasePooledObject(sample, pooledObject);
+        }
+
+        return pooledObject;
     }
 
     public void ReleasePooledObject(GameObject objectKey, GameObject objectToRelease)

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +35,6 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
 
         projectile.projectileOwner = owner;
         projectile.abilityRoot = rootAbility;
-        projectile.poolerReleaseFunction = () => ObjectPooler.Instance.ReleasePooledObject(projectilePrefab.gameObject, projectile.gameObject);
 
         projectile.transform.SetLocalPositionAndRotation(spawnPoint.position + spawnPoint.forward, spawnPoint.rotation);
         projectile.gameObject.layer = LayerMask.NameToLayer(owner.gameObject.layer == LayerMask.NameToLayer("Enemy") ? "EnemyProjectiles" : "PlayerProjectiles");

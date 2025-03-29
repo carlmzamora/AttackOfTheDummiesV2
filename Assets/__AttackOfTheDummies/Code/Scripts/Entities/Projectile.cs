@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour, IPoolReleasable
 {
     [HideInInspector] public float travelSpeed;
     [HideInInspector] public float lifetime;
@@ -14,7 +13,8 @@ public class Projectile : MonoBehaviour
 
     [HideInInspector] public GameObject projectileOwner;
     [HideInInspector] public Ability abilityRoot;
-    [HideInInspector] public Action poolerReleaseFunction;
+    [HideInInspector] public Action releaseFunction { get; set; }
+
     private Rigidbody rb => GetComponent<Rigidbody>();
 
     public void OnEnable()
@@ -45,6 +45,6 @@ public class Projectile : MonoBehaviour
     private void Deactivate()
     {
         rb.velocity = Vector3.zero;
-        poolerReleaseFunction();
+        releaseFunction();
     }
 }
