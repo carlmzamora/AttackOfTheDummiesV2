@@ -59,6 +59,14 @@ public class Ability : ScriptableObject
                     CacheParameters(abilityModule.GetType(), abilityModule, root);
                 }
             }
+
+            if(field.FieldType == typeof(List<IContactResult>))
+            {
+                if(field.GetValue(target) is List<IContactResult> contactResults)
+                {
+                    CacheResultsManipulableFields(contactResults, root);
+                }
+            }
         }
     }
 
@@ -67,6 +75,14 @@ public class Ability : ScriptableObject
         foreach (Modifier modifier in modifierList)
         {
             CacheParameters(modifier.GetType(), modifier, abilityRoot);
+        }
+    }
+
+    private void CacheResultsManipulableFields(List<IContactResult> resultsList, Ability abilityRoot)
+    {
+        foreach (IContactResult result in resultsList)
+        {
+            CacheParameters(result.GetType(), result, abilityRoot);
         }
     }
 
