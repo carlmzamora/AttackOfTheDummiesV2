@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 1039625838267465776
   hasChosenModule: 1
-  moduleDataJson: '{"radius":10.0,"radiusDamage":0.0,"selfModifiersOnCast":[],"modifiersAppliedInRadiusOnCast":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"MoveSpeedSlowModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":2,"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"slowPercent":100.0,"duration":3.0,"slowPercentAdditive":0.0,"slowDurationAdditive":0.0}},{"rid":1001,"type":{"class":"MoveSpeedBoostModifier","ns":"","asm":"Assembly-CSharp"},"data":{"modifierName":"","affectRule":1,"allowOnlyOneInstance":true,"maxStacks":0,"refreshOnReapply":false,"independentStackTimers":false,"currentStacks":0,"affected":{"instanceID":0},"source":{"instanceID":0},"abilityRoot":{"instanceID":0},"controller":{"instanceID":0},"stackDuration":0.0,"boostPercent":100.0,"duration":5.0,"boostPercentAdditive":0.0,"boostDurationAdditive":0.0}}]}}'
+  moduleDataJson: '{"jsonData":"{\"radius\":10.0,\"radiusDamage\":0.0,\"selfModifiersOnCast\":[],\"effectsInRadiusOnCast\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifiers\":[{\"rid\":1001},{\"rid\":1002}]}},{\"rid\":1001,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"affectRule\":1,\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}},{\"rid\":1002,\"type\":{\"class\":\"MoveSpeedSlowModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"affectRule\":2,\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"slowPercent\":50.0,\"duration\":3.0,\"slowPercentAdditive\":0.0,\"slowDurationAdditive\":0.0}}]}}"}'
   references:
     version: 2
     RefIds:
@@ -30,29 +30,15 @@ MonoBehaviour:
         radius: 10
         radiusDamage: 0
         selfModifiersOnCast: []
-        modifiersAppliedInRadiusOnCast:
-        - rid: 1039625838267465777
-        - rid: 1039625838267465778
-    - rid: 1039625838267465777
-      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+        effectsInRadiusOnCast:
+        - rid: 1039626321591271432
+    - rid: 1039626321591271432
+      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
       data:
-        modifierName: 
-        affectRule: 2
-        allowOnlyOneInstance: 1
-        maxStacks: 0
-        refreshOnReapply: 0
-        independentStackTimers: 0
-        currentStacks: 0
-        affected: {fileID: 0}
-        source: {fileID: 0}
-        abilityRoot: {fileID: 0}
-        controller: {fileID: 0}
-        stackDuration: 0
-        slowPercent: 100
-        duration: 3
-        slowPercentAdditive: 0
-        slowDurationAdditive: 0
-    - rid: 1039625838267465778
+        modifiers:
+        - rid: 1039626321591271433
+        - rid: 1039626321591271434
+    - rid: 1039626321591271433
       type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
@@ -71,3 +57,22 @@ MonoBehaviour:
         duration: 5
         boostPercentAdditive: 0
         boostDurationAdditive: 0
+    - rid: 1039626321591271434
+      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        affectRule: 2
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        slowPercent: 50
+        duration: 3
+        slowPercentAdditive: 0
+        slowDurationAdditive: 0

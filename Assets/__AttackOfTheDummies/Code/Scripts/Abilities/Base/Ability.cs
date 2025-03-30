@@ -64,7 +64,7 @@ public class Ability : ScriptableObject
             {
                 if(field.GetValue(target) is List<IAbilityEffect> abilityEffects)
                 {
-                    CacheResultsManipulableFields(abilityEffects, root);
+                    CacheAbilityEffectManipulableFields(abilityEffects, root);
                 }
             }
         }
@@ -78,7 +78,7 @@ public class Ability : ScriptableObject
         }
     }
 
-    private void CacheResultsManipulableFields(List<IAbilityEffect> abilityEffects, Ability abilityRoot)
+    private void CacheAbilityEffectManipulableFields(List<IAbilityEffect> abilityEffects, Ability abilityRoot)
     {
         foreach (IAbilityEffect abilityEffect in abilityEffects)
         {

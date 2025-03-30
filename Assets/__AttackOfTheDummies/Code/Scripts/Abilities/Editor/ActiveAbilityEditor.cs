@@ -43,7 +43,7 @@ public class ActiveAbilityEditor : Editor
         EditorGUI.LabelField(labelRect, "Ability Module");
 
         Rect dropdownRect = new Rect(labelRect.x + EditorGUIUtility.labelWidth + 2f, labelRect.y,
-                                     EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - 40f,
+                                     EditorGUIUtility.currentViewWidth - EditorGUIUtility.labelWidth - (EditorGUIUtility.currentViewWidth * 0.1f),
                                      EditorGUIUtility.singleLineHeight);
 
         DrawModuleDropdown(dropdownRect);

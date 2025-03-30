@@ -9,7 +9,7 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
     [Space(10)]
     [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
     [Space(10)]
-    [SerializeReference] public List<Modifier> modifiersAppliedInRadiusOnCast;
+    [SerializeReference] public List<IAbilityEffect> effectsInRadiusOnCast = new();
 
     public void InstantCast()
     {
@@ -21,15 +21,12 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
             }
         }
 
-        Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player")); //means do not include player
-        for(int i = 0; i < collidersInRadius.Length; i++)
+        foreach (IAbilityEffect effect in effectsInRadiusOnCast)
         {
-            if (collidersInRadius[i].TryGetComponent(out ModifiersController otherModController))
+            Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player")); //means do not include player
+            for (int i = 0; i < collidersInRadius.Length; i++)
             {
-                for(int j = 0; j < modifiersAppliedInRadiusOnCast.Count; j++)
-                {
-                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner.gameObject, rootAbility);
-                }
+                effect.ApplyEffect(collidersInRadius[i].gameObject, owner, rootAbility);
             }
         }
     }

@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 1039626293711732754
   hasChosenModule: 1
-  moduleDataJson: '{"jsonData":"{\"projectilePrefab\":{\"instanceID\":28112},\"projectileSpeed\":1000.0,\"lifetime\":2.0,\"damage\":0.0,\"contactResults\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersOnContact\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifiers\":[{\"rid\":1002}]}},{\"rid\":1001,\"type\":{\"class\":\"DamageOnContact\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"damage\":25.0}},{\"rid\":1002,\"type\":{\"class\":\"DamageOverTimeModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"affectRule\":2,\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"tickDamage\":5.0,\"tickCount\":5,\"tickInterval\":1.0,\"tickDamageAdditive\":0.0,\"tickCountAdditive\":0}}]}}"}'
+  moduleDataJson: '{"jsonData":"{\"projectilePrefab\":{\"instanceID\":28128},\"projectileSpeed\":1000.0,\"lifetime\":2.0,\"effectsOnContact\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"damage\":0.0}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifiers\":[]}}]}}"}'
   references:
     version: 2
     RefIds:
@@ -31,36 +31,14 @@ MonoBehaviour:
           type: 3}
         projectileSpeed: 1000
         lifetime: 2
+        effectsOnContact:
+        - rid: 1039626321591271424
+        - rid: 1039626321591271425
+    - rid: 1039626321591271424
+      type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
+      data:
         damage: 0
-        contactResults:
-        - rid: 1039626293711732755
-        - rid: 1039626293711732757
-    - rid: 1039626293711732755
-      type: {class: ApplyModifiersOnContact, ns: , asm: Assembly-CSharp}
+    - rid: 1039626321591271425
+      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
       data:
-        modifiers:
-        - rid: 1039626293711732756
-    - rid: 1039626293711732756
-      type: {class: DamageOverTimeModifier, ns: , asm: Assembly-CSharp}
-      data:
-        modifierName: 
-        affectRule: 2
-        allowOnlyOneInstance: 1
-        maxStacks: 0
-        refreshOnReapply: 0
-        independentStackTimers: 0
-        currentStacks: 0
-        affected: {fileID: 0}
-        source: {fileID: 0}
-        abilityRoot: {fileID: 0}
-        controller: {fileID: 0}
-        stackDuration: 0
-        tickDamage: 5
-        tickCount: 5
-        tickInterval: 1
-        tickDamageAdditive: 0
-        tickCountAdditive: 0
-    - rid: 1039626293711732757
-      type: {class: DamageOnContact, ns: , asm: Assembly-CSharp}
-      data:
-        damage: 25
+        modifiers: []

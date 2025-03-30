@@ -36,7 +36,7 @@ public class AbilityEffectDrawer : PropertyDrawer
         else
         {
             // Show script name instead of "Element X"
-            label.text = property.managedReferenceValue.GetType().Name;
+            label.text = property.managedReferenceValue.GetType().Name.Replace("Effect", "");
 
             // Use PropertyField (which has its own foldout) and ensure it's expanded
             property.isExpanded = true;

@@ -10,7 +10,7 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
     public float lifetime;
 
     [Space(10)]
-    [SerializeReference] public List<IContactEffect> effectsOnContact = new();
+    [SerializeReference] public List<IAbilityEffect> effectsOnContact = new();
 
     private Transform spawnPoint;
 
