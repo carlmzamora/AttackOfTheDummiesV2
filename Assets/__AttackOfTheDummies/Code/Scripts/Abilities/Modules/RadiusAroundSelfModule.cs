@@ -4,7 +4,6 @@ using UnityEngine;
 public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
 {
     public float radius;
-    public float radiusDamage;
 
     [Space(10)]
     [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
@@ -23,7 +22,7 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
 
         foreach (IAbilityEffect effect in effectsInRadiusOnCast)
         {
-            Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player")); //means do not include player
+            Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player", "Environment")); //means do not include player
             for (int i = 0; i < collidersInRadius.Length; i++)
             {
                 effect.ApplyEffect(collidersInRadius[i].gameObject, owner, rootAbility);

@@ -10,8 +10,6 @@ public class ModifiersController : MonoBehaviour
 
     public void ApplyModifier(Modifier mod, GameObject source, Ability abilityRoot)
     {
-        if (!FactionManager.Instance.CanAffect(source, gameObject, mod.affectRule)) return;
-
         mod.affected = gameObject.GetComponent<MonoBehaviour>();
         mod.controller = gameObject.GetComponent<ModifiersController>();
         mod.source = source.GetComponent<MonoBehaviour>();
