@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: d00804bff80c2934981f11e88c6d6b51, type: 2}
+  - ability: {fileID: 11400000, guid: 6b0e72f960e6eb4419e6702380dead03, type: 2}
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
@@ -3449,7 +3449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1667546329
 MonoBehaviour:
   m_ObjectHideFlags: 0

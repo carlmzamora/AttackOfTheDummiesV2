@@ -20,18 +20,22 @@ public class FactionManager : MonoBehaviour
     {
         if (target == null) return false;
 
-        Faction casterFaction = caster.GetComponent<IFactioned>().Faction;
-        Faction targetFaction = target.GetComponent<IFactioned>().Faction;
+        IFactioned targetIFactioned = target.GetComponent<IFactioned>();
+        if (targetIFactioned == null) return false;
 
-        int targetType = 0;
-        if (casterFaction.IsAlly(targetFaction))
-            targetType |= (int)AffectRule.Allies;
+        IFactioned casterIFactioned = caster.GetComponent<IFactioned>();
+        if(casterIFactioned == null) return false;        
 
-        if (casterFaction.IsEnemy(targetFaction))
-            targetType |= (int)AffectRule.Enemies;
+        Faction targetFaction = targetIFactioned.Faction;
+        Faction casterFaction = casterIFactioned.Faction;
 
-        if (!casterFaction.IsAlly(targetFaction) && !casterFaction.IsEnemy(targetFaction))
-            targetType |= (int)AffectRule.Neutral;
+        bool isAlly = casterFaction.IsAlly(targetFaction);
+        bool isEnemy = casterFaction.IsEnemy(targetFaction);
+        bool isNeutral = !isAlly && !isEnemy;
+
+        int targetType = (isAlly ? (int)AffectRule.Allies : 0) |
+                         (isEnemy ? (int)AffectRule.Enemies : 0) |
+                         (isNeutral ? (int)AffectRule.Neutral : 0);
 
         return (affectRule & (AffectRule)targetType) != 0;
     }
