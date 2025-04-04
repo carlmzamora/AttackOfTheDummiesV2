@@ -10,12 +10,14 @@ public class AbilitiesController : MonoBehaviour
     [HideInInspector] public Vector2 worldPosFromMousePos = Vector2.zero;
     [HideInInspector] public bool mouse1WasPressed = false;
 
+    private IAbilitiesHolder owner => GetComponent<IAbilitiesHolder>();
+
     private void Start()
     {
         foreach(AbilitySlot slot in abilitySlots)
         {
             slot.abilityInstance = Instantiate(slot.ability);
-            slot.abilityInstance.Setup(gameObject);
+            slot.abilityInstance.Setup(owner);
         }
     }
 

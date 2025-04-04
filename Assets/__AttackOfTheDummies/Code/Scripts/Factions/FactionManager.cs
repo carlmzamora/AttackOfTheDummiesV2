@@ -16,18 +16,15 @@ public class FactionManager : MonoBehaviour
         return factionDatabase?.GetFactionData(factionIndex);
     }
 
-    public bool CanAffect(GameObject caster, GameObject target, AffectRule affectRule)
+    public bool CanAffect(IAbilitiesHolder caster, GameObject target, AffectRule affectRule)
     {
         if (target == null) return false;
 
         IFactioned targetIFactioned = target.GetComponent<IFactioned>();
-        if (targetIFactioned == null) return false;
-
-        IFactioned casterIFactioned = caster.GetComponent<IFactioned>();
-        if(casterIFactioned == null) return false;        
+        if (targetIFactioned == null) return false; 
 
         Faction targetFaction = targetIFactioned.Faction;
-        Faction casterFaction = casterIFactioned.Faction;
+        Faction casterFaction = caster.Faction;
 
         bool isAlly = casterFaction.IsAlly(targetFaction);
         bool isEnemy = casterFaction.IsEnemy(targetFaction);

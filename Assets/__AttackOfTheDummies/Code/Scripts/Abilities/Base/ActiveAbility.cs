@@ -15,7 +15,7 @@ public class ActiveAbility : Ability
     [HideInInspector] public bool hasChosenModule = false;
     [HideInInspector] public string moduleDataJson;
 
-    public override void Setup(GameObject owner, int level = -1)
+    public override void Setup(IAbilitiesHolder owner, int level = -1)
     {
         base.Setup(owner, level);
 

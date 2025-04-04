@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IAbilityEffect
 {
-    public void ApplyEffect(GameObject target, GameObject source, Ability abilityRoot );
+    public void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot );
 }

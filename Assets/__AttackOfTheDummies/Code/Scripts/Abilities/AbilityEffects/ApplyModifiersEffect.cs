@@ -9,7 +9,7 @@ public class ApplyModifiersEffect : IAbilityEffect
     public AffectRule affectRule;
     [SerializeReference] public List<Modifier> modifiers = new();    
 
-    public void ApplyEffect(GameObject target, GameObject source, Ability abilityRoot)
+    public void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
     {
         if (!FactionManager.Instance.CanAffect(source, target, affectRule)) return;
 

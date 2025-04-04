@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AbilityModule : IAbilityModule
 {
-    protected GameObject owner;
+    protected IAbilitiesHolder owner;
     public Ability rootAbility { get; set; }
     public bool debugMode { get; set; }
 
-    public virtual void Setup(GameObject owner)
+    public virtual void Setup(IAbilitiesHolder owner)
     { 
         this.owner = owner;
     }

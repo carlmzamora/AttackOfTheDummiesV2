@@ -1068,7 +1068,6 @@ MonoBehaviour:
   faction:
     factionIndex: 2
   baseMoveSpeed: 8
-  projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 1231537741}
   destination2: {fileID: 443936686}
 --- !u!54 &383214638
@@ -2105,7 +2104,6 @@ MonoBehaviour:
   faction:
     factionIndex: 1
   baseMoveSpeed: 8
-  projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 443936686}
   destination2: {fileID: 1231537741}
 --- !u!54 &804790399
@@ -3462,6 +3460,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d07ae8da14525c41b173ef626b5a8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  faction:
+    factionIndex: 1
+  baseMoveSpeed: 0
+  destination1: {fileID: 0}
+  destination2: {fileID: 0}
   projectileSpawnPoint: {fileID: 1694953160}
 --- !u!195 &1667546330
 NavMeshAgent:
@@ -3514,7 +3519,6 @@ MonoBehaviour:
   faction:
     factionIndex: 1
   baseMoveSpeed: 0
-  projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 0}
   destination2: {fileID: 0}
 --- !u!54 &1667546333
@@ -3933,6 +3937,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d07ae8da14525c41b173ef626b5a8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  faction:
+    factionIndex: -1
+  baseMoveSpeed: 0
+  destination1: {fileID: 0}
+  destination2: {fileID: 0}
   projectileSpawnPoint: {fileID: 1706573972}
 --- !u!195 &1740935267
 NavMeshAgent:
@@ -3985,7 +3996,6 @@ MonoBehaviour:
   faction:
     factionIndex: -1
   baseMoveSpeed: 0
-  projectileSpawnPoint: {fileID: 0}
   destination1: {fileID: 0}
   destination2: {fileID: 0}
 --- !u!54 &1740935270

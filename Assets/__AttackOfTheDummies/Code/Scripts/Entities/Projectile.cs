@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour, IPoolReleasable
     [HideInInspector] public float travelSpeed;
     [HideInInspector] public float lifetime;
 
-    [HideInInspector] public GameObject projectileOwner;
+    [HideInInspector] public IAbilitiesHolder projectileOwner;
     [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public Action releaseFunction { get; set; }
 

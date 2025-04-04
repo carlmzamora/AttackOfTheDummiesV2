@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : HealthEntity, IFactioned, IProjectileSource
+public class PlayerController : HealthEntity, IAbilitiesHolder
 {
     [Header("PlayerController")]
     [SerializeField] private Faction faction;
@@ -28,6 +28,12 @@ public class PlayerController : HealthEntity, IFactioned, IProjectileSource
     private Rigidbody rb => GetComponent<Rigidbody>();
 
     private AbilitiesController abilitiesController => GetComponent<AbilitiesController>();
+    public AbilitiesController AbilitiesController => abilitiesController;
+
+    public MonoBehaviour mono => GetComponent<MonoBehaviour>();
+
+    public float outgoingDamageMultiplier { get; set; }
+    public float outgoingHealMultiplier { get; set; }
 
     protected override void Awake()
     {

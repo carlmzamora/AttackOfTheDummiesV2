@@ -14,11 +14,11 @@ public class RadiusAtDistanceModule : AbilityModule, IInstantCastModule
 
     public void InstantCast()
     {
-        if (owner.TryGetComponent(out ModifiersController modController))
+        if (owner.gameObject.TryGetComponent(out ModifiersController modController))
         {
             foreach (Modifier mod in selfModifiersOnCast)
             {
-                modController.ApplyModifier(mod, owner.gameObject, rootAbility);
+                modController.ApplyModifier(mod, owner, rootAbility);
             }
         }
 
@@ -31,7 +31,7 @@ public class RadiusAtDistanceModule : AbilityModule, IInstantCastModule
             {
                 for (int j = 0; j < modifiersAppliedInRadiusOnCast.Count; j++)
                 {
-                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner.gameObject, rootAbility);
+                    otherModController.ApplyModifier(modifiersAppliedInRadiusOnCast[j], owner, rootAbility);
                 }
             }
         }

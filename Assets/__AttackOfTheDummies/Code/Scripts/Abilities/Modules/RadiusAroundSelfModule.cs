@@ -12,11 +12,11 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
 
     public void InstantCast()
     {
-        if (owner.TryGetComponent(out ModifiersController modController))
+        if (owner.gameObject.TryGetComponent(out ModifiersController modController))
         {
             foreach (Modifier mod in selfModifiersOnCast)
             {
-                modController.ApplyModifier(mod, owner.gameObject, rootAbility);
+                modController.ApplyModifier(mod, owner, rootAbility);
             }
         }
 

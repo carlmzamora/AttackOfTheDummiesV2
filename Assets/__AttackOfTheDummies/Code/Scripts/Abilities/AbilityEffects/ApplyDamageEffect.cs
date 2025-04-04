@@ -8,7 +8,7 @@ public class ApplyDamageEffect : IAbilityEffect
     public AffectRule affectRule;
     public float damage;
 
-    public void ApplyEffect(GameObject target, GameObject source, Ability abilityRoot)
+    public void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
     {
         if (!FactionManager.Instance.CanAffect(source, target, affectRule)) return;
 

@@ -8,11 +8,11 @@ public class ModifiersController : MonoBehaviour
     //try: key should be ModSignature?
     public Dictionary<Type, List<Modifier>> activeModifiers = new();
 
-    public void ApplyModifier(Modifier mod, GameObject source, Ability abilityRoot)
+    public void ApplyModifier(Modifier mod, IAbilitiesHolder source, Ability abilityRoot)
     {
         mod.affected = gameObject.GetComponent<MonoBehaviour>();
         mod.controller = gameObject.GetComponent<ModifiersController>();
-        mod.source = source.GetComponent<MonoBehaviour>();
+        mod.source = source.mono;
         mod.abilityRoot = abilityRoot;
 
         ApplyModifier(mod);

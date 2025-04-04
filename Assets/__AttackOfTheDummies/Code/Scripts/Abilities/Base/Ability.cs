@@ -10,13 +10,13 @@ public class Ability : ScriptableObject
     //public Sprite abilityIcon;
     [Manipulable] public float cooldown;
 
-    protected GameObject owner;
+    protected IAbilitiesHolder owner;
     public int level;
 
     public Dictionary<string, FloatParameter> floatParameters = new();
     public Dictionary<string, IntParameter> intParameters = new();
 
-    public virtual void Setup(GameObject owner, int level = -1)
+    public virtual void Setup(IAbilitiesHolder owner, int level = -1)
     {
         this.owner = owner;
         this.level = level;

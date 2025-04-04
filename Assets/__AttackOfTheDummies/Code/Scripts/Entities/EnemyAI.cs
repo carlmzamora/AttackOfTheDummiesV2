@@ -11,15 +11,12 @@ public class EnemyAI : HealthEntity, IFactioned//, IProjectileSource
 
     public float baseMoveSpeed;
 
-    [SerializeField] private Transform projectileSpawnPoint;
-    public Transform ProjectileSpawnPoint => projectileSpawnPoint;
-
     [SerializeField] private Transform destination1;
     [SerializeField] private Transform destination2;
     private NavMeshAgent agent;
     private Transform currentDestination;
 
-    public void Start()
+    protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
@@ -32,7 +29,7 @@ public class EnemyAI : HealthEntity, IFactioned//, IProjectileSource
         }
     }
 
-    public void Update()
+    protected virtual void Update()
     {
         if (agent.remainingDistance < 1 && destination1 && destination2)
         {

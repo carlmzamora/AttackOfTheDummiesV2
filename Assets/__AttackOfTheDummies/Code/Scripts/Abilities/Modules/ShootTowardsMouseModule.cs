@@ -14,13 +14,13 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
 
     private Transform spawnPoint;
 
-    public override void Setup(GameObject owner)
+    public override void Setup(IAbilitiesHolder owner)
     {
         base.Setup(owner);
 
         ObjectPooler.Instance.CreatePool(projectilePrefab.gameObject);
 
-        if(owner.TryGetComponent(out IProjectileSource projectileSource))
+        if(owner.gameObject.TryGetComponent(out IProjectileSource projectileSource))
         {
             spawnPoint = projectileSource.ProjectileSpawnPoint;
         }
