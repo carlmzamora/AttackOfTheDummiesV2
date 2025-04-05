@@ -35,4 +35,13 @@ public class HealthEntity : MonoBehaviour
 
         CurrentHealth -= finalDamage;
     }
+
+    public void ApplyHeal(float heal)
+    {
+        float finalHeal = heal;
+
+        finalHeal *= incomingHealMultiplier;
+
+        CurrentHealth += finalHeal;
+    }
 }
