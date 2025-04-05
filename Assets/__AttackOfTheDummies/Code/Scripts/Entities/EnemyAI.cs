@@ -27,6 +27,9 @@ public class EnemyAI : HealthEntity, IFactioned//, IProjectileSource
             agent.SetDestination(destination1.position);
             currentDestination = destination1;
         }
+
+        incomingDamageMultiplier = 1;
+        incomingHealMultiplier = 1;
     }
 
     protected virtual void Update()

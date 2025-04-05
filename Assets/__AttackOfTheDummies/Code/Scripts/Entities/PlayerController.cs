@@ -41,6 +41,8 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
         controls = new();
 
         currentMoveSpeed = baseMoveSpeed;
+        outgoingDamageMultiplier = 1;
+        outgoingHealMultiplier = 1;
     }
 
     private void OnEnable()

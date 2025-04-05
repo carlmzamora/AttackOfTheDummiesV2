@@ -19,6 +19,9 @@ public class HealthEntity : MonoBehaviour
         private set { maxHealth = value; }
     }
 
+    public float incomingDamageMultiplier = 1f;
+    public float incomingHealMultiplier = 1f;
+
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
@@ -26,6 +29,10 @@ public class HealthEntity : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
+        float finalDamage = damage;
+
+        finalDamage *= incomingDamageMultiplier;
+
+        CurrentHealth -= finalDamage;
     }
 }

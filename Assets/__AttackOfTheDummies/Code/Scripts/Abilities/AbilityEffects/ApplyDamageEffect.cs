@@ -12,9 +12,13 @@ public class ApplyDamageEffect : IAbilityEffect
     {
         if (!FactionManager.Instance.CanAffect(source, target, affectRule)) return;
 
+        float finalDamage = damage;
+
+        finalDamage *= source.outgoingDamageMultiplier;
+
         if (target.TryGetComponent(out HealthEntity healthEntity))
         {
-            healthEntity.TakeDamage(damage);
+            healthEntity.TakeDamage(finalDamage);
         }
     }
 }
