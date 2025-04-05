@@ -2,4 +2,4 @@ using System;
 using UnityEngine;
 
 [AttributeUsage(AttributeTargets.Field)]
-public class HideFactionMaskAttribute : PropertyAttribute { }
+public class HideAffectRuleAttribute : PropertyAttribute { }

@@ -3,6 +3,8 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
+using System;
 
 public static class TomadleEditorUtility
 {
@@ -109,7 +111,7 @@ public static class TomadleEditorUtility
         Debug.Log(report.ToString());
     }
 
-    static private void ReportReferencesWithMissingTypesOnHost(Object host, ref StringBuilder report, ReportFormat reportType)
+    static private void ReportReferencesWithMissingTypesOnHost(UnityEngine.Object host, ref StringBuilder report, ReportFormat reportType)
     {
         // Report the references that have missing types on an individual ScriptableObject
         if (!SerializationUtility.HasManagedReferencesWithMissingTypes(host))
@@ -146,7 +148,7 @@ public static class TomadleEditorUtility
         }
     }
 
-    static private void ScriptableObjectDescription(Object host, ref StringBuilder stringBuilder)
+    static private void ScriptableObjectDescription(UnityEngine.Object host, ref StringBuilder stringBuilder)
     {
         // Identify the object that has missing types
         stringBuilder.AppendFormat("ScriptableObject \"{0}\" (Type: {1}, Instance: {2})",

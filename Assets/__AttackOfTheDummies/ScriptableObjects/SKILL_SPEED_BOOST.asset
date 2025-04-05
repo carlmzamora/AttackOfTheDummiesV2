@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
+  m_Name: SKILL_SPEED_BOOST
+  m_EditorClassIdentifier: 
+  displayName: 
+  cooldown: 0
+  level: 0
+  instantCast: 1
+  moduleScript: {fileID: 11500000, guid: 8f2888a413a952d4c9aee378509371e3, type: 3}
+  abilityModule:
+    rid: 2214235127764221952
+  hasChosenModule: 1
+  moduleDataJson: '{"jsonData":"{\"effectsOnSelfOnCast\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":-2,\"type\":{\"class\":\"\",\"ns\":\"\",\"asm\":\"\"},\"data\":{}},{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"damage\":0.0}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"modifiers\":[{\"rid\":-2}]}}]}}"}'
+  references:
+    version: 2
+    RefIds:
+    - rid: 2214235127764221952
+      type: {class: SelfTargetModule, ns: , asm: Assembly-CSharp}
+      data:
+        effectsOnSelfOnCast:
+        - rid: 2214235127764221953
+        - rid: 2214235127764221954
+    - rid: 2214235127764221953
+      type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 0
+        damage: 0
+    - rid: 2214235127764221954
+      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 0
+        modifiers:
+        - rid: 2214235127764221956
+    - rid: 2214235127764221956
+      type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        boostPercent: 0
+        duration: 0
+        boostPercentAdditive: 0
+        boostDurationAdditive: 0

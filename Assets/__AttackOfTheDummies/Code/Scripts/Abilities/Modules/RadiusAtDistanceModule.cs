@@ -8,7 +8,7 @@ public class RadiusAtDistanceModule : AbilityModule, IInstantCastModule
     public float radiusDamage;
 
     [Space(10)]
-    [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
+    [SerializeReference, HideAffectRule] public List<Modifier> selfModifiersOnCast;
     [Space(10)]
     [SerializeReference] public List<Modifier> modifiersAppliedInRadiusOnCast;
 

@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 1039625838267465776
   hasChosenModule: 1
-  moduleDataJson: '{"jsonData":"{\"radius\":10.0,\"selfModifiersOnCast\":[],\"effectsInRadiusOnCast\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":2,\"modifiers\":[{\"rid\":1002}]}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":1,\"modifiers\":[{\"rid\":1003}]}},{\"rid\":1002,\"type\":{\"class\":\"MoveSpeedSlowModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"slowPercent\":100.0,\"duration\":3.0,\"slowPercentAdditive\":0.0,\"slowDurationAdditive\":0.0}},{\"rid\":1003,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}}]}}"}'
+  moduleDataJson: '{"jsonData":"{\"radius\":10.0,\"effectsOnSelfOnCast\":[{\"rid\":1000}],\"effectsInRadiusOnCast\":[{\"rid\":1001},{\"rid\":1002}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"damage\":0.0}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":2,\"modifiers\":[{\"rid\":1003}]}},{\"rid\":1002,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":1,\"modifiers\":[{\"rid\":1004}]}},{\"rid\":1003,\"type\":{\"class\":\"MoveSpeedSlowModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"slowPercent\":100.0,\"duration\":3.0,\"slowPercentAdditive\":0.0,\"slowDurationAdditive\":0.0}},{\"rid\":1004,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}}]}}"}'
   references:
     version: 2
     RefIds:
@@ -28,7 +28,8 @@ MonoBehaviour:
       type: {class: RadiusAroundSelfModule, ns: , asm: Assembly-CSharp}
       data:
         radius: 10
-        selfModifiersOnCast: []
+        effectsOnSelfOnCast:
+        - rid: 2214235127764221955
         effectsInRadiusOnCast:
         - rid: 1039626321591271432
         - rid: 1039626321591271435
@@ -80,3 +81,8 @@ MonoBehaviour:
         duration: 3
         slowPercentAdditive: 0
         slowDurationAdditive: 0
+    - rid: 2214235127764221955
+      type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 0
+        damage: 0

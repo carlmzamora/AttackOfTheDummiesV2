@@ -6,18 +6,15 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
     public float radius;
 
     [Space(10)]
-    [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
+    [SerializeReference, HideAffectRule] public List<IAbilityEffect> effectsOnSelfOnCast = new();
     [Space(10)]
     [SerializeReference] public List<IAbilityEffect> effectsInRadiusOnCast = new();
 
     public void InstantCast()
     {
-        if (owner.gameObject.TryGetComponent(out ModifiersController modController))
+        foreach (IAbilityEffect effect in effectsOnSelfOnCast)
         {
-            foreach (Modifier mod in selfModifiersOnCast)
-            {
-                modController.ApplyModifier(mod, owner, rootAbility);
-            }
+            effect.ApplyEffect(owner.gameObject, owner, rootAbility);
         }
 
         foreach (IAbilityEffect effect in effectsInRadiusOnCast)

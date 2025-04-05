@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class SelfTargetModule : AbilityModule, IInstantCastModule
 {
-    [Space(10)]
-    [SerializeReference, HideFactionMask] public List<Modifier> selfModifiersOnCast;
+    [SerializeReference, HideAffectRule] public List<IAbilityEffect> effectsOnSelfOnCast = new();
 
     public void InstantCast()
     {
-        if (owner.gameObject.TryGetComponent(out ModifiersController modController))
+        foreach (IAbilityEffect effect in effectsOnSelfOnCast)
         {
-            foreach (Modifier mod in selfModifiersOnCast)
-            {
-                modController.ApplyModifier(mod, owner, rootAbility);
-            }
+            effect.ApplyEffect(owner.gameObject, owner, rootAbility);
         }
     }
 }

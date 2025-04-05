@@ -156,7 +156,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
     private bool DoesParentListHideFactionMask(SerializedProperty property)
     {
         FieldInfo field = GetParentField(property);
-        return field != null && field.IsDefined(typeof(HideFactionMaskAttribute), false);
+        return field != null && field.IsDefined(typeof(HideAffectRuleAttribute), false);
     }
 
     private FieldInfo GetParentField(SerializedProperty property)
