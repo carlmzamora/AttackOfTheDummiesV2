@@ -468,6 +468,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: 0
   baseMoveSpeed: 3000
@@ -555,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: 6b0e72f960e6eb4419e6702380dead03, type: 2}
+  - ability: {fileID: 11400000, guid: 775d1c7d7e8e2ba41b0cd36e02666be4, type: 2}
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
@@ -1065,9 +1067,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: 2
-  baseMoveSpeed: 8
+  baseMoveSpeed: 1
   destination1: {fileID: 1231537741}
   destination2: {fileID: 443936686}
 --- !u!54 &383214638
@@ -2101,9 +2105,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: 1
-  baseMoveSpeed: 8
+  baseMoveSpeed: 1
   destination1: {fileID: 443936686}
   destination2: {fileID: 1231537741}
 --- !u!54 &804790399
@@ -3462,6 +3468,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: 1
   baseMoveSpeed: 0
@@ -3516,6 +3524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: 1
   baseMoveSpeed: 0
@@ -3939,6 +3949,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 100
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: -1
   baseMoveSpeed: 0
@@ -3993,6 +4005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   maxHealth: 1000
+  incomingDamageMultiplier: 1
+  incomingHealMultiplier: 1
   faction:
     factionIndex: -1
   baseMoveSpeed: 0

@@ -20,6 +20,8 @@ public class FactionManager : MonoBehaviour
     {
         if (target == null) return false;
 
+        if(caster.gameObject == target) return true;
+
         IFactioned targetIFactioned = target.GetComponent<IFactioned>();
         if (targetIFactioned == null) return false; 
 

@@ -1,0 +1,30 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
+{
+    public float radius;
+
+    [Space(10)]
+    [SerializeReference, HideAffectRule] public List<IAbilityEffect> effectsOnSelfOnCast = new();
+    [Space(10)]
+    [SerializeReference] public List<IAbilityEffect> effectsInRadiusOnCast = new();
+
+    public void InstantCast()
+    {
+        foreach (IAbilityEffect effect in effectsOnSelfOnCast)
+        {
+            effect.ApplyEffect(owner.gameObject, owner, rootAbility);
+        }
+
+        Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player", "Environment")); //means do not include player
+
+        foreach (IAbilityEffect effect in effectsInRadiusOnCast)
+        {
+            for (int i = 0; i < collidersInRadius.Length; i++)
+            {
+                effect.ApplyEffect(collidersInRadius[i].gameObject, owner, rootAbility);
+            }
+        }
+    }
+}

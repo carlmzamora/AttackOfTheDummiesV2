@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 2214235127764221952
   hasChosenModule: 1
-  moduleDataJson: '{"jsonData":"{\"effectsOnSelfOnCast\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":-2,\"type\":{\"class\":\"\",\"ns\":\"\",\"asm\":\"\"},\"data\":{}},{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"damage\":0.0}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"modifiers\":[{\"rid\":-2}]}}]}}"}'
+  moduleDataJson: '{"jsonData":"{\"effectsOnSelfOnCast\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"damage\":20.0}}]}}"}'
   references:
     version: 2
     RefIds:
@@ -29,33 +29,8 @@ MonoBehaviour:
       data:
         effectsOnSelfOnCast:
         - rid: 2214235127764221953
-        - rid: 2214235127764221954
     - rid: 2214235127764221953
       type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
       data:
         affectRule: 0
-        damage: 0
-    - rid: 2214235127764221954
-      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
-      data:
-        affectRule: 0
-        modifiers:
-        - rid: 2214235127764221956
-    - rid: 2214235127764221956
-      type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
-      data:
-        modifierName: 
-        allowOnlyOneInstance: 1
-        maxStacks: 0
-        refreshOnReapply: 0
-        independentStackTimers: 0
-        currentStacks: 0
-        affected: {fileID: 0}
-        source: {fileID: 0}
-        abilityRoot: {fileID: 0}
-        controller: {fileID: 0}
-        stackDuration: 0
-        boostPercent: 0
-        duration: 0
-        boostPercentAdditive: 0
-        boostDurationAdditive: 0
+        damage: 20

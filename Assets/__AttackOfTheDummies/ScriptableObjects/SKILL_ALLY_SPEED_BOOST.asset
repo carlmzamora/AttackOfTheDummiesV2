@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
+  m_Name: SKILL_ALLY_SPEED_BOOST
+  m_EditorClassIdentifier: 
+  displayName: 
+  cooldown: 0
+  level: 0
+  instantCast: 1
+  moduleScript: {fileID: 11500000, guid: 6480a6bf3a1416e4fac8d4500da65d0d, type: 3}
+  abilityModule:
+    rid: 2214235149811056641
+  hasChosenModule: 1
+  moduleDataJson: '{"jsonData":"{\"hasGlobalCastRange\":false,\"castRange\":0.0,\"affectRule\":1,\"effectsOnTargetOnCast\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"modifiers\":[{\"rid\":1001}]}},{\"rid\":1001,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}}]}}"}'
+  references:
+    version: 2
+    RefIds:
+    - rid: 2214235149811056641
+      type: {class: UnitTargetModule, ns: , asm: Assembly-CSharp}
+      data:
+        hasGlobalCastRange: 0
+        castRange: 0
+        affectRule: 1
+        effectsOnTargetOnCast:
+        - rid: 2214235149811056642
+    - rid: 2214235149811056642
+      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 0
+        modifiers:
+        - rid: 2214235149811056643
+    - rid: 2214235149811056643
+      type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        boostPercent: 100
+        duration: 5
+        boostPercentAdditive: 0
+        boostDurationAdditive: 0
