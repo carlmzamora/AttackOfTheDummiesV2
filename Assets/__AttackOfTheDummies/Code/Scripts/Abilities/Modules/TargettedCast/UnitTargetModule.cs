@@ -8,15 +8,35 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
 {
     public bool hasGlobalCastRange;
     public float castRange;
-    public AffectRule affectRule;
+
+    private AffectRule? compiledAffectRule = null;
+
+    private AffectRule CompiledAffectRule
+    {
+        get
+        {
+            if (compiledAffectRule == null)
+            {
+                AffectRule combined = AffectRule.None;
+
+                foreach (IAbilityEffect effect in effectsOnTargetOnCast)
+                {
+                    combined |= effect.AffectRule;
+                }
+
+                compiledAffectRule = combined;
+            }
+
+            return compiledAffectRule.Value;
+        }
+    }
 
     [Space(10)]
-    [SerializeReference, HideAffectRule] public List<IAbilityEffect> effectsOnTargetOnCast = new();
+    [SerializeReference] public List<IAbilityEffect> effectsOnTargetOnCast = new();
 
     public bool CanTarget(GameObject candidate)
     {
-        Debug.Log($"{candidate}: {FactionManager.Instance.CanAffect(owner, candidate, affectRule)}");
-        return FactionManager.Instance.CanAffect(owner, candidate, affectRule);
+        return FactionManager.Instance.CanAffect(owner, candidate, CompiledAffectRule);
     }
 
     public void CastOnTarget(GameObject target)

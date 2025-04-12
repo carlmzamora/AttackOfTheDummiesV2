@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ApplyModifiersEffect : IAbilityEffect
+public class ApplyModifiersEffect : AbilityEffectBase
 {
-    [Tooltip("What factions do these modifier affect?")]
-    public AffectRule affectRule;
     [SerializeReference] public List<Modifier> modifiers = new();    
 
-    public void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
+    public override void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
     {
-        if (!FactionManager.Instance.CanAffect(source, target, affectRule)) return;
+        if (!FactionManager.Instance.CanAffect(source, target, AffectRule)) return;
 
         if (target.TryGetComponent(out ModifiersController modController))
         {

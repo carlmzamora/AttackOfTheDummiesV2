@@ -102,8 +102,6 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
     private void DisplayFields(Rect position, SerializedProperty property, List<FieldInfo> fields, ref float yOffset)
     {
-        //bool shouldShowFactionMask = property.propertyPath.Contains("modifiersAppliedInRadiusOnCast");
-
         foreach (FieldInfo field in fields)
         {
             if (field.FieldType == typeof(FactionMask) && DoesParentListHideFactionMask(property))

@@ -2,15 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ApplyDamageEffect : IAbilityEffect
+public class ApplyDamageEffect : AbilityEffectBase
 {
-    [Tooltip("What factions should we damage?")]
-    public AffectRule affectRule;
     public float damage;
 
-    public void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
+    public override void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot)
     {
-        if (!FactionManager.Instance.CanAffect(source, target, affectRule)) return;
+        if (!FactionManager.Instance.CanAffect(source, target, AffectRule)) return;
 
         float finalDamage = damage;
 

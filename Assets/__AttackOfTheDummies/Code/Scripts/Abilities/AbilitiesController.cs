@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AbilitiesController : MonoBehaviour
 {
     public List<AbilitySlot> abilitySlots;
 
-    [HideInInspector] public Vector2 worldPosFromMousePos = Vector2.zero;
+    [HideInInspector] public Vector2 worldPosFromMousePos;
     [HideInInspector] public bool mouse1WasPressed = false;
 
     private IAbilitiesHolder owner => GetComponent<IAbilitiesHolder>();
@@ -100,8 +101,8 @@ public class AbilitiesController : MonoBehaviour
 
     private GameObject TryFindTargetableUnit(Vector2 worldPos, IUnitTargetCastModule module)
     {
-        float searchRadius = 1.5f; // tweak for how "forgiving" selection is
-        Collider[] hits = Physics.OverlapSphere(worldPos, searchRadius, ~LayerMask.GetMask("Environment"));
+        float searchRadius = 3f; // tweak for how "forgiving" selection is
+        Collider[] hits = Physics.OverlapSphere(new (worldPos.x, 0, worldPos.y), searchRadius, ~LayerMask.GetMask("Environment"));
         foreach (var hit in hits)
         {
             GameObject go = hit.gameObject;
@@ -109,5 +110,10 @@ public class AbilitiesController : MonoBehaviour
                 return go;
         }
         return null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(new Vector3(worldPosFromMousePos.x, 0, worldPosFromMousePos.y), 3);
     }
 }

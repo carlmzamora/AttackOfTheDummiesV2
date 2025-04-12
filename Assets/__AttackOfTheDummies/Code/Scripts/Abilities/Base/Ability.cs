@@ -26,6 +26,9 @@ public class Ability : ScriptableObject
         //TODO:
         //abilities should be upgradable? not like leveling up, but like aghanim scepter upgrades
         //and not just variable manipulation, but behaviour changes as well
+
+        //TODO:
+        //IAbilityProp
     }
 
     private void CacheParameters(Type type, object target, Ability root)

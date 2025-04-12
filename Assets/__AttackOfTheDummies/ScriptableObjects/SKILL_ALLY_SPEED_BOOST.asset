@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityModule:
     rid: 2214235149811056641
   hasChosenModule: 1
-  moduleDataJson: '{"jsonData":"{\"hasGlobalCastRange\":false,\"castRange\":0.0,\"affectRule\":1,\"effectsOnTargetOnCast\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":0,\"modifiers\":[{\"rid\":1001}]}},{\"rid\":1001,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}}]}}"}'
+  moduleDataJson: '{"jsonData":"{\"hasGlobalCastRange\":false,\"castRange\":0.0,\"effectsOnTargetOnCast\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":2,\"damage\":50.0}},{\"rid\":1001,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":1,\"modifiers\":[{\"rid\":1002}]}},{\"rid\":1002,\"type\":{\"class\":\"MoveSpeedBoostModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"boostPercent\":100.0,\"duration\":5.0,\"boostPercentAdditive\":0.0,\"boostDurationAdditive\":0.0}}]}}"}'
   references:
     version: 2
     RefIds:
@@ -29,16 +29,21 @@ MonoBehaviour:
       data:
         hasGlobalCastRange: 0
         castRange: 0
-        affectRule: 1
         effectsOnTargetOnCast:
-        - rid: 2214235149811056642
-    - rid: 2214235149811056642
+        - rid: 2214235287333371904
+        - rid: 2214235287333371905
+    - rid: 2214235287333371904
+      type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 2
+        damage: 50
+    - rid: 2214235287333371905
       type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
       data:
-        affectRule: 0
+        affectRule: 1
         modifiers:
-        - rid: 2214235149811056643
-    - rid: 2214235149811056643
+        - rid: 2214235287333371906
+    - rid: 2214235287333371906
       type: {class: MoveSpeedBoostModifier, ns: , asm: Assembly-CSharp}
       data:
         modifierName: 
