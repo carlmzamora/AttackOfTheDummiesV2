@@ -15,7 +15,8 @@ public class ApplyModifiersEffect : AbilityEffectBase
         {
             foreach (Modifier mod in modifiers)
             {
-                modController.ApplyModifier(mod, source, abilityRoot);
+                Modifier modInstance = mod.Clone();
+                modController.ApplyModifier(modInstance, source, abilityRoot);
             }
         }
     }

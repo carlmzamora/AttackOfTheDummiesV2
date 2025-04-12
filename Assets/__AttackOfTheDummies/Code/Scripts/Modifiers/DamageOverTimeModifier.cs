@@ -21,6 +21,12 @@ public class DamageOverTimeModifier : Modifier
     private float lastTickTime;
     private float timeBetweenRefreshAndLastTick;
 
+    public override Modifier Clone()
+    {
+        Modifier copy = (DamageOverTimeModifier)MemberwiseClone();
+        return copy;
+    }
+
     public override void Instantiate(bool timedStacks)
     {
         currentTickDamage = tickDamage + GetFloatParameter(nameof(tickDamageAdditive));

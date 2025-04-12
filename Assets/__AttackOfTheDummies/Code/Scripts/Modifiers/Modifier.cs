@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Modifier
+public abstract class Modifier
 {
     [Header("General")]
     public string modifierName;
@@ -67,6 +67,8 @@ public class Modifier
         if (currentStacks <= 0)
             Expire();
     }
+
+    public abstract Modifier Clone();
 
     public FloatParameter GetFloatParameter(string parameterName)
     {

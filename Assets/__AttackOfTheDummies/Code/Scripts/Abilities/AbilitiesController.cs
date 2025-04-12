@@ -101,19 +101,32 @@ public class AbilitiesController : MonoBehaviour
 
     private GameObject TryFindTargetableUnit(Vector2 worldPos, IUnitTargetCastModule module)
     {
-        float searchRadius = 3f; // tweak for how "forgiving" selection is
-        Collider[] hits = Physics.OverlapSphere(new (worldPos.x, 0, worldPos.y), searchRadius, ~LayerMask.GetMask("Environment"));
+        float searchRadius = 1.2f;
+        Vector3 center = new Vector3(worldPos.x, 0, worldPos.y);
+
+        Collider[] hits = Physics.OverlapSphere(center, searchRadius, ~LayerMask.GetMask("Environment"));
+
+        GameObject closest = null;
+        float closestDistanceSqr = float.MaxValue;
+
         foreach (var hit in hits)
         {
             GameObject go = hit.gameObject;
-            if (module.CanTarget(go))
-                return go;
+            if (!module.CanTarget(go)) continue;
+
+            float distanceSqr = (go.transform.position - center).sqrMagnitude;
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closest = go;
+                closestDistanceSqr = distanceSqr;
+            }
         }
-        return null;
+
+        return closest;
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(new Vector3(worldPosFromMousePos.x, 0, worldPosFromMousePos.y), 3);
+        Gizmos.DrawWireSphere(new Vector3(worldPosFromMousePos.x, 0, worldPosFromMousePos.y), 1.2f);
     }
 }

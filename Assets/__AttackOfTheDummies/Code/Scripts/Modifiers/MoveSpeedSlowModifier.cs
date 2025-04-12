@@ -21,6 +21,12 @@ public class MoveSpeedSlowModifier : Modifier
 
     private float slowPerStack = 0;
 
+    public override Modifier Clone()
+    {
+        Modifier copy = (MoveSpeedSlowModifier)MemberwiseClone();
+        return copy;
+    }
+
     public override void Instantiate(bool timedStacks)
     {
         aiAgent = affected.GetComponent<NavMeshAgent>();
