@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ApplyHealEffect : AbilityEffectBase
+public class ApplyHealEffect : AbilityApplicationEffectBase
 {
     public float heal;
 

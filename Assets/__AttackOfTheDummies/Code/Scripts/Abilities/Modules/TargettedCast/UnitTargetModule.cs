@@ -1,13 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
-using static UnityEngine.GraphicsBuffer;
 
 public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
 {
     public bool hasGlobalCastRange;
     public float castRange;
+
+    [Space(10)]
+    [SerializeReference] public List<IApplicationEffect> effectsToApplyOnTargetOnCast = new();
 
     private AffectRule? compiledAffectRule = null;
 
@@ -19,7 +19,7 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
             {
                 AffectRule combined = AffectRule.None;
 
-                foreach (IAbilityEffect effect in effectsOnTargetOnCast)
+                foreach (IApplicationEffect effect in effectsToApplyOnTargetOnCast)
                 {
                     combined |= effect.AffectRule;
                 }
@@ -31,9 +31,6 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
         }
     }
 
-    [Space(10)]
-    [SerializeReference] public List<IAbilityEffect> effectsOnTargetOnCast = new();
-
     public bool CanTarget(GameObject candidate)
     {
         return FactionManager.Instance.CanAffect(owner, candidate, CompiledAffectRule);
@@ -41,8 +38,7 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
 
     public void CastOnTarget(GameObject target)
     {
-        //trouble with custom affect rule conflicting with effect affect rule
-        foreach (IAbilityEffect effect in effectsOnTargetOnCast)
+        foreach (IApplicationEffect effect in effectsToApplyOnTargetOnCast)
         {
             effect.ApplyEffect(target, owner, rootAbility);
         }

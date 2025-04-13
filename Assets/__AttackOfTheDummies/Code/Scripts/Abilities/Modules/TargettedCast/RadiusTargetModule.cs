@@ -9,9 +9,9 @@ public class RadiusTargetModule : AbilityModule, ITargetedCastModule
     public float castRange;
 
     [Space(10)]
-    [SerializeReference, HideAffectRule] public List<IAbilityEffect> effectsOnSelfOnCast = new();
+    [SerializeReference, HideAffectRule] public List<IApplicationEffect> effectsToApplyOnSelfOnCast = new();
     [Space(10)]
-    [SerializeReference] public List<IAbilityEffect> effectsInRadiusOnCast = new();
+    [SerializeReference] public List<IApplicationEffect> effectsToApplyToTargetsInRadiusOnCast = new();
 
     public void UpdateWaitForInputDisplay(Vector2 worldPos)
     {
@@ -20,14 +20,14 @@ public class RadiusTargetModule : AbilityModule, ITargetedCastModule
 
     public void EndWaitForInput(Vector2 worldPos)
     {
-        foreach (IAbilityEffect effect in effectsOnSelfOnCast)
+        foreach (IApplicationEffect effect in effectsToApplyOnSelfOnCast)
         {
             effect.ApplyEffect(owner.gameObject, owner, rootAbility);
         }
 
         Collider[] collidersInRadius = Physics.OverlapSphere(worldPos, radius);
 
-        foreach (IAbilityEffect effect in effectsInRadiusOnCast)
+        foreach (IApplicationEffect effect in effectsToApplyToTargetsInRadiusOnCast)
         {
             for (int i = 0; i < collidersInRadius.Length; i++)
             {

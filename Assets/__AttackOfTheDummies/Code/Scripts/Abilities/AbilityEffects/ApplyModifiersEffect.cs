@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ApplyModifiersEffect : AbilityEffectBase
+public class ApplyModifiersEffect : AbilityApplicationEffectBase
 {
     [SerializeReference] public List<Modifier> modifiers = new();    
 

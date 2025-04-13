@@ -10,7 +10,7 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
     public float lifetime;
 
     [Space(10)]
-    [SerializeReference] public List<IAbilityEffect> effectsOnContact = new();
+    [SerializeReference] public List<IApplicationEffect> effectsToApplyOnTargetsOnContact = new();
 
     private Transform spawnPoint;
 
@@ -38,7 +38,7 @@ public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
 
         projectile.travelSpeed = projectileSpeed;
         projectile.lifetime = lifetime;
-        projectile.effectsOnContact = new(effectsOnContact);
+        projectile.effectsToApplyOnTargetsOnContact = new(effectsToApplyOnTargetsOnContact);
 
         projectile.gameObject.SetActive(true);
     }

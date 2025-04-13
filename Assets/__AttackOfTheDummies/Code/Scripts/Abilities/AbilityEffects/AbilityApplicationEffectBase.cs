@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityEffectBase : IAbilityEffect
+public abstract class AbilityApplicationEffectBase : IApplicationEffect
 {
     [Tooltip("What factions should this affect?")]
     public AffectRule affectRule;

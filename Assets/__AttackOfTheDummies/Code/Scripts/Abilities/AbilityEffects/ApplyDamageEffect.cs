@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ApplyDamageEffect : AbilityEffectBase
+public class ApplyDamageEffect : AbilityApplicationEffectBase
 {
     public float damage;
 

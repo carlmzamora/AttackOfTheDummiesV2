@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -55,19 +56,19 @@ public class Ability : ScriptableObject
                 }
             }
 
-            if(field.FieldType == typeof(IAbilityModule))
+            if (field.FieldType == typeof(IAbilityModule))
             {
-                if(field.GetValue(target) is IAbilityModule abilityModule)
+                if (field.GetValue(target) is IAbilityModule abilityModule)
                 {
                     CacheParameters(abilityModule.GetType(), abilityModule, root);
                 }
             }
 
-            if(field.FieldType == typeof(List<IAbilityEffect>))
+            if (typeof(IEnumerable<IAbilityEffect>).IsAssignableFrom(field.FieldType))
             {
-                if(field.GetValue(target) is List<IAbilityEffect> abilityEffects)
+                if (field.GetValue(target) is IEnumerable<IAbilityEffect> effects)
                 {
-                    CacheAbilityEffectManipulableFields(abilityEffects, root);
+                    CacheAbilityEffectManipulableFields(effects.ToList(), root);
                 }
             }
         }

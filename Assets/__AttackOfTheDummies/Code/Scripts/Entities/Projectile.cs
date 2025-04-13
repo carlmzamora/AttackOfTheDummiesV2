@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour, IPoolReleasable
     [HideInInspector] public Ability abilityRoot;
     [HideInInspector] public Action releaseFunction { get; set; }
 
-    [SerializeReference] public List<IAbilityEffect> effectsOnContact = new List<IAbilityEffect>();
+    [SerializeReference] public List<IApplicationEffect> effectsToApplyOnTargetsOnContact = new List<IApplicationEffect>();
 
     private Rigidbody rb => GetComponent<Rigidbody>();
 
@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour, IPoolReleasable
 
     public void OnTriggerEnter(Collider other)
     {
-        foreach (IAbilityEffect effect in effectsOnContact)
+        foreach (IApplicationEffect effect in effectsToApplyOnTargetsOnContact)
         {
             effect.ApplyEffect(other.gameObject, projectileOwner, abilityRoot);
         }
