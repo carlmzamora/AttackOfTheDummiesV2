@@ -18,23 +18,17 @@ MonoBehaviour:
   instantCast: 1
   moduleScript: {fileID: 11500000, guid: 6a641a256a37e1b458429a6dca8b89cd, type: 3}
   abilityModule:
-    rid: 1039626293711732754
+    rid: 2214235378089197568
   hasChosenModule: 1
-  moduleDataJson: '{"jsonData":"{\"projectilePrefab\":{\"instanceID\":28128},\"projectileSpeed\":1000.0,\"lifetime\":2.0,\"effectsOnContact\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyDamageEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":2,\"damage\":20.0}}]}}"}'
+  moduleDataJson: '{"jsonData":"{\"projectilePrefab\":{\"instanceID\":28138},\"projectileSpeed\":1000.0,\"lifetime\":2.0,\"effectsToApplyOnTargetsOnContact\":[],\"references\":{\"version\":2,\"RefIds\":[]}}"}'
   references:
     version: 2
     RefIds:
-    - rid: 1039626293711732754
-      type: {class: ShootTowardsMouseModule, ns: , asm: Assembly-CSharp}
+    - rid: 2214235378089197568
+      type: {class: ShootForwardModule, ns: , asm: Assembly-CSharp}
       data:
         projectilePrefab: {fileID: 1595747817566170178, guid: 5888d67239285c84caaf6abb167e2669,
           type: 3}
         projectileSpeed: 1000
         lifetime: 2
-        effectsOnContact:
-        - rid: 1039626321591271424
-    - rid: 1039626321591271424
-      type: {class: ApplyDamageEffect, ns: , asm: Assembly-CSharp}
-      data:
-        affectRule: 2
-        damage: 20
+        effectsToApplyOnTargetsOnContact: []

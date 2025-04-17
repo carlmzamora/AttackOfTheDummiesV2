@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface ITargetedCastModule : IAbilityModule
 {
-    void UpdateWaitForInputDisplay(Vector2 worldPos);
-    void EndWaitForInput(Vector2 worldPos);
+    void StartWaitForInput(Vector2 mouseWorldPos);
+    void UpdateWaitForInputDisplay(Vector2 mouseWorldPos);
+    void EndWaitForInput(Vector2 mouseWorldPos);
 }

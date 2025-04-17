@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
+  m_Name: SKILL_BURN_BLAST
+  m_EditorClassIdentifier: 
+  displayName: 
+  cooldown: 0
+  level: 0
+  instantCast: 1
+  moduleScript: {fileID: 11500000, guid: 657267cbb5902e2428f638fa7554466b, type: 3}
+  abilityModule:
+    rid: 2214235397513281536
+  hasChosenModule: 1
+  moduleDataJson: '{"jsonData":"{\"radius\":5.0,\"hasGlobalCastRange\":false,\"castRange\":0.0,\"customRadiusReticle\":{\"instanceID\":0},\"effectsToApplyOnSelfOnCast\":[],\"effectsToApplyToTargetsInRadiusOnCast\":[],\"references\":{\"version\":2,\"RefIds\":[]}}"}'
+  references:
+    version: 2
+    RefIds:
+    - rid: 2214235397513281536
+      type: {class: RadiusTargetModule, ns: , asm: Assembly-CSharp}
+      data:
+        radius: 5
+        hasGlobalCastRange: 0
+        castRange: 0
+        customRadiusReticle: {fileID: 0}
+        effectsToApplyOnSelfOnCast: []
+        effectsToApplyToTargetsInRadiusOnCast: []

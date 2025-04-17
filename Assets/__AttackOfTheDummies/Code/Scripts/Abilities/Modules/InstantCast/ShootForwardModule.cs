@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootTowardsMouseModule : AbilityModule, IInstantCastModule
+public class ShootForwardModule : AbilityModule, IInstantCastModule
 {
     public Projectile projectilePrefab;
 

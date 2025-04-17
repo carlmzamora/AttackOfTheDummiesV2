@@ -6,6 +6,9 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
     public bool hasGlobalCastRange;
     public float castRange;
 
+    [SerializeField] public RadiusReticle customRadiusReticle;
+    public RadiusReticle CustomRadiusReticle => customRadiusReticle;
+
     [Space(10)]
     [SerializeReference] public List<IApplicationEffect> effectsToApplyOnTargetOnCast = new();
 
@@ -44,12 +47,17 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
         }
     }
 
-    public void UpdateWaitForInputDisplay(Vector2 worldPos)
+    public void StartWaitForInput(Vector2 mouseWorldPos)
+    {
+
+    }
+
+    public void UpdateWaitForInputDisplay(Vector2 mouseWorldPos)
     {
         
     }
 
-    public void EndWaitForInput(Vector2 worldPos)
+    public void EndWaitForInput(Vector2 mouseWorldPos)
     {
         
     }

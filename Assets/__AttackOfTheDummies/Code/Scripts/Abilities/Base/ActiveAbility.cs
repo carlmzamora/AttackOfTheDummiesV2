@@ -35,19 +35,29 @@ public class ActiveAbility : Ability
         }
     }
 
-    public void UpdateInputHandling(Vector2 worldPos)
-    {
-        if(abilityModule is ITargetedCastModule targetedCastAbility)
-        {
-            targetedCastAbility.UpdateWaitForInputDisplay(worldPos);
-        }
-    }
-
-    public void ConfirmInput(Vector2 worldPos)
+    public void StartInputHandling(Vector2 mouseWorldPos)
     {
         if (abilityModule is ITargetedCastModule targetedCastAbility)
         {
-            targetedCastAbility.EndWaitForInput(worldPos);
+            Debug.Log("Wait for input started.");
+
+            targetedCastAbility.StartWaitForInput(mouseWorldPos);
+        }
+    }
+
+    public void UpdateInputHandling(Vector2 mouseWorldPos)
+    {
+        if(abilityModule is ITargetedCastModule targetedCastAbility)
+        {
+            targetedCastAbility.UpdateWaitForInputDisplay(mouseWorldPos);
+        }
+    }
+
+    public void ConfirmInput(Vector2 mouseWorldPos)
+    {
+        if (abilityModule is ITargetedCastModule targetedCastAbility)
+        {
+            targetedCastAbility.EndWaitForInput(mouseWorldPos);
         }
     }
 

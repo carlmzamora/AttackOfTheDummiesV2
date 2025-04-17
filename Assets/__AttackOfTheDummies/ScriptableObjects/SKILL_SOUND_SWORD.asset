@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3132ff56a4d96ae42bc32214e90f591e, type: 3}
+  m_Name: SKILL_SOUND_SWORD
+  m_EditorClassIdentifier: 
+  displayName: Sound Sword
+  cooldown: 0
+  level: 0
+  instantCast: 1
+  moduleScript: {fileID: 11500000, guid: 6480a6bf3a1416e4fac8d4500da65d0d, type: 3}
+  abilityModule:
+    rid: 2214235378089197569
+  hasChosenModule: 1
+  moduleDataJson: '{"jsonData":"{\"hasGlobalCastRange\":false,\"castRange\":0.0,\"effectsToApplyOnTargetOnCast\":[{\"rid\":1000}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ApplyModifiersEffect\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"affectRule\":2,\"modifiers\":[{\"rid\":1001},{\"rid\":1002}]}},{\"rid\":1001,\"type\":{\"class\":\"DamageOverTimeModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"tickDamage\":10.0,\"tickCount\":10,\"tickInterval\":0.10000000149011612,\"tickDamageAdditive\":0.0,\"tickCountAdditive\":0}},{\"rid\":1002,\"type\":{\"class\":\"MoveSpeedSlowModifier\",\"ns\":\"\",\"asm\":\"Assembly-CSharp\"},\"data\":{\"modifierName\":\"\",\"allowOnlyOneInstance\":true,\"maxStacks\":0,\"refreshOnReapply\":false,\"independentStackTimers\":false,\"currentStacks\":0,\"affected\":{\"instanceID\":0},\"source\":{\"instanceID\":0},\"abilityRoot\":{\"instanceID\":0},\"controller\":{\"instanceID\":0},\"stackDuration\":0.0,\"slowPercent\":20.0,\"duration\":3.0,\"slowPercentAdditive\":0.0,\"slowDurationAdditive\":0.0}}]}}"}'
+  references:
+    version: 2
+    RefIds:
+    - rid: 2214235378089197569
+      type: {class: UnitTargetModule, ns: , asm: Assembly-CSharp}
+      data:
+        hasGlobalCastRange: 0
+        castRange: 0
+        effectsToApplyOnTargetOnCast:
+        - rid: 2214235378089197570
+    - rid: 2214235378089197570
+      type: {class: ApplyModifiersEffect, ns: , asm: Assembly-CSharp}
+      data:
+        affectRule: 2
+        modifiers:
+        - rid: 2214235378089197571
+        - rid: 2214235378089197573
+    - rid: 2214235378089197571
+      type: {class: DamageOverTimeModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        tickDamage: 10
+        tickCount: 10
+        tickInterval: 0.1
+        tickDamageAdditive: 0
+        tickCountAdditive: 0
+    - rid: 2214235378089197573
+      type: {class: MoveSpeedSlowModifier, ns: , asm: Assembly-CSharp}
+      data:
+        modifierName: 
+        allowOnlyOneInstance: 1
+        maxStacks: 0
+        refreshOnReapply: 0
+        independentStackTimers: 0
+        currentStacks: 0
+        affected: {fileID: 0}
+        source: {fileID: 0}
+        abilityRoot: {fileID: 0}
+        controller: {fileID: 0}
+        stackDuration: 0
+        slowPercent: 20
+        duration: 3
+        slowPercentAdditive: 0
+        slowDurationAdditive: 0

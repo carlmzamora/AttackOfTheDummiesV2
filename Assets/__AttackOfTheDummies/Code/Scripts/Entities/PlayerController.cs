@@ -21,7 +21,8 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
     private PlayerInputActions controls;
     private InputAction moveInput;
     private InputAction lookInput;
-    private InputAction mouse1Input;
+    private InputAction mouse0Input;
+    private InputAction alpha1Input;
 
     private Vector2 moveDirection;
     private Vector2 lookDirection;
@@ -53,15 +54,19 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
         lookInput = controls.Player.Look;
         lookInput.Enable();
 
-        mouse1Input = controls.Player.Fire;
-        mouse1Input.Enable();
+        mouse0Input = controls.Player.Fire;
+        mouse0Input.Enable();
+
+        alpha1Input = controls.Player.CastAbilitySlot1;
+        alpha1Input.Enable();
     }
 
     private void OnDisable()
     {
         moveInput.Disable();
         lookInput.Disable();
-        mouse1Input.Disable();
+        mouse0Input.Disable();
+        alpha1Input.Disable();
     }
 
     private void Update()
@@ -71,10 +76,13 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
 
         if (!abilitiesController) return;
 
-        if (mouse1Input.WasPressedThisFrame())
-            abilitiesController.PerformMouse01();
+        if (mouse0Input.WasPressedThisFrame())
+            abilitiesController.Perform(0);
 
-        abilitiesController.mouse1WasPressed = mouse1Input.WasPressedThisFrame();
+        if(alpha1Input.WasPressedThisFrame())
+            abilitiesController.Perform(1);
+
+        abilitiesController.mouse0WasPressed = mouse0Input.WasPressedThisFrame();
 
         Ray mouseRay = Camera.main.ScreenPointToRay(lookDirection);
 
@@ -84,7 +92,7 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
         {
             Vector3 pointToLookAt = mouseRay.GetPoint(rayLength); //get point along mouseRay where it intersects with groundPlane
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z)); //rotate, but do not include y to avoid y axis movement
-            abilitiesController.worldPosFromMousePos = new(pointToLookAt.x, pointToLookAt.z);
+            abilitiesController.mouseWorldPos = new(pointToLookAt.x, pointToLookAt.z);
         }
     }
 

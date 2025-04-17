@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,8 +9,10 @@ public class AbilitiesController : MonoBehaviour
 {
     public List<AbilitySlot> abilitySlots;
 
-    [HideInInspector] public Vector2 worldPosFromMousePos;
-    [HideInInspector] public bool mouse1WasPressed = false;
+    [HideInInspector] public Vector2 mouseWorldPos;
+    [HideInInspector] public bool mouse0WasPressed = false;
+
+    private bool justStartedTargeting = false;
 
     private IAbilitiesHolder owner => GetComponent<IAbilitiesHolder>();
 
@@ -38,17 +41,23 @@ public class AbilitiesController : MonoBehaviour
             }
         }
 
-        if (currentTargetingSlot != null)
+        if (currentTargetingSlot != null && currentTargetingSlot.slotState == AbilityState.WAITING_FOR_INPUT)
         {
             ActiveAbility active = currentTargetingSlot.abilityInstance as ActiveAbility;
-            active.UpdateInputHandling(worldPosFromMousePos);
+            active.UpdateInputHandling(mouseWorldPos);
 
-            if (mouse1WasPressed)
+            if (justStartedTargeting)
             {
-                Debug.Log("Mouse 1 pressed!");
+                justStartedTargeting = false;
+                return;
+            }
+
+            if (mouse0WasPressed)
+            {
+                Debug.Log("Mouse 0 pressed!");
                 if (active.abilityModule is IUnitTargetCastModule unitTargetModule)
                 {
-                    GameObject selectedUnit = TryFindTargetableUnit(worldPosFromMousePos, unitTargetModule);
+                    GameObject selectedUnit = TryFindTargetableUnit(mouseWorldPos, unitTargetModule);
                     if (selectedUnit != null)
                     {
                         unitTargetModule.CastOnTarget(selectedUnit);
@@ -64,7 +73,7 @@ public class AbilitiesController : MonoBehaviour
                     }
                 }
 
-                active.ConfirmInput(worldPosFromMousePos);
+                active.ConfirmInput(mouseWorldPos);
                 currentTargetingSlot.slotState = AbilityState.COOLDOWN;
                 currentTargetingSlot.cooldownProgress = active.cooldown;
                 currentTargetingSlot = null;
@@ -79,13 +88,15 @@ public class AbilitiesController : MonoBehaviour
         }
     }
 
-    public void PerformMouse01()
+    public void Perform(int slotNumber)
     {
-        AbilitySlot slot = abilitySlots[0];
+        AbilitySlot slot = abilitySlots[slotNumber];
+
+        if (abilitySlots.Any(slot => slot.slotState == AbilityState.WAITING_FOR_INPUT)) return;
 
         if (slot.abilityInstance is ActiveAbility active && slot.slotState == AbilityState.READY)
         {
-            if (active.abilityModule is IInstantCastModule instant)
+            if (active.abilityModule is IInstantCastModule)
             {
                 active.Activate();
                 slot.slotState = AbilityState.COOLDOWN;
@@ -93,8 +104,11 @@ public class AbilitiesController : MonoBehaviour
             }
             else if (active.abilityModule is ITargetedCastModule)
             {
+                active.StartInputHandling(mouseWorldPos);
                 currentTargetingSlot = slot;
                 slot.slotState = AbilityState.WAITING_FOR_INPUT;
+
+                justStartedTargeting = true;
             }
         }
     }
@@ -127,6 +141,6 @@ public class AbilitiesController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(new Vector3(worldPosFromMousePos.x, 0, worldPosFromMousePos.y), 1.2f);
+        Gizmos.DrawWireSphere(new Vector3(mouseWorldPos.x, 0, mouseWorldPos.y), 1.2f);
     }
 }

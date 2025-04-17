@@ -28,6 +28,6 @@ public class EnemyAIWithAbility : EnemyAI, IAbilitiesHolder
 
     private void Shoot()
     {
-        abilitiesController.PerformMouse01();
+        abilitiesController.Perform(0);
     }
 }
