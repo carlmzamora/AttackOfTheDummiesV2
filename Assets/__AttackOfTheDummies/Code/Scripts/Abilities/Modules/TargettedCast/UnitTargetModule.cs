@@ -47,17 +47,33 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
         }
     }
 
-    public void StartWaitForInput(Vector2 mouseWorldPos)
+    public void StartWaitForInput(Vector3 mouseWorldPos)
     {
 
     }
 
-    public void UpdateWaitForInputDisplay(Vector2 mouseWorldPos)
+    public void UpdateWaitForInput(Vector3 mouseWorldPos, bool confirmButtonPressed)
+    {
+        if (!confirmButtonPressed) return;
+
+        GameObject selectedUnit = TryFindTargetableUnit(mouseWorldPos);
+        if (selectedUnit != null)
+        {
+            CastOnTarget(selectedUnit);
+        }
+        else
+        {
+            OnInvalidTarget(); // Show message if invalid
+            return; // Don't cast ability or reset cooldown
+        }
+    }
+
+    public void ConcludeWaitForInput(Vector3 mouseWorldPos)
     {
         
     }
 
-    public void EndWaitForInput(Vector2 mouseWorldPos)
+    public void CancelWaitForInput()
     {
         
     }
@@ -65,5 +81,31 @@ public class UnitTargetModule : AbilityModule, IUnitTargetCastModule
     public void OnInvalidTarget()
     {
         Debug.Log("You can't do that.");
+    }
+
+    private GameObject TryFindTargetableUnit(Vector3 mouseWorldPos)
+    {
+        float searchRadius = 1.2f;
+        Vector3 center = mouseWorldPos;
+
+        Collider[] hits = Physics.OverlapSphere(center, searchRadius, ~LayerMask.GetMask("Environment", "Ground"));
+
+        GameObject closest = null;
+        float closestDistanceSqr = float.MaxValue;
+
+        foreach (var hit in hits)
+        {
+            GameObject go = hit.gameObject;
+            if (!CanTarget(go)) continue;
+
+            float distanceSqr = (go.transform.position - center).sqrMagnitude;
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closest = go;
+                closestDistanceSqr = distanceSqr;
+            }
+        }
+
+        return closest;
     }
 }

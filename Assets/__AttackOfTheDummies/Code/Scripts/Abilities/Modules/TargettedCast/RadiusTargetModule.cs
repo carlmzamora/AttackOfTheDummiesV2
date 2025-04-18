@@ -17,7 +17,7 @@ public class RadiusTargetModule : AbilityModule, ITargetedCastModule
     [Space(10)]
     [SerializeReference] public List<IApplicationEffect> effectsToApplyToTargetsInRadiusOnCast = new();
 
-    public void StartWaitForInput(Vector2 mouseWorldPos)
+    public void StartWaitForInput(Vector3 mouseWorldPos)
     {
         currentReticle = TargetingVisualizer.Instance.RadiusReticle;
 
@@ -26,19 +26,22 @@ public class RadiusTargetModule : AbilityModule, ITargetedCastModule
         currentReticle.gameObject.SetActive(true);
     }
 
-    public void UpdateWaitForInputDisplay(Vector2 mouseWorldPos)
+    public void UpdateWaitForInput(Vector3 mouseWorldPos, bool confirmButtonPressed)
     {
         currentReticle.SetPosition(mouseWorldPos);
     }
 
-    public void EndWaitForInput(Vector2 mouseWorldPos)
+    public void ConcludeWaitForInput(Vector3 mouseWorldPos)
     {
         foreach (IApplicationEffect effect in effectsToApplyOnSelfOnCast)
         {
             effect.ApplyEffect(owner.gameObject, owner, rootAbility);
         }
 
-        Collider[] collidersInRadius = Physics.OverlapSphere(mouseWorldPos, radius);
+        Collider[] collidersInRadius = Physics.OverlapSphere(mouseWorldPos, radius, ~LayerMask.GetMask("Environment", "Ground"));
+
+        foreach(Collider collider in collidersInRadius)
+            Debug.Log(collider.gameObject.name);
 
         foreach (IApplicationEffect effect in effectsToApplyToTargetsInRadiusOnCast)
         {
@@ -48,6 +51,11 @@ public class RadiusTargetModule : AbilityModule, ITargetedCastModule
             }
         }
 
+        currentReticle.gameObject.SetActive(false);
+    }
+
+    public void CancelWaitForInput()
+    {
         currentReticle.gameObject.SetActive(false);
     }
 }

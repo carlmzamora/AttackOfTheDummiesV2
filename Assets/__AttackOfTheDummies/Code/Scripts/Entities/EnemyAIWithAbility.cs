@@ -28,6 +28,6 @@ public class EnemyAIWithAbility : EnemyAI, IAbilitiesHolder
 
     private void Shoot()
     {
-        abilitiesController.Perform(0);
+        abilitiesController.Trigger(0);
     }
 }

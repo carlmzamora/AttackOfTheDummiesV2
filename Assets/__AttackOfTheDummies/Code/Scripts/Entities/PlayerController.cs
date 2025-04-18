@@ -77,12 +77,12 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
         if (!abilitiesController) return;
 
         if (mouse0Input.WasPressedThisFrame())
-            abilitiesController.Perform(0);
+            abilitiesController.Trigger(0);
 
         if(alpha1Input.WasPressedThisFrame())
-            abilitiesController.Perform(1);
+            abilitiesController.Trigger(1);
 
-        abilitiesController.mouse0WasPressed = mouse0Input.WasPressedThisFrame();
+        abilitiesController.confirmButtonWasPressed = mouse0Input.WasPressedThisFrame();
 
         Ray mouseRay = Camera.main.ScreenPointToRay(lookDirection);
 
@@ -92,7 +92,7 @@ public class PlayerController : HealthEntity, IAbilitiesHolder
         {
             Vector3 pointToLookAt = mouseRay.GetPoint(rayLength); //get point along mouseRay where it intersects with groundPlane
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z)); //rotate, but do not include y to avoid y axis movement
-            abilitiesController.mouseWorldPos = new(pointToLookAt.x, pointToLookAt.z);
+            abilitiesController.mouseWorldPos = new(pointToLookAt.x, 0, pointToLookAt.z);
         }
     }
 

@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitySlots:
-  - ability: {fileID: 11400000, guid: 499e5fdbcb8c4804485d1b9c04ba5f90, type: 2}
+  - ability: {fileID: 11400000, guid: 775d1c7d7e8e2ba41b0cd36e02666be4, type: 2}
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
@@ -565,8 +565,8 @@ MonoBehaviour:
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
-  mouseWorldPos: {x: 0, y: 0}
-  mouse0WasPressed: 0
+  mouseWorldPos: {x: 0, y: 0, z: 0}
+  confirmButtonWasPressed: 0
 --- !u!114 &131875348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3710,8 +3710,8 @@ MonoBehaviour:
     abilityInstance: {fileID: 0}
     slotState: 0
     cooldownProgress: 0
-  mouseWorldPos: {x: 0, y: 0}
-  mouse0WasPressed: 0
+  mouseWorldPos: {x: 0, y: 0, z: 0}
+  confirmButtonWasPressed: 0
 --- !u!1 &1678628879
 GameObject:
   m_ObjectHideFlags: 0

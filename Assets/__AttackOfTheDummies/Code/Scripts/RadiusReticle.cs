@@ -18,9 +18,9 @@ public class RadiusReticle : MonoBehaviour
         cam = Camera.main;
     }
 
-    public void SetPosition(Vector2 worldPos)
+    public void SetPosition(Vector3 worldPos)
     {
-        Vector3 rayOrigin = new Vector3(worldPos.x, maxRaycastDistance, worldPos.y);
+        Vector3 rayOrigin = worldPos + Vector3.up * maxRaycastDistance;
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, maxRaycastDistance * 2f, groundMask))
         {
             transform.position = hit.point + hit.normal * hoverHeight;
