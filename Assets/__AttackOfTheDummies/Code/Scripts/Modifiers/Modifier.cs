@@ -5,10 +5,10 @@ using UnityEngine;
 [Serializable]
 public abstract class Modifier
 {
-    [Header("General")]
+    [FoldingHeader("General")]
     public string modifierName;
 
-    [Header("Application")]
+    [FoldingHeader("Application")]
     public bool allowOnlyOneInstance = true;
 
     [ShowIf(nameof(allowOnlyOneInstance), true)] public int maxStacks;

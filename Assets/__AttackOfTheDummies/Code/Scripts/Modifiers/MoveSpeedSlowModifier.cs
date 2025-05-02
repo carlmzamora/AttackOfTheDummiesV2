@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MoveSpeedSlowModifier : Modifier
 {
-    [Header("MoveSpeedSlow")]
+    [FoldingHeader("MoveSpeedSlow")]
     public float slowPercent;
     public float duration;
 

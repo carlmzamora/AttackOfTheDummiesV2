@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageOverTimeModifier : Modifier
 {
-    [Header("DamageOverTime")]
+    [FoldingHeader("DamageOverTime")]
     public float tickDamage;
     public int tickCount;
     public float tickInterval;

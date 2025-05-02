@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MoveSpeedBoostModifier : Modifier
 {
-    [Header("MoveSpeedBoost")]
+    [Header("FoldingHeader")]
     public float boostPercent;
     public float duration;
 

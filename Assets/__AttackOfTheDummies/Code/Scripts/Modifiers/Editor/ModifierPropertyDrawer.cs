@@ -37,6 +37,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
             if (isExpanded)
             {
+                EditorGUI.indentLevel++;
                 DisplayFields(position, property, GetBaseFieldsToPreview(property), ref yOffset);
 
                 // Draw derived class properties
@@ -45,6 +46,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
                 {
                     DisplayFields(position, property, derivedFields, ref yOffset);
                 }
+                EditorGUI.indentLevel--;
             }
         }
 
@@ -66,19 +68,45 @@ public class ModifierPropertyDrawer : PropertyDrawer
             List<FieldInfo> fieldsToPreview = GetBaseFieldsToPreview(property);
             fieldsToPreview.AddRange(GetDerivedFieldsToPreview(property));
 
-            // Add height dynamically based on property size
+            // Group and add height based on header foldouts
+            Dictionary<string, List<FieldInfo>> headerGroups = new Dictionary<string, List<FieldInfo>>();
+            string currentHeader = "";
+
             foreach (FieldInfo field in fieldsToPreview)
             {
-                SerializedProperty fieldProperty = property.FindPropertyRelative(field.Name);
-                if (fieldProperty != null)
+                FoldingHeaderAttribute headerAttr = field.GetCustomAttribute<FoldingHeaderAttribute>();
+                if (headerAttr != null)
+                    currentHeader = headerAttr.name;
+
+                if (!headerGroups.ContainsKey(currentHeader))
+                    headerGroups[currentHeader] = new List<FieldInfo>();
+
+                headerGroups[currentHeader].Add(field);
+            }
+
+            foreach (var group in headerGroups)
+            {
+                string headerKey = property.propertyPath + "_header_" + group.Key;
+                bool headerExpanded = EditorPrefs.GetBool(headerKey, string.IsNullOrEmpty(group.Key) ? true : false);
+
+                if (!string.IsNullOrEmpty(group.Key))
+                    height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+                if (headerExpanded)
                 {
-                    height += EditorGUI.GetPropertyHeight(fieldProperty, true) + EditorGUIUtility.standardVerticalSpacing;
+                    foreach (FieldInfo field in group.Value)
+                    {
+                        SerializedProperty fieldProp = property.FindPropertyRelative(field.Name);
+                        if (fieldProp != null)
+                        {
+                            height += EditorGUI.GetPropertyHeight(fieldProp, true) + EditorGUIUtility.standardVerticalSpacing;
+                        }
+                    }
                 }
             }
         }
 
         height += 10f;
-
         return height;
     }
 
@@ -102,28 +130,58 @@ public class ModifierPropertyDrawer : PropertyDrawer
 
     private void DisplayFields(Rect position, SerializedProperty property, List<FieldInfo> fields, ref float yOffset)
     {
+        Dictionary<string, List<FieldInfo>> headerGroups = new Dictionary<string, List<FieldInfo>>();
+        string currentHeader = "";
+
         foreach (FieldInfo field in fields)
         {
-            if (field.FieldType == typeof(FactionMask) && DoesParentListHideFactionMask(property))
+            FoldingHeaderAttribute headerAttr = field.GetCustomAttribute<FoldingHeaderAttribute>();
+            if (headerAttr != null)
             {
-                continue; // Skip drawing FactionMask if not in modifiersAppliedInRadiusOnCast
+                currentHeader = headerAttr.name;
             }
 
-            SerializedProperty fieldProperty = property.FindPropertyRelative(field.Name);
-            if (fieldProperty != null)
+            if (!headerGroups.ContainsKey(currentHeader))
+                headerGroups[currentHeader] = new List<FieldInfo>();
+
+            headerGroups[currentHeader].Add(field);
+        }
+
+        foreach (var group in headerGroups)
+        {
+            string headerKey = property.propertyPath + "_header_" + group.Key;
+
+            // Default open only if it's not the default group (i.e. "") 
+            bool expanded = EditorPrefs.GetBool(headerKey, string.IsNullOrEmpty(group.Key) ? true : false);
+
+            if (!string.IsNullOrEmpty(group.Key))
             {
-                // Extract tooltip from TooltipAttribute
-                TooltipAttribute tooltip = field.GetCustomAttribute<TooltipAttribute>();
-                string tooltipText = tooltip != null ? tooltip.tooltip : "";
+                Rect headerRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
+                expanded = EditorGUI.Foldout(headerRect, expanded, group.Key, true);
+                EditorPrefs.SetBool(headerKey, expanded);
+                yOffset += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            }
 
-                // Create label with tooltip
-                GUIContent fieldLabel = new GUIContent(ObjectNames.NicifyVariableName(field.Name), tooltipText);
+            if (expanded)
+            {
+                EditorGUI.indentLevel++;
+                foreach (FieldInfo field in group.Value)
+                {
+                    SerializedProperty fieldProp = property.FindPropertyRelative(field.Name);
+                    if (fieldProp != null)
+                    {
+                        TooltipAttribute tooltip = field.GetCustomAttribute<TooltipAttribute>();
+                        string tooltipText = tooltip != null ? tooltip.tooltip : "";
+                        GUIContent fieldLabel = new GUIContent(ObjectNames.NicifyVariableName(field.Name), tooltipText);
 
-                Rect fieldRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-                EditorGUI.PropertyField(fieldRect, fieldProperty, fieldLabel, true);
+                        float height = EditorGUI.GetPropertyHeight(fieldProp, true);
+                        Rect fieldRect = new Rect(position.x, yOffset, position.width, height);
+                        EditorGUI.PropertyField(fieldRect, fieldProp, fieldLabel, true);
 
-                // Add standard spacing after each field
-                yOffset += EditorGUI.GetPropertyHeight(fieldProperty, true) + EditorGUIUtility.standardVerticalSpacing;
+                        yOffset += height + EditorGUIUtility.standardVerticalSpacing;
+                    }
+                }
+                EditorGUI.indentLevel--;
             }
         }
     }
@@ -149,28 +207,5 @@ public class ModifierPropertyDrawer : PropertyDrawer
         property.serializedObject.Update();
         property.managedReferenceValue = instance;
         property.serializedObject.ApplyModifiedProperties();
-    }
-
-    private bool DoesParentListHideFactionMask(SerializedProperty property)
-    {
-        FieldInfo field = GetParentField(property);
-        return field != null && field.IsDefined(typeof(HideAffectRuleAttribute), false);
-    }
-
-    private FieldInfo GetParentField(SerializedProperty property)
-    {
-        Type parentType = property.serializedObject.targetObject.GetType();
-        FieldInfo[] fields = parentType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-        foreach (FieldInfo field in fields)
-        {
-            if (field.FieldType == typeof(List<Modifier>))
-            {
-                SerializedProperty listProperty = property.serializedObject.FindProperty(field.Name);
-                if (listProperty != null && property.propertyPath.Contains(listProperty.propertyPath))
-                    return field;
-            }
-        }
-        return null;
     }
 }
