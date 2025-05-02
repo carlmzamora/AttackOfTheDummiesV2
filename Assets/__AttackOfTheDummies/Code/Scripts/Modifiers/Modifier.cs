@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -11,9 +10,10 @@ public abstract class Modifier
 
     [Header("Application")]
     public bool allowOnlyOneInstance = true;
-    public int maxStacks;
-    public bool refreshOnReapply;
-    public bool independentStackTimers;
+
+    [ShowIf(nameof(allowOnlyOneInstance), true)] public int maxStacks;
+    [ShowIf(nameof(allowOnlyOneInstance), true)] public bool refreshOnReapply;
+    [ShowIf(nameof(allowOnlyOneInstance), true)] public bool independentStackTimers;
 
     [HideInInspector] public int currentStacks;
     [HideInInspector] public MonoBehaviour affected;
@@ -72,11 +72,11 @@ public abstract class Modifier
 
     public FloatParameter GetFloatParameter(string parameterName)
     {
-        return abilityRoot.GetFloatParameter(parameterName, GetType());
+        return abilityRoot != null ? abilityRoot.GetFloatParameter(parameterName, GetType()) : new FloatParameter(0);
     }
 
     public IntParameter GetIntParameter(string parameterName)
     {
-        return abilityRoot.GetIntParameter(parameterName, GetType());
+        return abilityRoot != null ? abilityRoot.GetIntParameter(parameterName, GetType()) : new IntParameter(0);
     }
 }
