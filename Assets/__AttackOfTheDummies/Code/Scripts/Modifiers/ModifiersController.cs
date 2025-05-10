@@ -1,93 +1,93 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ModifiersController : MonoBehaviour
 {
-    //try: key should be ModSignature?
-    public Dictionary<Type, List<Modifier>> activeModifiers = new();
+    public Dictionary<Guid, Modifier> activeModifiers = new();
+    public Dictionary<Type, List<Guid>> modifiersByType = new();
 
     public void ApplyModifier(Modifier mod, IAbilitiesHolder source, Ability abilityRoot)
     {
-        mod.affected = gameObject.GetComponent<MonoBehaviour>();
-        mod.controller = gameObject.GetComponent<ModifiersController>();
+        mod.affected = GetComponent<MonoBehaviour>();
+        mod.controller = this;
         mod.source = source.mono;
         mod.abilityRoot = abilityRoot;
 
-        ApplyModifier(mod);
+        Type type = mod.GetType();
+        Guid id = mod.id;
+
+        //get modifier list or create if non-existent
+        if (!modifiersByType.TryGetValue(type, out var modifierOfType))
+        {
+            modifierOfType = new List<Guid>();
+            modifiersByType[type] = modifierOfType;
+        }
+
+        //first application
+        if(!mod.allowOnlyOneInstance || modifierOfType.Count <= 0)
+        {
+            //register modifier to activeList and typeList
+            activeModifiers.Add(id, mod);
+            modifierOfType.Add(id);
+
+            mod.Instantiate(mod.independentStackTimers);
+        }        
+        else if (mod.allowOnlyOneInstance && modifierOfType.Count > 0) //on subsequent applications
+        {
+            Modifier firstInstance = activeModifiers[modifierOfType[0]];
+            HandleStackingAndRefresh(firstInstance);
+        }
     }
 
-    public void ApplyModifier(Modifier modBase)
+    private void HandleStackingAndRefresh(Modifier firstInstance)
     {
-        List<Modifier> currentModifier = ValidateModifierExistence(modBase.GetType());
-        int instancesCount = currentModifier.Count;
-
-        if(instancesCount <= 0)
+        if (firstInstance.maxStacks == 0)
         {
-            modBase.Instantiate(modBase.independentStackTimers);
-            currentModifier.Add(modBase);
+            firstInstance.AddStack(firstInstance.independentStackTimers);
         }
-        else
+        else if (firstInstance.maxStacks == 1)
         {
-            //if you collect further applications into one instance only
-            if (currentModifier[0].allowOnlyOneInstance)
+            //do nothing
+        }
+        else if (firstInstance.maxStacks > 1)
+        {
+            if (firstInstance.currentStacks < firstInstance.maxStacks)
+                firstInstance.AddStack(firstInstance.independentStackTimers);
+        }
+
+        if (firstInstance.refreshOnReapply)
+            firstInstance.RefreshDuration();
+    }
+
+    public void UnregisterModifierFromActiveList(Modifier mod)
+    {
+        Guid id = mod.id;
+        Type type = mod.GetType();
+
+        activeModifiers.Remove(id);
+
+        if (modifiersByType.TryGetValue(type, out var list))
+        {
+            list.Remove(id);
+
+            if (list.Count == 0)
             {
-                Modifier firstInstance = currentModifier[0];
-                int firstInstanceStackCount = firstInstance.currentStacks;
-
-                //if you can collect infinite stacks
-                if (firstInstance.maxStacks == 0)
-                {
-                    firstInstance.AddStack(firstInstance.independentStackTimers);
-
-                    if (firstInstance.refreshOnReapply)
-                        firstInstance.RefreshDuration();
-                }
-                else if (firstInstance.maxStacks == 1) //if you can't collect stacks
-                {
-                    //refresh only on further applicatons
-                    if (firstInstance.refreshOnReapply)
-                        firstInstance.RefreshDuration();
-                }
-                else if (firstInstance.maxStacks > 1) //if you can collect stacks up to a limit
-                {
-                    if (firstInstanceStackCount < firstInstance.maxStacks) //if still below limit
-                    {
-                        firstInstance.AddStack(firstInstance.independentStackTimers);
-                    }
-
-                    if (firstInstance.refreshOnReapply)
-                        firstInstance.RefreshDuration();
-                }
-            }
-            else //if further applications create multiple instances, eg. infernal blade
-            {
-                //probably currentModifier.Add(modifier)
+                modifiersByType.Remove(type);
             }
         }
     }
 
-    public void RemoveModifier(Modifier modifierToRemove)
+    public void RemoveAllModifiers()
     {
-        Type type = modifierToRemove.GetType();
-        activeModifiers[type].Remove(modifierToRemove); //remove modifier from list of its type
-
-        if (activeModifiers[type].Count <= 0) //if list of its type no longer has any active instances
+        foreach(KeyValuePair<Guid, Modifier> modifier in activeModifiers.ToList())
         {
-            activeModifiers.Remove(type); //it is now completely inactive, so should be removed
+            modifier.Value.Expire();
         }
-    }
 
-    private List<Modifier> ValidateModifierExistence(Type type)
-    {
-        if (!activeModifiers.ContainsKey(type))
-        {
-            List<Modifier> newModifierList = new();
-            activeModifiers.Add(type, newModifierList);
-            return newModifierList;
-        }
-        else
-            return activeModifiers[type];
+        activeModifiers.Clear();
+        modifiersByType.Clear();
     }
 }

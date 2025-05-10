@@ -16,6 +16,7 @@ public abstract class Modifier
     [ShowIf(nameof(allowOnlyOneInstance), true)] public bool independentStackTimers;
 
     [HideInInspector] public int currentStacks;
+    [HideInInspector] public Guid id = Guid.NewGuid();
     [HideInInspector] public MonoBehaviour affected;
     [HideInInspector] public MonoBehaviour source;
     [HideInInspector] public Ability abilityRoot;
@@ -40,13 +41,7 @@ public abstract class Modifier
     public virtual void RefreshDuration()
     {
         startTime = Time.time;
-    }
-
-    public virtual void Expire()
-    {
-        currentStacks = 0;
-        controller.RemoveModifier(this);
-    }
+    }    
 
     protected virtual IEnumerator TimedStackCoroutine()
     {
@@ -68,7 +63,18 @@ public abstract class Modifier
             Expire();
     }
 
-    public abstract Modifier Clone();
+    public virtual void Expire()
+    {
+        //ensure no more stacks stay
+        currentStacks = 0;
+
+        controller.UnregisterModifierFromActiveList(this);
+    }
+
+    public virtual Modifier Clone()
+    {
+        return (Modifier)MemberwiseClone();
+    }
 
     public FloatParameter GetFloatParameter(string parameterName)
     {
