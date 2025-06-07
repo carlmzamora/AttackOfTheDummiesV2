@@ -17,7 +17,7 @@ public class RadiusAroundSelfModule : AbilityModule, IInstantCastModule
             effect.ApplyEffect(owner.gameObject, owner, rootAbility);
         }
 
-        Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Player", "Environment")); //means do not include player
+        Collider[] collidersInRadius = Physics.OverlapSphere(owner.transform.position, radius, ~LayerMask.GetMask("Environment", "Ground")); //means do not include player
 
         foreach (IApplicationEffect effect in effectsToApplyToTargetsInRadiusOnCast)
         {

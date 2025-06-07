@@ -21,7 +21,7 @@ public class RadiusAtDistanceModule : AbilityModule, IInstantCastModule
 
         Vector3 targetPoint = owner.transform.position + (owner.transform.forward * castDistance);
 
-        Collider[] collidersInRadius = Physics.OverlapSphere(targetPoint, radius, ~LayerMask.GetMask("Player", "Environment")); //means do not include player
+        Collider[] collidersInRadius = Physics.OverlapSphere(targetPoint, radius, ~LayerMask.GetMask("Environment", "Ground")); //means do not include player
 
         foreach (IApplicationEffect effect in effectsToApplyToTargetsInRadiusOnCast)
         {

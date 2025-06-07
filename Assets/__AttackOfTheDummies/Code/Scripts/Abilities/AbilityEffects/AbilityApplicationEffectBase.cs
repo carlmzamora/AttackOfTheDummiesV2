@@ -8,5 +8,5 @@ public abstract class AbilityApplicationEffectBase : IApplicationEffect
     public AffectRule affectRule;
     public AffectRule AffectRule => affectRule;
 
-    public abstract void ApplyEffect(GameObject target, IAbilitiesHolder source, Ability abilityRoot);
+    public abstract void ApplyEffect(GameObject target, IAbilitiesHolder source = null, Ability abilityRoot = null);
 }
