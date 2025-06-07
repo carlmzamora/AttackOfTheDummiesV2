@@ -33,7 +33,7 @@ public class ModifiersController : MonoBehaviour
             activeModifiers.Add(id, mod);
             modifierOfType.Add(id);
 
-            mod.Instantiate(mod.independentStackTimers);
+            mod.Instantiate();
         }        
         else if (mod.allowOnlyOneInstance && modifierOfType.Count > 0) //on subsequent applications
         {
@@ -46,7 +46,7 @@ public class ModifiersController : MonoBehaviour
     {
         if (firstInstance.maxStacks == 0)
         {
-            firstInstance.AddStack(firstInstance.independentStackTimers);
+            firstInstance.AddStack();
         }
         else if (firstInstance.maxStacks == 1)
         {
@@ -55,7 +55,7 @@ public class ModifiersController : MonoBehaviour
         else if (firstInstance.maxStacks > 1)
         {
             if (firstInstance.currentStacks < firstInstance.maxStacks)
-                firstInstance.AddStack(firstInstance.independentStackTimers);
+                firstInstance.AddStack();
         }
 
         if (firstInstance.refreshOnReapply)
@@ -82,9 +82,14 @@ public class ModifiersController : MonoBehaviour
 
     public void RemoveAllModifiers()
     {
-        foreach(KeyValuePair<Guid, Modifier> modifier in activeModifiers.ToList())
+        var modifierIDs = activeModifiers.Keys.ToList();
+
+        foreach (var id in modifierIDs)
         {
-            modifier.Value.Expire();
+            if (activeModifiers.TryGetValue(id, out var mod))
+            {
+                mod.CancelAndExpire();
+            }
         }
 
         activeModifiers.Clear();

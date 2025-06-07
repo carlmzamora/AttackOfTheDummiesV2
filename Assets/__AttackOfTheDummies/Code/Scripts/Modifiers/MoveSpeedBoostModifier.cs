@@ -5,9 +5,9 @@ using UnityEngine.AI;
 
 public class MoveSpeedBoostModifier : Modifier
 {
-    [Header("FoldingHeader")]
+    [FoldingHeader("MoveSpeedBoost")]
     public float boostPercent;
-    public float duration;
+    public float baseDuration;
 
     [HideInInspector, Manipulable] public float boostPercentAdditive;
     [HideInInspector, Manipulable] public float boostDurationAdditive;
@@ -27,14 +27,14 @@ public class MoveSpeedBoostModifier : Modifier
         return copy;
     }
 
-    public override void Instantiate(bool timedStacks)
+    public override void Instantiate()
     {
         aiAgent = affected.GetComponent<NavMeshAgent>();
         aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
         currentBoostPercent = boostPercent + GetFloatParameter(nameof(boostPercentAdditive));
-        currentDuration = duration + GetFloatParameter(nameof(boostDurationAdditive));
+        currentDuration = totalDuration + GetFloatParameter(nameof(boostDurationAdditive));
 
         if (aiAgent)
             boostPerStack = aiEntity.baseMoveSpeed * currentBoostPercent * 0.01f;
@@ -42,15 +42,10 @@ public class MoveSpeedBoostModifier : Modifier
         if (playerController)
             boostPerStack = playerController.baseMoveSpeed * currentBoostPercent * 0.01f;
 
-        //we don't check currentDuration but duration,
-        //so that accidental upgrading doesn't render infinite duration into limited duration
-        if (duration > 0)
-            affected.StartCoroutine(DurationCoroutine());
-
-        base.Instantiate(timedStacks);
+        base.Instantiate();
     }
 
-    public override void AddStack(bool timedStacks)
+    public override void AddStack()
     {
         if (aiAgent)
         {
@@ -62,17 +57,11 @@ public class MoveSpeedBoostModifier : Modifier
             playerController.currentMoveSpeed += boostPerStack;
         }
 
-        base.AddStack(timedStacks);
+        base.AddStack();
     }
 
-    private IEnumerator DurationCoroutine()
+    protected override void Expire()
     {
-        startTime = Time.time;
-        while (Time.time - startTime < currentDuration) //if duration lapsed is more than totalDuration
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
         if (aiAgent)
         {
             aiAgent.speed -= boostPerStack * currentStacks;
@@ -83,6 +72,6 @@ public class MoveSpeedBoostModifier : Modifier
             playerController.currentMoveSpeed -= boostPerStack * currentStacks;
         }
 
-        Expire();
+        base.Expire();
     }
 }

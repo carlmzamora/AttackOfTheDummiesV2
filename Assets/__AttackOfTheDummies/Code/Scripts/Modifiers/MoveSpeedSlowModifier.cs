@@ -7,7 +7,7 @@ public class MoveSpeedSlowModifier : Modifier
 {
     [FoldingHeader("MoveSpeedSlow")]
     public float slowPercent;
-    public float duration;
+    public float baseDuration;
 
     [HideInInspector, Manipulable] public float slowPercentAdditive;
     [HideInInspector, Manipulable] public float slowDurationAdditive;
@@ -27,14 +27,14 @@ public class MoveSpeedSlowModifier : Modifier
         return copy;
     }
 
-    public override void Instantiate(bool timedStacks)
+    public override void Instantiate()
     {
         aiAgent = affected.GetComponent<NavMeshAgent>();
         aiEntity = affected.GetComponent<EnemyAI>();
         playerController = affected.GetComponent<PlayerController>();
 
         currentSlowPercent = slowPercent + GetFloatParameter(nameof(slowPercentAdditive));
-        currentDuration = duration + GetFloatParameter(nameof(slowDurationAdditive));
+        currentDuration = baseDuration + GetFloatParameter(nameof(slowDurationAdditive));
 
         if (aiAgent)
             slowPerStack = aiEntity.baseMoveSpeed * currentSlowPercent * 0.01f;
@@ -42,15 +42,10 @@ public class MoveSpeedSlowModifier : Modifier
         if (playerController)
             slowPerStack = playerController.baseMoveSpeed * currentSlowPercent * 0.01f;
 
-        //we don't check currentDuration but duration,
-        //so that accidental upgrading doesn't render infinite duration into limited duration
-        if (duration > 0)
-            affected.StartCoroutine(DurationCoroutine());
-
-        base.Instantiate(timedStacks);
+        base.Instantiate();
     }
 
-    public override void AddStack(bool timedStacks)
+    public override void AddStack()
     {
         if(aiAgent)
         {
@@ -70,17 +65,11 @@ public class MoveSpeedSlowModifier : Modifier
             }
         }
 
-        base.AddStack(timedStacks);
+        base.AddStack();
     }
 
-    private IEnumerator DurationCoroutine()
+    protected override void Expire()
     {
-        startTime = Time.time;
-        while (Time.time - startTime < currentDuration) //if duration lapsed is more than totalDuration
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
         if (aiAgent)
         {
             aiAgent.speed += slowPerStack * currentStacks;
@@ -95,6 +84,6 @@ public class MoveSpeedSlowModifier : Modifier
             playerController.currentMoveSpeed += slowPerStack * currentStacks;
         }
 
-        Expire();
+        base.Expire();
     }
 }
