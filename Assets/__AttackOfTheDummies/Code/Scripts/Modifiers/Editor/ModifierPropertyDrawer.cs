@@ -168,7 +168,7 @@ public class ModifierPropertyDrawer : PropertyDrawer
                 foreach (FieldInfo field in group.Value)
                 {
                     SerializedProperty fieldProp = property.FindPropertyRelative(field.Name);
-                    if (fieldProp != null)
+                    if (fieldProp != null && ShouldShowField(property, field))
                     {
                         TooltipAttribute tooltip = field.GetCustomAttribute<TooltipAttribute>();
                         string tooltipText = tooltip != null ? tooltip.tooltip : "";
@@ -207,5 +207,41 @@ public class ModifierPropertyDrawer : PropertyDrawer
         property.serializedObject.Update();
         property.managedReferenceValue = instance;
         property.serializedObject.ApplyModifiedProperties();
+    }
+
+    private bool ShouldShowField(SerializedProperty parentProperty, FieldInfo field)
+    {
+        var modifier = parentProperty.managedReferenceValue;
+        if (modifier == null) return true;
+
+        Type type = modifier.GetType();
+
+        var stackingBehaviourField = type.GetField("stackingBehaviour");
+        var stackDurationModeField = type.GetField("stackDurationMode");
+
+        if (stackingBehaviourField == null) return true;
+
+        var stackingBehaviour = (StackingBehaviour)stackingBehaviourField.GetValue(modifier);
+        var stackDurationMode = stackDurationModeField != null
+            ? (StackDurationMode)stackDurationModeField.GetValue(modifier)
+            : StackDurationMode.FIRST_INSTANCE_TIMER;
+
+        switch (field.Name)
+        {
+            case "refreshOnReapply":
+                return stackingBehaviour == StackingBehaviour.SINGULAR;
+
+            case "maxStacks":
+                return stackingBehaviour == StackingBehaviour.LIMITED;
+
+            case "stackDurationMode":
+                return stackingBehaviour != StackingBehaviour.SINGULAR;
+
+            case "refreshWholeStackOnReapply":
+                return stackingBehaviour != StackingBehaviour.SINGULAR &&
+                       stackDurationMode == StackDurationMode.FIRST_INSTANCE_TIMER;
+        }
+
+        return true;
     }
 }
