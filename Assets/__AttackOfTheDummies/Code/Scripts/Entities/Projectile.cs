@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour, IPoolReleasable
 
     private void Deactivate()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         releaseFunction();
     }
 }

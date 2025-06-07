@@ -18,7 +18,7 @@ public class FactionManager : MonoBehaviour
 
     public bool CanAffect(IAbilitiesHolder caster, GameObject target, AffectRule affectRule)
     {
-        if (target == null) return false;
+        if (caster == null || target == null) return false;
 
         if(caster.gameObject == target) return true;
 
